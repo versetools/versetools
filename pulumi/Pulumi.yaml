@@ -1,0 +1,6 @@
+name: versetools
+description: VerseTools landing page
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm

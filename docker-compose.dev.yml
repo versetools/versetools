@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: versetools-db
+    restart: always
+    ports:
+      - "5448:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=versetools
+  redis:
+    image: bitnami/redis:7.4
+    container_name: versetools-redis
+    restart: always
+    ports:
+      - "6392:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
