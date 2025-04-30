@@ -12,7 +12,7 @@ const config = {
 		vitePreprocess(),
 		mdsvex({
 			layout: {
-				legal: "src/routes/(default)/(legal)/svx-layout.svelte"
+				legal: import.meta.dirname + "/src/routes/(default)/(legal)/svx-layout.svelte"
 			},
 			remarkPlugins: [remarkCustomHeaderId, remarkSectionize]
 		})
@@ -26,7 +26,6 @@ const config = {
 			precompress: true
 		}),
 		alias: {
-			// src: "src",
 			$server: "src/lib/server",
 			$routes: "src/routes"
 		}
