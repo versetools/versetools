@@ -4,8 +4,6 @@ import { Events } from "discord.js";
 
 import { env } from "$env/dynamic/private";
 
-export const event = Events.GuildMemberAdd;
-
 export default defineEventListener({
 	event: Events.GuildMemberAdd,
 	listener: async function (member) {

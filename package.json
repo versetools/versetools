@@ -40,7 +40,7 @@
 		"@types/pg": "^8.11.12",
 		"@uploadthing/svelte": "^7.3.0",
 		"@versetools/api-result": "^0.1.3",
-		"@versetools/discord.js-helpers": "^0.2.0",
+		"@versetools/discord.js-helpers": "^0.3.0",
 		"@versetools/mixins": "^0.1.1",
 		"@versetools/result": "^0.1.3",
 		"@versetools/safe-svelte-api": "^0.1.4",

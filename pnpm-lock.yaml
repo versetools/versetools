@@ -60,20 +60,20 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3
       '@versetools/discord.js-helpers':
-        specifier: ^0.2.0
-        version: 0.2.0(discord.js@14.19.1)
+        specifier: ^0.3.0
+        version: 0.3.0(discord.js@14.19.1)
       '@versetools/mixins':
         specifier: ^0.1.1
         version: 0.1.1
       '@versetools/result':
-        specifier: ^0.1.3
-        version: 0.1.3
+        specifier: ^0.1.4
+        version: 0.1.4
       '@versetools/safe-svelte-api':
         specifier: ^0.1.4
         version: 0.1.4(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))
       '@versetools/ui':
-        specifier: ^0.5.1
-        version: 0.5.1(@melt-ui/svelte@0.86.6(svelte@5.28.2))(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@versetools/mixins@0.1.1)(melt@0.29.3(@floating-ui/dom@1.6.13)(svelte@5.28.2))(svelte@5.28.2)(sveltekit-superforms@2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3))(tailwindcss@4.1.4)
+        specifier: ^0.5.5
+        version: 0.5.5(@melt-ui/svelte@0.86.6(svelte@5.28.2))(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@versetools/mixins@0.1.1)(melt@0.30.0(@floating-ui/dom@1.6.13)(svelte@5.28.2))(svelte@5.28.2)(sveltekit-superforms@2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3))(tailwindcss@4.1.4)
       bull:
         specifier: ^4.16.5
         version: 4.16.5
@@ -126,8 +126,8 @@ importers:
         specifier: ^0.12.3
         version: 0.12.5(svelte@5.28.2)
       melt:
-        specifier: ^0.29.2
-        version: 0.29.3(@floating-ui/dom@1.6.13)(svelte@5.28.2)
+        specifier: ^0.30.0
+        version: 0.30.0(@floating-ui/dom@1.6.13)(svelte@5.28.2)
       pg:
         specifier: ^8.14.1
         version: 8.15.6
@@ -1705,24 +1705,24 @@ packages:
   '@versetools/api-result@0.1.3':
     resolution: {integrity: sha512-++povRju3bcE0vjLRVOmCnay1kW3oXejYZ7TujdN53XNQl+ln068Ml8I273Yg8K5SJfs6Fg1fAr/H6r9wOApjA==}
 
-  '@versetools/discord.js-helpers@0.2.0':
-    resolution: {integrity: sha512-gmxPnkpZgZW0gnxGay7Vkviswf4+8cPAXGXaXxRs7GjNZM0hFEilvLJcjMNP33JkpZBzocrxpnQvhozwlTgmbA==}
+  '@versetools/discord.js-helpers@0.3.0':
+    resolution: {integrity: sha512-DM4ZyTynrdNeCZB2lVsX8yK/LXGRM+8Pt4kuiCIC2zFozp8OsrfS7/n5hkpFv2KAiIudF68gNOEzSrcFcn01tg==}
     peerDependencies:
       discord.js: ^14.19.0
 
   '@versetools/mixins@0.1.1':
     resolution: {integrity: sha512-6jELxyJBZYGX7WNJ5d/SIad8vtylEC805u2uM6jdypZzcH9dD//zSW6US9LRPeepsci6DcrlpDdzkAaSqDsxUA==}
 
-  '@versetools/result@0.1.3':
-    resolution: {integrity: sha512-5EZMNCVPZU2C+zpOrttkbx/FQ2tfO9PmaXKaSGau3u97dr76f/HjcbeUAuGlbxXl9n+ZwuQaT99+1fBmrR+u5A==}
+  '@versetools/result@0.1.4':
+    resolution: {integrity: sha512-4xexSnJ0BqoT01N0wigJWPboEX5agCtvIClTlx92IS6HPvn2YiC1dAgfHOrkSoC6h5rH5iD/y4WSiBEX041qkQ==}
 
   '@versetools/safe-svelte-api@0.1.4':
     resolution: {integrity: sha512-maR2KoneauMXyHeLaeTqXH+nqzIH3Fd9LWbcnFjmufGFgd1jEBMBRov6EMI6YBp+kkJWi3snx7D1X2tbTZP5aQ==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
-  '@versetools/ui@0.5.1':
-    resolution: {integrity: sha512-vnpF910TVLkTEg8I/uvWneYtsUQ4ENvFlfGjXkXmTS/pM2gRnrMx2tzyaJZUe17mx96CKoIsVo/EqeV62gOvlQ==}
+  '@versetools/ui@0.5.5':
+    resolution: {integrity: sha512-TEBarFpFKscoRapx+CmoJKefK1b+0E2+/eAw2QaGxpdTDqdtLny8HoghOX/KeSg5cZEWtNZe9hzOetAZokrsoA==}
     peerDependencies:
       '@melt-ui/svelte': ^0.86.0
       '@sveltejs/kit': ^2.20.5
@@ -3102,8 +3102,8 @@ packages:
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0 || ^5.0.0-next.120
 
-  melt@0.29.3:
-    resolution: {integrity: sha512-cgorPvV3hSTugEnMpjLarugz8YRhUckM48i2gAgNzmqYx2w4hwvEsxA6GRy9DWst5rj+DKSmiDCcFRrHRpg/lA==}
+  melt@0.30.0:
+    resolution: {integrity: sha512-zVCJxI8D4CCUsmSq2kn6uWnu8XZ+LG53OnQnaw+zUJwhGZq1Avm97qb83+huba4yew1Kn31+ZvOXvdxOpjDwZQ==}
     peerDependencies:
       '@floating-ui/dom': ^1.6.0
       svelte: ^5.0.0
@@ -6465,17 +6465,17 @@ snapshots:
 
   '@versetools/api-result@0.1.3':
     dependencies:
-      '@versetools/result': 0.1.3
+      '@versetools/result': 0.1.4
 
-  '@versetools/discord.js-helpers@0.2.0(discord.js@14.19.1)':
+  '@versetools/discord.js-helpers@0.3.0(discord.js@14.19.1)':
     dependencies:
-      '@versetools/result': 0.1.3
+      '@versetools/result': 0.1.4
       discord.js: 14.19.1
       zod: 3.24.3
 
   '@versetools/mixins@0.1.1': {}
 
-  '@versetools/result@0.1.3':
+  '@versetools/result@0.1.4':
     dependencies:
       zod: 3.24.3
 
@@ -6483,17 +6483,17 @@ snapshots:
     dependencies:
       '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
       '@versetools/api-result': 0.1.3
-      '@versetools/result': 0.1.3
+      '@versetools/result': 0.1.4
       zod: 3.24.3
 
-  '@versetools/ui@0.5.1(@melt-ui/svelte@0.86.6(svelte@5.28.2))(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@versetools/mixins@0.1.1)(melt@0.29.3(@floating-ui/dom@1.6.13)(svelte@5.28.2))(svelte@5.28.2)(sveltekit-superforms@2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3))(tailwindcss@4.1.4)':
+  '@versetools/ui@0.5.5(@melt-ui/svelte@0.86.6(svelte@5.28.2))(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@versetools/mixins@0.1.1)(melt@0.30.0(@floating-ui/dom@1.6.13)(svelte@5.28.2))(svelte@5.28.2)(sveltekit-superforms@2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3))(tailwindcss@4.1.4)':
     dependencies:
       '@melt-ui/svelte': 0.86.6(svelte@5.28.2)
       '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
       '@versetools/mixins': 0.1.1
       formsnap: 2.0.1(svelte@5.28.2)(sveltekit-superforms@2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3))
       lucide-svelte: 0.487.0(svelte@5.28.2)
-      melt: 0.29.3(@floating-ui/dom@1.6.13)(svelte@5.28.2)
+      melt: 0.30.0(@floating-ui/dom@1.6.13)(svelte@5.28.2)
       svelte: 5.28.2
       sveltekit-superforms: 2.24.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(@types/json-schema@7.0.15)(svelte@5.28.2)(typescript@5.8.3)
       tailwind-merge: 3.2.0
@@ -8017,7 +8017,7 @@ snapshots:
       unist-util-visit: 2.0.3
       vfile-message: 2.0.4
 
-  melt@0.29.3(@floating-ui/dom@1.6.13)(svelte@5.28.2):
+  melt@0.30.0(@floating-ui/dom@1.6.13)(svelte@5.28.2):
     dependencies:
       '@floating-ui/dom': 1.6.13
       dequal: 2.0.3

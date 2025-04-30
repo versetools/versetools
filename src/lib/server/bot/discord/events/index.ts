@@ -4,7 +4,7 @@ import { logger } from "$server/utils/logger";
 
 export const eventListeners = loadEventListeners({
 	getModules<T>() {
-		return import.meta.glob<true, string, T>("./*.event.ts", { eager: true });
+		return import.meta.glob<true, string, T>("./**/*.event.ts", { eager: true });
 	},
 	logger
 });
