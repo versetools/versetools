@@ -115,7 +115,7 @@ export async function createDataRequest(data: CreateDataRequestData) {
 				from: "datarequest",
 				fromDisplayName: `${config.name} Privacy`,
 				to: data.subjectEmail,
-				template: templates.dataRequestVerifyEmail({
+				template: templates.dataRequestVerify({
 					version: "subject",
 					verificationLink: subjectVerificationUrl
 				})
@@ -134,7 +134,7 @@ export async function createDataRequest(data: CreateDataRequestData) {
 				from: "datarequest",
 				fromDisplayName: `${config.name} Privacy`,
 				to: data.thirdPartyEmail,
-				template: templates.dataRequestVerifyEmail({
+				template: templates.dataRequestVerify({
 					version: "third-party",
 					verificationLink: subjectVerificationUrl
 				})

@@ -1,5 +1,5 @@
-import { dataRequestVerifyEmail } from "./data-request-verify-email";
+import { dataRequestVerify } from "./data-request-verify";
 
 export const templates = {
-	dataRequestVerifyEmail
+	dataRequestVerify
 };
