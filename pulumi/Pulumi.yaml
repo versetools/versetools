@@ -1,5 +1,5 @@
 name: versetools
-description: VerseTools landing page and legal tools
+description: VerseTools landing page and tools
 runtime:
   name: nodejs
   options:
