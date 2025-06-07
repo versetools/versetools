@@ -1,5 +1,5 @@
-import { defineEventListener } from "@versetools/discord.js-helpers";
-import { err, NONE, Result } from "@versetools/result";
+import { defineEventListener } from "@l3dev/discord.js-helpers";
+import { err, NONE, Result } from "@l3dev/result";
 import {
 	ActionRowBuilder,
 	Events,
@@ -13,7 +13,7 @@ import { env } from "$env/dynamic/private";
 
 import { ButtonCustomId, CloseModTicketInputCustomId } from "../../ids";
 import { errorMessage } from "../../messages/error.message";
-import { closeTicket } from "../../mod-tickets";
+import { closeTicket } from "../../modules/mod-tickets/mod-tickets";
 
 export default defineEventListener({
 	event: Events.InteractionCreate,

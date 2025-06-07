@@ -1,6 +1,5 @@
-import { loadEventListeners } from "@versetools/discord.js-helpers";
-
-import { logger } from "$server/utils/logger";
+import { loadEventListeners } from "@l3dev/discord.js-helpers";
+import { logger } from "@l3dev/logger";
 
 export const eventListeners = loadEventListeners({
 	getModules<T>() {

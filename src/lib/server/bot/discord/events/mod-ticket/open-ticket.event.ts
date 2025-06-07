@@ -1,5 +1,5 @@
-import { defineEventListener } from "@versetools/discord.js-helpers";
-import { NONE, Result } from "@versetools/result";
+import { defineEventListener } from "@l3dev/discord.js-helpers";
+import { NONE, Result } from "@l3dev/result";
 import {
 	ActionRowBuilder,
 	Events,

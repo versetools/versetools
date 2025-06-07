@@ -1,9 +1,8 @@
-import { Result } from "@versetools/result";
 import { eq } from "drizzle-orm";
 import { UploadThingError } from "uploadthing/server";
 import { z } from "zod";
 
-import { db, tables } from "$server/db";
+import { db, safeExecute, tables } from "$server/db";
 
 import { getDataRequest } from "../../data-requests";
 import { uploadthing } from "../builder";
@@ -75,7 +74,8 @@ export const dataRequestEvidenceRoute = uploadthing(
 		};
 	})
 	.onUploadComplete(async ({ metadata, file }) => {
-		const updateResult = await Result.fromPromise(
+		const updateResult = await safeExecute(
+			"UPDATE_DATA_REQUEST_WITH_CONSENT_FILE",
 			db
 				.update(tables.dataRequests)
 				.set({ thirdPartyConsentFileKey: file.key })

@@ -1,4 +1,4 @@
-import { defineMessage, okMessage } from "@versetools/discord.js-helpers";
+import { defineMessage, okMessage } from "@l3dev/discord.js-helpers";
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags } from "discord.js";
 
 import { config } from "$lib/config";

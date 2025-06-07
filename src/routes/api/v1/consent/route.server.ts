@@ -1,5 +1,5 @@
-import { ok } from "@versetools/api-result";
-import { createRouteBuilder } from "@versetools/safe-svelte-api/server";
+import { ok } from "@l3dev/api-result";
+import { createRouteBuilder } from "@l3dev/svelte-api/server";
 import { z } from "zod";
 
 import { setConsent } from "$server/consent";

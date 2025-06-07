@@ -1,5 +1,5 @@
-import { defineEventListener } from "@versetools/discord.js-helpers";
-import { NONE } from "@versetools/result";
+import { defineEventListener } from "@l3dev/discord.js-helpers";
+import { NONE } from "@l3dev/result";
 import { Events } from "discord.js";
 
 const testChannelId = "1366674973313208403";

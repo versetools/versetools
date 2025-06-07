@@ -1,5 +1,5 @@
-import { defineEventListener, getChannel } from "@versetools/discord.js-helpers";
-import { err, NONE, Result } from "@versetools/result";
+import { defineEventListener, getChannel } from "@l3dev/discord.js-helpers";
+import { err, NONE, Result } from "@l3dev/result";
 import { ChannelType, Events, MessageFlags } from "discord.js";
 
 import { env } from "$env/dynamic/private";
@@ -7,7 +7,11 @@ import { env } from "$env/dynamic/private";
 import { ChannelIds, ButtonCustomId } from "../../ids";
 import { errorMessage } from "../../messages/error.message";
 import { openTicketReplyMessage } from "../../messages/mod-ticket/open-ticket-reply.message";
-import { checkTicketLimit, createTicket, MAX_ACTIVE_TICKETS_PER_USER } from "../../mod-tickets";
+import {
+	checkTicketLimit,
+	createTicket,
+	MAX_ACTIVE_TICKETS_PER_USER
+} from "../../modules/mod-tickets/mod-tickets";
 
 export default defineEventListener({
 	event: Events.InteractionCreate,
@@ -41,7 +45,7 @@ export default defineEventListener({
 
 		if (!checkTicketLimitResult.value) {
 			return await Result.fromPromise(
-				{ onError: { type: "REPLY_MAX_ACTIVE_TICKETS_PER_USER_FAILED" } },
+				{ onError: { type: "REPLY_MAX_ACTIVE_TICKETS_PER_USER" } },
 				interaction.reply({
 					flags: MessageFlags.Ephemeral,
 					content: `You can only have a maximum of ${MAX_ACTIVE_TICKETS_PER_USER} tickets open at once`
@@ -63,7 +67,7 @@ export default defineEventListener({
 		const { thread } = createTicketResult.value;
 
 		return await Result.fromPromise(
-			{ onError: { type: "REPLY_MOD_TICKET_OPENED_FAILED" } },
+			{ onError: { type: "REPLY_MOD_TICKET_OPENED" } },
 			interaction.reply({
 				...openTicketReplyMessage.build(thread.id).value
 			})

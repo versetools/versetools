@@ -1,4 +1,4 @@
-import { defineMessage, okMessage } from "@versetools/discord.js-helpers";
+import { defineMessage, okMessage } from "@l3dev/discord.js-helpers";
 import { EmbedBuilder, Colors } from "discord.js";
 
 export const errorMessage = defineMessage({

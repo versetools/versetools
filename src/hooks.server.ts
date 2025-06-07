@@ -1,9 +1,9 @@
+import { logger } from "@l3dev/logger";
 import { type Handle } from "@sveltejs/kit";
 
 import { building } from "$app/environment";
 import { getConsent } from "$server/consent";
 import { init } from "$server/init";
-import { logger } from "$server/utils/logger";
 
 import { csrfHandler } from "./csrf-handler.server";
 

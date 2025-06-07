@@ -1,4 +1,4 @@
-import { createCommandExecutor } from "@versetools/discord.js-helpers";
+import { createCommandExecutor } from "@l3dev/discord.js-helpers";
 
 import { errorMessage } from "../messages/error.message";
 

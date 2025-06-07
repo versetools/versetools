@@ -13,7 +13,7 @@ type ServerConfig = {
 };
 
 export const serverConfig: ServerConfig = {
-	allowedFormRoutes: ["/upload"],
+	allowedFormRoutes: ["/api/upload"],
 	sessions: {
 		cookie: config.cookies.session,
 		ttl: 14 * 24 * 60 * 60,

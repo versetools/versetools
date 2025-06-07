@@ -1,5 +1,5 @@
 import { SendEmailCommand, SendBulkEmailCommand, type Template } from "@aws-sdk/client-sesv2";
-import { Result } from "@versetools/result";
+import { Result } from "@l3dev/result";
 
 import { config } from "$lib/config";
 
@@ -59,7 +59,7 @@ export function sendEmail(params: SendEmailParams) {
 					}
 	});
 
-	return Result.fromPromise({ onError: { type: "SEND_EMAIL_FAILED" } }, client.send(command));
+	return Result.fromPromise({ onError: { type: "SEND_EMAIL" } }, client.send(command));
 }
 
 type SendBulkEmailParams = {
@@ -124,5 +124,5 @@ export function sendBulkEmail(params: SendBulkEmailParams) {
 		}
 	});
 
-	return Result.fromPromise({ onError: { type: "BULK_SEND_EMAIL_FAILED" } }, client.send(command));
+	return Result.fromPromise({ onError: { type: "BULK_SEND_EMAIL" } }, client.send(command));
 }

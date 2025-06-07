@@ -1,5 +1,5 @@
-import { defineSubcommand } from "@versetools/discord.js-helpers";
-import { err, Result } from "@versetools/result";
+import { defineSubcommand } from "@l3dev/discord.js-helpers";
+import { err, Result } from "@l3dev/result";
 
 export default defineSubcommand({
 	name: "hello",
@@ -13,9 +13,6 @@ export default defineSubcommand({
 			return err("UH_OH");
 		}
 
-		return await Result.fromPromise(
-			{ onError: { type: "REPLY_FAILED" } },
-			interaction.reply("Hello!")
-		);
+		return await Result.fromPromise({ onError: { type: "REPLY" } }, interaction.reply("Hello!"));
 	}
 });

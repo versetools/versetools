@@ -20,13 +20,11 @@ export const adminUsers = pgTable("admin_users", {
 	createdAt: timestamp("created_at").notNull().defaultNow()
 });
 
-export const adminUsersRelations = relations(adminUsers, ({ one, many }) => ({
+export const adminUsersRelations = relations(adminUsers, ({ many }) => ({
 	sessions: many(adminUsers)
 }));
 
-export type DbUserSession = Omit<InferSelectModel<typeof userSessions>, "data"> & {
-	data: App.Session;
-};
+export type DbUserSession = InferSelectModel<typeof userSessions>;
 
 export const userSessions = pgTable("user_sessions", {
 	key: text("key").primaryKey(),
@@ -34,7 +32,7 @@ export const userSessions = pgTable("user_sessions", {
 	geolocation: text("geolocation"),
 	userAgent: text("user_agent"),
 
-	data: jsonb("data"),
+	data: jsonb("data").$type<App.Session>(),
 
 	expiresAt: timestamp("expires_at").notNull(),
 	updatedAt: timestamp("updated_at")

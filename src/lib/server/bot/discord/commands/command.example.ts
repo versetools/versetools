@@ -3,9 +3,8 @@ import {
 	createSubcommandExecutor,
 	defineCommand,
 	loadSubcommands
-} from "@versetools/discord.js-helpers";
-
-import { logger } from "$server/utils/logger";
+} from "@l3dev/discord.js-helpers";
+import { logger } from "@l3dev/logger";
 
 import { commandExecutor } from "./executor";
 import { errorMessage } from "../messages/error.message";

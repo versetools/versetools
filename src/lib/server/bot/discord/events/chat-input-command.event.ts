@@ -1,5 +1,5 @@
-import { defineEventListener } from "@versetools/discord.js-helpers";
-import { err, NONE } from "@versetools/result";
+import { defineEventListener } from "@l3dev/discord.js-helpers";
+import { err, NONE } from "@l3dev/result";
 import { Events, MessageFlags } from "discord.js";
 
 import { env } from "$env/dynamic/private";

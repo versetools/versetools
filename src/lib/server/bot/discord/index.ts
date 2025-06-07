@@ -1,19 +1,12 @@
-import { registerCommands, registerEventListeners } from "@versetools/discord.js-helpers";
+import { registerCommands, registerEventListeners } from "@l3dev/discord.js-helpers";
+import { logger } from "@l3dev/logger";
 import { ActivityType, Client, REST } from "discord.js";
 
 import { env } from "$env/dynamic/private";
 import { config } from "$lib/config";
-import { logger } from "$server/utils/logger";
 
 import { commands } from "./commands";
 import { eventListeners } from "./events";
-
-// export async function load(client: Client, rest: REST, guildId: string) {
-// 	return Result.all(
-// 		await registerCommands({ client, rest, guildId, commands, logger }),
-// 		registerEventListeners({ client, eventListeners, logger })
-// 	);
-// }
 
 export async function startDiscordBot() {
 	const rest = new REST({ version: "10" }).setToken(env.DISCORD_TOKEN);

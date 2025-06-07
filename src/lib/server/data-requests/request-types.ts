@@ -7,8 +7,8 @@ export enum DataRequestType {
 
 export enum DataRequestStatus {
 	AwaitingVerification = "awaiting_verification",
-	Pending = "pending",
 	Processing = "processing",
+	PendingReview = "pending_review",
 	Completed = "completed",
 	Denied = "denied"
 }

@@ -1,4 +1,4 @@
-import { defineMessage, okReply } from "@versetools/discord.js-helpers";
+import { defineMessage, okReply } from "@l3dev/discord.js-helpers";
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags } from "discord.js";
 
 import { ButtonCustomId } from "../../ids";

@@ -1,4 +1,4 @@
-import { createAPI, route } from "@versetools/safe-svelte-api/client";
+import { createAPI, route } from "@l3dev/svelte-api/client";
 
 import { browser, dev } from "$app/environment";
 import { config } from "$lib/config";

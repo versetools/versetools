@@ -6,7 +6,7 @@ import type { AnyFileRoute, inferErrorShape } from "uploadthing/types";
 import type { UploadsRouter } from "$server/uploads";
 
 export const { createUploadThing } = generateSvelteHelpers<UploadsRouter>({
-	url: "/upload"
+	url: "/api/upload"
 });
 
 type UploaderOpts<TFileRoute extends AnyFileRoute> = Omit<

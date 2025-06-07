@@ -1,6 +1,5 @@
-import { loadCommands } from "@versetools/discord.js-helpers";
-
-import { logger } from "$server/utils/logger";
+import { loadCommands } from "@l3dev/discord.js-helpers";
+import { logger } from "@l3dev/logger";
 
 export const commands = loadCommands({
 	getModules<T>() {

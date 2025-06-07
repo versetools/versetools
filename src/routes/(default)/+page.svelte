@@ -11,9 +11,9 @@
 <Button href={config.socials.discord} size="lg" variant="outline" class="px-8 py-3">
 	Join our Discord
 </Button>
-<h2 class="sr-only">Products</h2>
+<h2 class="sr-only">Services</h2>
 <section class="mt-8 flex w-full justify-center">
-	{#each Object.values(config.products) as product (product.name)}
+	{#each Object.values(config.services) as product (product.name)}
 		<Card
 			tag="a"
 			href={product.url}

@@ -1,3 +1,4 @@
+import type { InteropServiceName } from "@versetools/interop";
 import type { SoftwareApplication } from "schema-dts";
 
 import emblem from "$lib/assets/emblem.png";
@@ -5,7 +6,7 @@ import scorgportalThumbnail from "$lib/assets/scorgportal-thumbnail.png";
 
 type CreatorType<T = SoftwareApplication["author"]> = T extends { "@type": string } ? T : never;
 
-type Product = {
+export type ServiceDef = {
 	name: string;
 	description: string;
 	thumbnail: string;
@@ -30,7 +31,7 @@ export const config = {
 		discord: "https://versetools.com/discord",
 		github: "https://github.com/versetools"
 	},
-	products: {
+	services: {
 		scorgportal: {
 			name: "ScOrgPortal",
 			description: "The ultimate org management tool for your Star Citizen organization",
@@ -38,7 +39,7 @@ export const config = {
 			url: "https://scorgportal.com",
 			exportUrl: "https://scorgportal.com/settings/export"
 		}
-	} satisfies Record<string, Product>,
+	} satisfies Record<Exclude<InteropServiceName, InteropServiceName.VerseTools>, ServiceDef>,
 	meta: {
 		emblem,
 		thumbnail: null,

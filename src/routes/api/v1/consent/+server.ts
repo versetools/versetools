@@ -1,4 +1,4 @@
-import { createRouteHandlers } from "@versetools/safe-svelte-api/server";
+import { createRouteHandlers } from "@l3dev/svelte-api/server";
 
 import { v1_consent_route } from "./route.server";
 
