@@ -2,9 +2,10 @@ import { type Handle } from "@sveltejs/kit";
 
 import { building } from "$app/environment";
 import { getConsent } from "$server/consent";
-import { csrfHandler } from "$server/csrf-handler";
 import { init } from "$server/init";
 import { logger } from "$server/utils/logger";
+
+import { csrfHandler } from "./csrf-handler.server";
 
 if (!building) init();
 
