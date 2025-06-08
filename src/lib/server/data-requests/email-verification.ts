@@ -7,8 +7,6 @@ import { config } from "$lib/config";
 import { interopBus } from "$server/bus";
 import {
 	db,
-	safeExecute,
-	safeTransaction,
 	tables,
 	type DbDataRequest,
 	type DbDataRequestEmailVerificationToken,
@@ -28,7 +26,7 @@ export async function generateEmailVerificationUrl(
 	request: DbDataRequest | { id: DbDataRequest["id"] },
 	partyType: DataRequestPartyType
 ) {
-	const insertTokenResult = await safeExecute(
+	const insertTokenResult = await db.safeExecute(
 		"CREATE_DATA_REQUEST_EMAIL_TOKEN",
 		db
 			.insert(tables.dataRequestEmailVerificationTokens)
@@ -48,7 +46,7 @@ export async function generateEmailVerificationUrl(
 }
 
 export async function verifyEmailVerificationToken(tokenId: string) {
-	const tokenResult = await safeExecute(
+	const tokenResult = await db.safeExecute(
 		"QUERY_DATA_REQUEST_EMAIL_TOKEN",
 		db.query.dataRequestEmailVerificationTokens.findFirst({
 			where: (t, { eq }) => eq(t.id, tokenId),
@@ -68,7 +66,7 @@ export async function verifyEmailVerificationToken(tokenId: string) {
 
 	const request = token.request as DbDataRequest;
 
-	const transactionResult = await safeTransaction("VERIFY_DATA_REQUEST_EMAIL", async (tx) => {
+	const transactionResult = await db.safeTransaction("VERIFY_DATA_REQUEST_EMAIL", async (tx) => {
 		const startProcessing =
 			(token.partyType === DataRequestPartyType.Subject &&
 				(!request.thirdPartyEmail || request.thirdPartyEmailVerifiedAt)) ||
@@ -166,7 +164,7 @@ export const sendVerifyReminderEmail = Result.pipeAsync(
 			partyType === DataRequestPartyType.Subject ? request.subjectEmail : request.thirdPartyEmail;
 		if (!to) return NONE;
 
-		return await safeTransaction("SEND_DATA_REQUEST_VERIFY_REMINDER", async (tx) => {
+		return await db.safeTransaction("SEND_DATA_REQUEST_VERIFY_REMINDER", async (tx) => {
 			if (partyType === DataRequestPartyType.Subject) {
 				await tx
 					.update(tables.dataRequests)

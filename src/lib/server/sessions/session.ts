@@ -4,7 +4,7 @@ import { parse, serialize, type SerializeOptions } from "cookie";
 import { eq } from "drizzle-orm";
 import * as iron from "iron-webcrypto";
 
-import { db, safeExecute, tables, type DbAdminUser, type DbUserSession } from "$server/db";
+import { db, tables, type DbAdminUser, type DbUserSession } from "$server/db";
 
 const SEAL_VERSION = 1;
 const FOURTEEN_DAYS_IN_SECONDS = 14 * 24 * 3600;
@@ -217,7 +217,7 @@ export class SessionImpl {
 			userId: this.user
 		};
 
-		const result = await safeExecute(
+		const result = await db.safeExecute(
 			"UPSERT_USER_SESSION",
 			db
 				.insert(tables.userSessions)
@@ -269,7 +269,7 @@ export class SessionImpl {
 	});
 
 	public destroy = Result.fn(async function (this: SessionImpl) {
-		const result = await safeExecute(
+		const result = await db.safeExecute(
 			"DELETE_USER_SESSION",
 			db.delete(tables.userSessions).where(eq(tables.userSessions.key, this._key))
 		);
@@ -299,7 +299,7 @@ export class SessionImpl {
 	}
 
 	private load = Result.fn(async function (this: SessionImpl, key: string) {
-		const sessionResult = await safeExecute(
+		const sessionResult = await db.safeExecute(
 			"QUERY_USER_SESSION",
 			db.query.userSessions.findFirst({
 				where: eq(tables.userSessions.key, key)
@@ -319,7 +319,7 @@ export class SessionImpl {
 		}
 
 		this.dbSession = session;
-		this.data = typeof session.data === "object" ? session.data : {};
+		this.data = typeof session.data === "object" && session.data ? session.data : {};
 		this.user = session.userId;
 
 		return NONE;

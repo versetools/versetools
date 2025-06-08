@@ -1,5 +1,6 @@
 import { logger } from "@l3dev/logger";
 import { NONE, ok, Result } from "@l3dev/result";
+import type { InteropServiceName } from "@versetools/interop";
 import * as bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 
@@ -7,8 +8,6 @@ import { uploadapi } from "$server/uploads";
 
 import {
 	db,
-	safeExecute,
-	safeTransaction,
 	tables,
 	type DbDataRequest,
 	type DbDataRequestWithEmailVerificationTokens
@@ -23,7 +22,7 @@ const ARCHIVE_AFTER = 1000 * 60 * 60 * 24 * 365;
 const ARCHIVE_SALT_ROUNDS = 12;
 
 export async function getDataRequest(id: DbDataRequest["id"]) {
-	const result = await safeExecute(
+	const result = await db.safeExecute(
 		"QUERY_DATA_REQUEST",
 		db.query.dataRequests.findFirst({ where: (t, { eq }) => eq(t.id, id) })
 	);
@@ -35,7 +34,7 @@ export async function getDataRequest(id: DbDataRequest["id"]) {
 }
 
 export async function getUnverifiedDataRequests() {
-	const result = await safeExecute(
+	const result = await db.safeExecute(
 		"QUERY_UNVERIFIED_DATA_REQUESTS",
 		db.query.dataRequests.findMany({
 			where: (t, { or, and, isNull, isNotNull }) =>
@@ -61,7 +60,7 @@ export async function getUnverifiedDataRequests() {
 }
 
 export async function getArchiveableDataRequests() {
-	const result = await safeExecute(
+	const result = await db.safeExecute(
 		"QUERY_ARCHIVEABLE_DATA_REQUESTS",
 		db.query.dataRequests.findMany({
 			where: (t, { and, inArray, lt, isNull }) =>
@@ -81,7 +80,7 @@ export async function getArchiveableDataRequests() {
 }
 
 export async function hasActiveDataRequest(type: DataRequestType, subjectEmail: string) {
-	const result = await safeExecute(
+	const result = await db.safeExecute(
 		"QUERY_ACTIVE_DATA_REQUEST",
 		db.query.dataRequests.findFirst({
 			where: (t, { and, eq, notInArray }) =>
@@ -144,13 +143,13 @@ type CreateDataRequestData =
 	  };
 
 export async function createDataRequest(data: CreateDataRequestData) {
-	const insertResult = await safeExecute(
+	const insertResult = await db.safeExecute(
 		"CREATE_DATA_REQUEST",
 		db
 			.insert(tables.dataRequests)
 			.values({
 				status: DataRequestStatus.AwaitingVerification,
-				allProducts: true,
+				services: null,
 				...data
 			})
 			.returning()
@@ -205,7 +204,7 @@ export async function sendDataRequestVerifyEmails(
 }
 
 export function archiveDataRequest(request: DbDataRequest) {
-	return safeTransaction("ARCHIVE_DATA_REQUEST", async (tx) => {
+	return db.safeTransaction("ARCHIVE_DATA_REQUEST", async (tx) => {
 		const subjectEmailHash = await bcrypt.hash(request.subjectEmail, ARCHIVE_SALT_ROUNDS);
 		const thirdPartyEmailHash = request.thirdPartyEmail
 			? await bcrypt.hash(request.thirdPartyEmail, ARCHIVE_SALT_ROUNDS)

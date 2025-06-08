@@ -3,7 +3,7 @@ import { InteropQueueName } from "@versetools/interop";
 import { eq } from "drizzle-orm";
 
 import { DataRequestStatus } from "$server/data-requests";
-import { db, safeExecute, tables } from "$server/db";
+import { db, tables } from "$server/db";
 
 import { interopBus } from "../buses";
 
@@ -12,7 +12,7 @@ const queue = interopBus.createGlobalQueue(InteropQueueName.DataRequests);
 interopBus.createGlobalInteropWorker(queue, async (job) => {
 	const serviceResults = await job.getChildrenValues<any>();
 
-	const result = await safeExecute(
+	const result = await db.safeExecute(
 		"COMPLETE_DATA_REQUEST_PROCESSING",
 		db
 			.update(tables.dataRequests)
