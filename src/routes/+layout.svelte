@@ -52,8 +52,8 @@
 
 <svelte:head>
 	<meta name="robots" content="noindex" />
+	<AppSchema />
 </svelte:head>
-<AppSchema />
 
 <div class="flex h-full min-h-screen flex-col tracking-[0.05em]">
 	{@render children()}
