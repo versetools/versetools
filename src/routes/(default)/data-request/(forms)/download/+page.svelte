@@ -26,14 +26,14 @@
 			<p>Receive an export of all of your personal data we have collected from our systems.</p>
 			<p class="mt-2">
 				This request is for <span class="text-text font-semibold">personal data only</span>, if you
-				would like to download product specific account and usage data please visit the appropriate
-				product page:
+				would like to download service specific account and usage data please visit the appropriate
+				service page:
 			</p>
 			<ul class="my-2 ml-4 list-disc">
-				{#each Object.values(config.services) as product (product.name)}
+				{#each Object.values(config.services) as service (service.name)}
 					<li>
-						<a href={product.exportUrl} class="text-text-link hover:underline">
-							Download {product.name} account and usage data
+						<a href={service.exportUrl} class="text-text-link hover:underline">
+							Download {service.name} account and usage data
 						</a>
 					</li>
 				{/each}

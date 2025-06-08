@@ -106,7 +106,7 @@ export async function verifyEmailVerificationToken(tokenId: string) {
 						email: request.subjectEmail
 					}
 				},
-				request.allProducts ? InteropServiceNames : request.products
+				request.services?.length ? request.services : InteropServiceNames
 			);
 		}
 	});

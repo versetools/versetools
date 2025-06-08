@@ -23,12 +23,12 @@ const rules = [
 	},
 	{
 		name: "Stay On-Topic",
-		description: `Keep conversations relevant to ${config.name} products and related topics (e.g., integrations, feedback, support). Off-topic chat should be directed to the appropriate channels.`
+		description: `Keep conversations relevant to ${config.name} services and related topics (e.g., integrations, feedback, support). Off-topic chat should be directed to the appropriate channels.`
 	},
 	{
 		name: "No Spam or Self-Promotion",
 		description:
-			"Unsolicited promotions, links, or repeated messages are not allowed. This includes DMs to other members. If you'd like to share something related to the product or ecosystem, ask a moderator first."
+			"Unsolicited promotions, links, or repeated messages are not allowed. This includes DMs to other members. If you'd like to share something related to our services or ecosystem, ask a moderator first."
 	},
 	{
 		name: "Keep Support Requests in Designated Channels",
@@ -65,7 +65,7 @@ const rules = [
 const roleDefinitions = [
 	{
 		id: RoleIds.developer,
-		description: `The people who work on ${config.name} products and services to make them a reality!`
+		description: `The people who work on ${config.name} services to make them a reality!`
 	},
 	{
 		id: RoleIds.moderator,

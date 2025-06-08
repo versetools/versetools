@@ -12,7 +12,7 @@
 	const requests = [
 		{
 			name: "Download",
-			description: "Get a report of your personal data we have collected for all of our products",
+			description: "Get a report of your personal data we have collected for all of our services",
 			href: "/data-request/download"
 		},
 		{

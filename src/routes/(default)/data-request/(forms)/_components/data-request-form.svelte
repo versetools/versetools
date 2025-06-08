@@ -213,10 +213,10 @@
 				/>
 			{/snippet}
 		</Form.Control>
-		<Form.Hint
-			>This must match an email address used in our products for us to successfully complete this
-			request.</Form.Hint
-		>
+		<Form.Hint>
+			This must match an email address used in our services for us to successfully complete this
+			request.
+		</Form.Hint>
 		<Form.FieldErrors />
 	</Form.Field>
 	{@render children?.({ form })}

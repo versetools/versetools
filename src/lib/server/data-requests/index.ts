@@ -108,8 +108,7 @@ type CreateDataRequestData =
 			thirdPartyFirstName?: string | null;
 			thirdPartyLastName?: string | null;
 			thirdPartyEmail?: string | null;
-			allProducts?: boolean;
-			products?: string[];
+			services?: InteropServiceName[] | null;
 			additionalComments?: string | null;
 	  }
 	| {

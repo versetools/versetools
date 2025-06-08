@@ -1,3 +1,4 @@
+import type { InteropServiceName } from "@versetools/interop";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 
@@ -26,8 +27,7 @@ export const actions = {
 				thirdPartyFirstName: form.data.thirdParty?.firstName,
 				thirdPartyLastName: form.data.thirdParty?.lastName,
 				thirdPartyEmail: form.data.thirdParty?.email,
-				allProducts: form.data.allProducts ?? false,
-				products: form.data.products,
+				services: form.data.allServices ? null : (form.data.services as InteropServiceName[]),
 				additionalComments: form.data.additionalComments
 			});
 		});

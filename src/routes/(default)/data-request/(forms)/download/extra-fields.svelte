@@ -7,8 +7,8 @@
 
 	import type { DownloadRequestSchema } from "./schema";
 
-	const productOptions = Object.entries(config.services).map(([name, product]) => ({
-		name: product.name,
+	const serviceOptions = Object.entries(config.services).map(([name, service]) => ({
+		name: service.name,
 		value: name as keyof typeof config.services
 	}));
 
@@ -17,27 +17,27 @@
 	const { form: formData } = form;
 </script>
 
-<Form.Field {form} name="products" class="gap-2">
+<Form.Field {form} name="services" class="gap-2">
 	<Form.Control>
 		{#snippet children({ props })}
-			<Form.Label>Products</Form.Label>
-			<Form.Field {form} name="allProducts" class="flex-row items-center gap-2">
+			<Form.Label>Services</Form.Label>
+			<Form.Field {form} name="allServices" class="flex-row items-center gap-2">
 				<Form.Control>
 					{#snippet children({ props })}
-						<Switch {...props} bind:value={$formData.allProducts} />
-						<Form.Label>Request for all products</Form.Label>
+						<Switch {...props} bind:value={$formData.allServices} />
+						<Form.Label>Request for all services</Form.Label>
 					{/snippet}
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			{#if !$formData.allProducts}
+			{#if !$formData.allServices}
 				<Combobox
 					{...props}
-					placeholder="Select products"
+					placeholder="Select service(s)"
 					multiple
-					options={productOptions}
-					disabled={$formData.allProducts}
-					bind:value={$formData.products}
+					options={serviceOptions}
+					disabled={$formData.allServices}
+					bind:value={$formData.services}
 				/>
 			{/if}
 		{/snippet}
