@@ -1,37 +1,39 @@
-import { registerCommands, registerEventListeners } from "@l3dev/discord.js-helpers";
+import botTickets from "@l3dev/discord-bot-tickets-plugin";
+import { createBot } from "@l3dev/discord.js-helpers";
 import { logger } from "@l3dev/logger";
-import { ActivityType, Client, REST } from "discord.js";
+import { ActivityType } from "discord.js";
 
 import { env } from "$env/dynamic/private";
 import { config } from "$lib/config";
+import { db } from "$server/db";
 
 import { commands } from "./commands";
+import { commandExecutor } from "./commands/executor";
 import { eventListeners } from "./events";
 
 export async function startDiscordBot() {
-	const rest = new REST({ version: "10" }).setToken(env.DISCORD_TOKEN);
-	const client = new Client({
-		intents: ["Guilds", "GuildMembers", "GuildMessagePolls"],
-		presence: {
-			activities: [
-				{
-					type: ActivityType.Custom,
-					name: config.domain,
-					url: `https://${config.domain}`
-				}
-			]
+	const client = createBot({
+		plugins: [botTickets({ db })],
+		clientOptions: {
+			intents: ["Guilds", "GuildMembers", "GuildMessagePolls"],
+			presence: {
+				activities: [
+					{
+						type: ActivityType.Custom,
+						name: config.domain,
+						url: `https://${config.domain}`
+					}
+				]
+			}
+		},
+		commandExecutor,
+		commands,
+		eventListeners,
+		logger,
+		ignoreCommand(interaction) {
+			return interaction.guildId !== env.DISCORD_GUILD_ID;
 		}
 	});
 
-	registerEventListeners({ client, eventListeners, logger });
-	client.on("ready", async () => {
-		await registerCommands({ client, rest, guildId: env.DISCORD_GUILD_ID, commands, logger });
-		logger.log("Discord bot is ready");
-	});
-
 	client.login(env.DISCORD_TOKEN);
-
-	import.meta.hot?.on("vite:beforeUpdate", () => {
-		client.destroy();
-	});
 }
