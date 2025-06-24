@@ -9,7 +9,6 @@ type CookieConfig = {
 type ServerConfig = {
 	allowedFormRoutes: string[];
 	sessions: CookieConfig;
-	consent: CookieConfig;
 };
 
 export const serverConfig: ServerConfig = {
@@ -18,10 +17,5 @@ export const serverConfig: ServerConfig = {
 		cookie: config.cookies.session,
 		ttl: 14 * 24 * 60 * 60,
 		sameSite: "lax"
-	},
-	consent: {
-		cookie: config.cookies.consent,
-		ttl: 365 * 24 * 60 * 60,
-		sameSite: "strict"
 	}
 };

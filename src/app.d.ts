@@ -1,4 +1,5 @@
-import type { Consent } from "$server/consent";
+import type { SiteConsent } from "$server/consent";
+
 import type { DbAdminUser } from "./lib/server/db";
 
 declare global {
@@ -15,7 +16,7 @@ declare global {
 		}
 
 		interface Locals {
-			consent: Consent;
+			consents: (keyof SiteConsent["vendors"])[] | null;
 			session: AppSession;
 			adminUser?: DbAdminUser | null;
 		}

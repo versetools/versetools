@@ -60,7 +60,6 @@ export const config = {
 		]
 	},
 	cookies: {
-		session: "__versetools.sid",
-		consent: "versetools_consent"
+		session: "__versetools.sid"
 	}
 };

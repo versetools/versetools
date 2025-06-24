@@ -1,15 +1,9 @@
-import type { z } from "zod";
+import { createSvelteState } from "@l3dev-private/consent-svelte";
 
-import type { ConsentSchema } from "$server/consent";
+import { api } from "$routes/api";
+import type { SiteConsent } from "$server/consent";
 
-export type ConsentData = z.infer<typeof ConsentSchema>;
-
-let state = $state<ConsentData | null>(null);
-export const consent = {
-	get value() {
-		return state;
-	},
-	set value(value: ConsentData | null) {
-		state = value;
-	}
-};
+export const consent = createSvelteState<SiteConsent>({
+	api,
+	route: api.v1.consent
+});

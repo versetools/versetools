@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { openConsentOptions } from "@versetools/ui-consent";
 	import type { Snippet } from "svelte";
 
 	import background from "$lib/assets/background.png";
@@ -7,7 +8,6 @@
 	import madeByTheCommunity from "$lib/assets/made-by-the-community.png";
 	import { config } from "$lib/config";
 	import Meta from "$lib/seo/meta.svelte";
-	import { consent } from "$lib/states";
 
 	let { children }: { children: Snippet } = $props();
 </script>
@@ -74,7 +74,7 @@
 					</a>
 					<button
 						class="text-text-60 hover:text-text-80 cursor-pointer transition-colors"
-						onclick={() => (consent.value = null)}
+						onclick={() => openConsentOptions()}
 					>
 						Privacy Options
 					</button>
