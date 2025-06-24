@@ -3,6 +3,7 @@ import * as docker from "@pulumi/docker";
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 
+const host = "versetools.com";
 const appName = "versetools";
 const appLabels = { app: appName };
 const replicas = 1;
@@ -11,20 +12,31 @@ const portName = `${appName}-port`;
 
 const buildArgs = ["PUBLIC_POSTHOG_KEY", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"];
 
-const containerEnvVars = [];
+const containerEnvVars = [
+	"DATABASE_URL",
+	"REDIS_URL",
+	"SESSION_SECRET",
+	"UPLOADTHING_APP_ID",
+	"UPLOADTHING_TOKEN",
+	"DISCORD_GUILD_ID",
+	"DISCORD_CLIENT_ID",
+	"DISCORD_TOKEN",
+	"AWS_ACCESS_KEY_ID",
+	"AWS_SECRET_ACCESS_KEY"
+];
 
 const config = new pulumi.Config();
 const repositoryName = config.require("repositoryName");
 
 const repository = new aws.ecr.Repository(repositoryName, {
 	tags: {
-		project: "versetools",
+		project: appName,
 		"pulumi:project": pulumi.getProject(),
 		"pulumi:stack": pulumi.getStack()
 	}
 });
 
-const _repoLifecyclePolicy = new aws.ecr.LifecyclePolicy(`${repositoryName}-lifecycle-policy`, {
+new aws.ecr.LifecyclePolicy(`${repositoryName}-lifecycle-policy`, {
 	repository: repository.name,
 	policy: {
 		rules: [
@@ -81,7 +93,7 @@ const namespace = new k8s.core.v1.Namespace(appName, {
 	}
 });
 
-const _app = new k8s.apps.v1.Deployment(appName, {
+new k8s.apps.v1.Deployment(appName, {
 	metadata: {
 		namespace: namespace.metadata.name
 	},
@@ -133,7 +145,7 @@ const appIngress = new k8s.networking.v1.Ingress(`${appName}-ingress`, {
 	spec: {
 		rules: [
 			{
-				host: "versetools.com",
+				host,
 				http: {
 					paths: [
 						{
@@ -165,7 +177,7 @@ new k8s.networking.v1.Ingress(`${appName}-discord-redirect`, {
 	spec: {
 		rules: [
 			{
-				host: "versetools.com",
+				host,
 				http: {
 					paths: [
 						{

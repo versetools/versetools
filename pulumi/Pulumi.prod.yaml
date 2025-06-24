@@ -1,4 +1,6 @@
+environment:
+  - versetools/prod
+
 config:
   versetools:repositoryName: pkube/versetools
   aws:region: eu-central-1
-  aws:profile: pulumi-local
