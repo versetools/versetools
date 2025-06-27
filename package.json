@@ -4,7 +4,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"preinstall": "bash auth.sh",
+		"preinstall": "pnpm co:login",
+		"co:login": "bash auth.sh || true",
 		"dev": "vite dev",
 		"dev:services": "docker compose -f docker-compose.dev.yml",
 		"start": "node build",
