@@ -34,8 +34,8 @@ importers:
         specifier: ^0.1.5
         version: 0.1.5
       '@l3dev-private/consent-svelte':
-        specifier: ^0.1.3
-        version: 0.1.3(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)
+        specifier: ^0.2.1
+        version: 0.2.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)
       '@l3dev/api-result':
         specifier: ^0.2.5
         version: 0.2.5
@@ -61,8 +61,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1
       '@l3dev/svelte-api':
-        specifier: ^0.3.2
-        version: 0.3.2(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))
+        specifier: ^0.5.0
+        version: 0.5.0(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))
       '@melt-ui/svelte':
         specifier: ^0.86.6
         version: 0.86.6(svelte@5.28.2)
@@ -217,8 +217,8 @@ importers:
         specifier: ^6.2.6
         version: 6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)
       zod:
-        specifier: ^3.24.3
-        version: 3.24.3
+        specifier: ^3.25.67
+        version: 3.25.67
 
 packages:
 
@@ -966,6 +966,12 @@ packages:
       '@sveltejs/kit': ^2.20.5
       svelte: ^5.0.0
 
+  '@l3dev-private/consent-svelte@0.2.1':
+    resolution: {integrity: sha512-3ouxJwCOT0mlo5YMcvCx3DunqaaUOzhyAnywk/r0J7Z6eN/ZN5/CsxDMf6YmjlZZFpJ0QrLmX0aiJe4erX1ExQ==}
+    peerDependencies:
+      '@sveltejs/kit': ^2.20.5
+      svelte: ^5.0.0
+
   '@l3dev-private/consent@0.1.5':
     resolution: {integrity: sha512-9KN4WaDbaqY6n0MYhmpDTcr8PqjUBOvqFz4RE3UuNI99dXCbE90/syOf+zCQDUBhJz6Y8eqCgWq6SoaPeDcf1w==}
 
@@ -1004,6 +1010,11 @@ packages:
 
   '@l3dev/svelte-api@0.3.2':
     resolution: {integrity: sha512-3IQXspo9zpluweLlLR0vFyWmx14YNFMXkXku4dhD5IQncfocEfrEcM3eV9SH+D3ouzaaZyl6HE5bcuplH4Xwew==}
+    peerDependencies:
+      '@sveltejs/kit': ^2.0.0
+
+  '@l3dev/svelte-api@0.5.0':
+    resolution: {integrity: sha512-O0D2Pbff476obGZ6GaN7HuIlBAiDVjIf4jPJ7RjqDGHN+4BYc/83mF/o9tzjKmL3EGdhe+s2zvrFSA9zGOGTeA==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
@@ -4913,12 +4924,6 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.24.3:
-    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
-
-  zod@3.25.56:
-    resolution: {integrity: sha512-rd6eEF3BTNvQnR2e2wwolfTmUTnp70aUTqr0oaGbHifzC3BKJsoV+Gat8vxUMR1hwOKBs6El+qWehrHbCpW6SQ==}
-
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
@@ -5763,6 +5768,14 @@ snapshots:
       svelte: 5.28.2
       zod: 3.25.67
 
+  '@l3dev-private/consent-svelte@0.2.1(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)':
+    dependencies:
+      '@l3dev/api-result': 0.2.5
+      '@l3dev/svelte-api': 0.5.0(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))
+      '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
+      svelte: 5.28.2
+      zod: 3.25.67
+
   '@l3dev-private/consent@0.1.5':
     dependencies:
       '@l3dev/logger': 0.2.3
@@ -5784,7 +5797,7 @@ snapshots:
     dependencies:
       '@l3dev/result': 0.3.1
       discord.js: 14.19.1
-      zod: 3.25.56
+      zod: 3.25.67
 
   '@l3dev/drizzle-helpers@0.2.5(@opentelemetry/api@1.9.0)(@types/pg@8.11.14)(gel@2.0.2)(pg@8.15.6)':
     dependencies:
@@ -5837,14 +5850,21 @@ snapshots:
 
   '@l3dev/result@0.3.1':
     dependencies:
-      zod: 3.25.56
+      zod: 3.25.67
 
   '@l3dev/svelte-api@0.3.2(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))':
     dependencies:
       '@l3dev/api-result': 0.2.5
       '@l3dev/result': 0.3.1
       '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
-      zod: 3.25.56
+      zod: 3.25.67
+
+  '@l3dev/svelte-api@0.5.0(@sveltejs/kit@2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))':
+    dependencies:
+      '@l3dev/api-result': 0.2.5
+      '@l3dev/result': 0.3.1
+      '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)))(svelte@5.28.2)(vite@6.3.3(@types/node@22.15.2)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3))
+      zod: 3.25.67
 
   '@logdna/tail-file@2.2.0': {}
 
@@ -9662,8 +9682,8 @@ snapshots:
       superstruct: 2.0.2
       valibot: 1.0.0-rc.3(typescript@5.8.3)
       yup: 1.6.1
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+      zod: 3.25.67
+      zod-to-json-schema: 3.24.5(zod@3.25.67)
     transitivePeerDependencies:
       - '@types/json-schema'
       - typescript
@@ -10122,13 +10142,9 @@ snapshots:
 
   zimmerframe@1.1.2: {}
 
-  zod-to-json-schema@3.24.5(zod@3.24.3):
+  zod-to-json-schema@3.24.5(zod@3.25.67):
     dependencies:
-      zod: 3.24.3
+      zod: 3.25.67
     optional: true
-
-  zod@3.24.3: {}
-
-  zod@3.25.56: {}
 
   zod@3.25.67: {}
