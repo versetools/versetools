@@ -1,0 +1,26 @@
+{
+    "name": "@versetools/convex",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "check": "tsgo --noEmit",
+        "dev": "convex dev",
+        "format": "prettier --write .",
+        "lint": "eslint . && prettier --check .",
+        "lint-fix": "eslint . --fix && prettier --check --write ."
+    },
+    "devDependencies": {
+        "@aws-sdk/client-sesv2": "catalog:aws-sdk",
+        "@aws-sdk/client-sqs": "catalog:aws-sdk",
+        "@convex-dev/rate-limiter": "^0.3.2",
+        "@versetools/convex-client": "workspace:*",
+        "@versetools/core": "workspace:*",
+        "@versetools/types": "workspace:*",
+        "@typescript/native-preview": "catalog:",
+        "buffer": "^6.0.3",
+        "convex": "catalog:",
+        "yaml": "^2.8.1"
+    },
+    "packageManager": "pnpm@10.24.0"
+}

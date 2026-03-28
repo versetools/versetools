@@ -1,4 +1,15 @@
+package.json
+
 # Package Managers
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Convex
+convex.json
+_generated
+
+# Output
+.svelte-kit
+dist
+build

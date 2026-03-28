@@ -1,0 +1,6 @@
+environment:
+  - versetools/prod
+
+config:
+  versetools:repositoryName: versetools/versetools
+  aws:region: eu-central-1

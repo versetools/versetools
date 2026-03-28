@@ -1,0 +1,13 @@
+node_modules
+build
+
+.vscode
+.idea
+
+.git
+.gitignore
+.github
+*.md
+
+.env
+.env.*

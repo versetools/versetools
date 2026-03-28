@@ -3,8 +3,8 @@ node_modules
 # Output
 .output
 .vercel
-/.svelte-kit
-/build
+.svelte-kit/
+build/
 
 # OS
 .DS_Store
@@ -14,7 +14,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-!.env.test
 
 # Auth
 .aws_profile

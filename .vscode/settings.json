@@ -2,5 +2,6 @@
 	"css.customData": [".vscode/tailwind.json"],
 	"files.associations": {
 		"*.svx": "markdown"
-	}
+	},
+	"typescript.tsdk": "./node_modules/typescript/lib"
 }

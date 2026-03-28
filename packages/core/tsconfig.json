@@ -1,0 +1,4 @@
+{
+	"extends": "../tsconfig.convex.json",
+	"include": ["./src/**/*.ts"]
+}

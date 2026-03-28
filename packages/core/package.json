@@ -1,0 +1,38 @@
+{
+    "name": "@versetools/core",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "exports": {
+        "./apis": {
+            "types": "./src/apis/index.ts",
+            "import": "./src/apis/index.ts"
+        },
+        "./commands": {
+            "types": "./src/commands/index.ts",
+            "import": "./src/commands/index.ts"
+        },
+        "./errors": {
+            "types": "./src/errors/index.ts",
+            "import": "./src/errors/index.ts"
+        },
+        "./helpers": {
+            "types": "./src/helpers/index.ts",
+            "import": "./src/helpers/index.ts"
+        },
+        "./config": {
+            "types": "./src/config.ts",
+            "import": "./src/config.ts"
+        },
+        "./utility-types": {
+            "types": "./src/utility-types.ts"
+        }
+    },
+    "scripts": {
+        "check": "tsgo --noEmit",
+        "format": "prettier --write .",
+        "lint": "eslint . && prettier --check .",
+        "lint-fix": "eslint . --fix && prettier --check --write ."
+    },
+    "packageManager": "pnpm@10.24.0"
+}

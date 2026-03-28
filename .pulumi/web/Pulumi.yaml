@@ -1,0 +1,6 @@
+name: versetools
+description: Versetools website
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm

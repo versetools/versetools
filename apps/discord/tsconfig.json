@@ -1,0 +1,35 @@
+{
+	"compilerOptions": {
+		"lib": ["esnext", "DOM", "DOM.Iterable"],
+		"module": "esnext",
+		"target": "esnext",
+		"skipLibCheck": true,
+
+		"moduleResolution": "bundler",
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"noEmit": true,
+
+		"strict": true,
+		"allowJs": true,
+		"checkJs": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"paths": {
+			"$convex/*": ["../convex/src/*"],
+			"$permissions/*": ["../../packages/permissions/src/*"]
+		}
+	},
+	"include": [
+		"./src/**/*.js",
+		"./src/**/*.ts",
+		"./tests/**/*.js",
+		"./tests/**/*.ts",
+		"../convex/src/_generated/**/*.js",
+		"../convex/src/_generated/**/*.ts"
+	],
+	"exclude": ["./node_modules/**"]
+}

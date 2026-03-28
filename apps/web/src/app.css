@@ -1,0 +1,35 @@
+@import "./styles/fonts/fractul.module.css" layer(base);
+
+@import "tailwindcss";
+@import "../node_modules/@versetools/ui/dist/styles/theme.css";
+@import "../node_modules/@versetools/ui/dist/styles/utilities.css";
+
+@source "../node_modules/@versetools/ui";
+@source "../node_modules/@versetools/ui-consent";
+
+@theme {
+	--container-4xs: 8rem;
+	--font-sans: var(--font-fractul);
+}
+
+@layer base {
+	body {
+		@apply bg-background text-text;
+	}
+
+	input[type="number"] {
+		@apply no-number-buttons;
+	}
+
+	::-webkit-scrollbar {
+		@apply h-2 w-2;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-scrollbar rounded-full;
+	}
+}

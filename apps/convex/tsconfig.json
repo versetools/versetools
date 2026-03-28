@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"$convex/*": ["./src/*"]
+		},
+
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"moduleResolution": "Bundler",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"verbatimModuleSyntax": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"noErrorTruncation": true,
+		"noImplicitAny": true,
+
+		/* These compiler options are required by Convex */
+		"target": "ESNext",
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
+		"forceConsistentCasingInFileNames": true,
+		"module": "ESNext",
+		"isolatedModules": true,
+		"noEmit": true
+	},
+	"include": ["./src/**/*.ts"]
+}

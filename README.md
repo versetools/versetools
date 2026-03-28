@@ -1,5 +1,1 @@
-# VerseTools
-
-Website: https://versetools.com
-
-- ScOrgPortal: https://scorgportal.com • **[[Repository]](https://github.com/versetools/scorgportal)**
+![Versetools](./apps/web/src/lib/assets/logo.png)
