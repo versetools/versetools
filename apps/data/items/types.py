@@ -1,0 +1,11 @@
+class ItemTypes:
+    ATTACHABLE = "Attachable"
+    CARRYABLE = "Carryable"
+    COMMODITY = "Commodity"
+    COMPONENT = "Component"
+    CONSUMABLE = "Consumable"
+    DECORATION = "Decoration"
+    FPS_WEAPON = "FPSWeapon"
+    SHIP_WEAPON = "ShipWeapon"
+    MELEE_WEAPON = "MeleeWeapon"
+    THROWABLE_WEAPON = "ThrowableWeapon"

@@ -12,20 +12,18 @@ import tseslint from "typescript-eslint";
 
 import svelteConfig from "./apps/web/svelte.config.js";
 
-const convexApp = defineConfig(
-	{
-		name: "convex/rules",
-		files: ["./apps/convex/**/*.ts"],
-		rules: {
-			// Disabled due to performance issues, only uncomment to check for cycles
-			// "import/no-cycle": "error"
-		}
+const convexApp = defineConfig({
+	name: "convex/rules",
+	files: ["./apps/convex/**/*.ts"],
+	rules: {
+		// Disabled due to performance issues, only uncomment to check for cycles
+		// "import/no-cycle": "error"
 	}
-);
+});
 
-const webApp = defineConfig({
-	name: "web",
-	files: ["./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
+const svelteApps = defineConfig({
+	name: "svelte-apps",
+	files: ["./apps/docs/**/*.{js,ts,svelte,svelte.ts}", "./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
 	languageOptions: {
 		globals: {
 			...globals.browser,
@@ -37,6 +35,14 @@ const webApp = defineConfig({
 			parser: tseslint.parser,
 			svelteConfig
 		}
+	},
+	rules: {
+		"import/no-unresolved": [
+			"error",
+			{
+				ignore: ["^\\$app/.+", "^\\$env/.+", "^virtual:.+"]
+			}
+		]
 	}
 });
 
@@ -114,12 +120,6 @@ export default defineConfig(
 	{
 		name: "global/rules",
 		rules: {
-			"import/no-unresolved": [
-				"error",
-				{
-					ignore: ["^\\$app/.+", "^\\$env/.+"]
-				}
-			],
 			"import/no-duplicates": "off",
 			"import/order": [
 				"warn",
@@ -177,5 +177,5 @@ export default defineConfig(
 
 	sveltePackages,
 	convexApp,
-	webApp
+	svelteApps
 );

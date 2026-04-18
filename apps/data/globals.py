@@ -19,4 +19,14 @@ sc.p4k.expand_subarchives()
 sc.datacore
 print("Loaded data.p4k in", round((time.time() - _load_start) * 100) / 100, "seconds")
 
+def record_data_by_guid(guid: str):
+    if guid == EMPTY_GUID:
+        return None
+
+    record = sc.datacore.records_by_guid.get(guid)
+    if not record:
+        return None
+    
+    return sc.datacore.record_to_dict(record)
+
 # client = ConvexClient(CONVEX_URL)

@@ -21,7 +21,7 @@ const Customization = {
 	input: async (
 		ctx: GenericCtx,
 		args: ObjectType<typeof SecretArgs>,
-		input: RateLimitCtxInput & FeatureFlagsCtxInput & AsUserCtxInput
+		input: RateLimitCtxInput & FeatureFlagsCtxInput
 	) => {
 		return {
 			ctx: await CtxExtensionMerger.merge(

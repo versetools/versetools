@@ -1,0 +1,45 @@
+<script lang="ts" module>
+  export type ActionButtonProps = {
+    label: string,
+    type?: string,
+    to: string,
+    external?: boolean
+  }
+</script>
+
+<script>
+  import External from './icons/External.svelte'
+  import { getPathFromBase } from './utils'
+
+  let { label, type = '', to, external = false }: ActionButtonProps = $props()
+</script>
+
+<a
+  href={external ? to : getPathFromBase(to)}
+  class={`svp-action ${type ? `svp-action--${type}` : ''}`}
+  target={external ? '_blank' : ''}
+>
+  <span class="label">
+    {label}
+  </span>
+  {#if external}
+    <div class="external-icon">
+      <External />
+    </div>
+  {/if}
+</a>
+
+<style>
+  .svp-action {
+    --at-apply: 'inline-flex items-center h-12 leading-12 rounded-6 px-6 bg-white dark:bg-zinc-8 transition-300 transition-shadow hover:shadow dark:hover:shadow-gray-6';
+  }
+  .svp-action--primary {
+    --at-apply: 'svp-gradient-bg text-white dark:text-warm-gray-8';
+  }
+  .external-icon {
+    --at-apply: 'text-6 ml-2 flex items-center';
+  }
+  .label {
+    --at-apply: 'font-semibold flex-grow text-center';
+  }
+</style>

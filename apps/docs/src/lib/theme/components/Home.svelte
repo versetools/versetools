@@ -1,0 +1,97 @@
+<script lang="ts" module>
+  export type HomeProps = {
+    isHomepage?: boolean,
+    title?: string,
+    description?: string,
+    features?: Omit<FeatureProps, 'i'>[],
+    actions?: ActionButtonProps[],
+    tagline?: string,
+    siteConfig?: SiteConfig,
+    heroImage?: Snippet,
+    children?: Snippet
+  }
+</script>
+
+<script lang="ts">
+  import type { SiteConfig } from '@sveltepress/vite';
+	import type { Snippet } from 'svelte';
+
+  import ActionButton, { type ActionButtonProps } from './ActionButton.svelte'
+  import Feature, { type FeatureProps } from './home/Feature.svelte'
+
+  const {
+    isHomepage = false,
+    siteConfig,
+    title = isHomepage ? siteConfig.title : '',
+    description = isHomepage ? siteConfig.description : '',
+    features = [],
+    actions = [],
+    tagline = '',
+    heroImage,
+    children,
+  } = $props()
+</script>
+
+<div class="home-page">
+  <div class="title">
+    <div class="intro">
+      <div class="gradient-title">
+        {title}
+      </div>
+      {#if description}
+        <div class="description">
+          {description}
+        </div>
+      {/if}
+      {#if tagline}
+        <div class="tagline">
+          {tagline}
+        </div>
+      {/if}
+    </div>
+    {#if heroImage}
+      {@render heroImage()}
+    {/if}
+  </div>
+
+  <div class="actions">
+    {#each actions as action (action)}
+      <ActionButton {...action} />
+    {/each}
+  </div>
+
+  <div class="features">
+    {#each features as fe, i (fe)}
+      <Feature {...fe} {i} />
+    {/each}
+  </div>
+</div>
+
+{@render children?.()}
+
+<style>
+  .home-page {
+    --at-apply: 'sm:w-[70vw] max-w-[1152px] mx-auto sm:px-0 px-4 pt-4';
+  }
+  .title {
+    --at-apply: 'sm:text-16 text-10 grid grid-cols-12 font-700 leading-24';
+  }
+  .description {
+    --at-apply: 'text-8 leading-10 sm:text-inherit';
+  }
+  .intro {
+    --at-apply: 'col-start-1 sm:col-span-7 col-span-12 row-start-2 sm:row-start-1 text-center sm:text-left';
+  }
+  .gradient-title {
+    --at-apply: 'svp-gradient-text';
+  }
+  .tagline {
+    --at-apply: 'text-slate-5 dark:text-slate-4 text-5 mt-2 font-500 leading-7 font-normal';
+  }
+  .actions {
+    --at-apply: 'grid-cols-1 px-10 sm:px-0 grid sm:flex gap-4 mt-6 justify-center sm:justify-start max-w-[320px] mx-auto sm:max-w-none';
+  }
+  .features {
+    --at-apply: 'grid sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6 grid-cols-1 mb-4';
+  }
+</style>

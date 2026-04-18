@@ -77,7 +77,7 @@ def get_contract_params(contract_params: dict, mission_id_for_logging: str):
 
     type_override_id = contract_params.get("missionTypeOverride")
     if type_override_id and type_override_id != EMPTY_GUID:
-        params["type"] = get_mission_type(type_override_id)
+        params["contractType"] = get_mission_type(type_override_id)
 
     for param in contract_params.get("boolParamOverrides", []):
         param = param["ContractBoolParam"]
@@ -105,11 +105,14 @@ def get_contract_params(contract_params: dict, mission_id_for_logging: str):
 
     for property in contract_params.get("propertyOverrides", []):
         property = property["MissionProperty"]
+        text_token = property["extendedTextToken"]
+        value = property["value"]
+        if not value:
+            continue
         
-        if property["extendedTextToken"] == "Contractor":
-            match_conditions = property.get("matchConditions")
+        if text_token == "Contractor":
+            match_conditions = value.get("matchConditions")
             if not match_conditions:
-                print("Warning: Contractor property has no match conditions", mission_id_for_logging, match_conditions)
                 continue
 
             if len(match_conditions) != 1:
@@ -122,7 +125,6 @@ def get_contract_params(contract_params: dict, mission_id_for_logging: str):
 
             organisations = condition.get("organizations")
             if not organisations:
-                print("Warning: Contractor condition has no organisations", mission_id_for_logging, organisations)
                 continue
 
             if len(organisations) > 1:
@@ -130,7 +132,7 @@ def get_contract_params(contract_params: dict, mission_id_for_logging: str):
                 continue
 
             contractor_id = next(iter(organisations[0].values()))
-            params["contractor_id"] = contractor_id
+            params["contractorGuid"] = str(contractor_id)
 
     return params
 
@@ -194,9 +196,9 @@ def mission_from_contract(contract: dict, base_status: str, base_params: dict, g
         contractor = sc.datacore.records_by_guid.get(mission["contractor_id"]) if mission["contractor_id"] != EMPTY_GUID else None
         contractor = sc.datacore.record_to_dict(contractor) if contractor else None
 
-    if contractor:
-        if not mission["contractor"]:
-            mission["contractor"] = translate()
+    # if contractor:
+    #     if not mission["contractor"]:
+    #         mission["contractor"] = translate()
 
     results = contract.get("contractResults")
     if results:

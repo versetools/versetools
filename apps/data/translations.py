@@ -1,3 +1,4 @@
+from typing import Union
 from globals import sc
 
 localization_overrides = {
@@ -21,3 +22,19 @@ def translate(key: str):
         result = sc.gettext(key)
 
     return result
+
+def translation_ref(key: str, override_value: Union[str, None] = None):
+    return {
+        "translationKey": key,
+        "value": override_value if override_value else translate(key)
+    }
+
+def missing_translation(ref: dict):
+    normalised_translsation_key: str = ref["translationKey"].lower()
+    if normalised_translsation_key.startswith("@"):
+        normalised_translsation_key = normalised_translsation_key[1:]
+
+    if normalised_translsation_key in ["#!missing", "loc_empty", "loc_placeholder"]:
+        return True
+
+    return ref["value"] == ref["translationKey"]

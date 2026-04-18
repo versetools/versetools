@@ -1,15 +1,25 @@
 export const config = {
-	name: "VerseTools",
+	name: "Versetools",
 	domain: "versetools.com",
+	company: {
+		name: "L3 Software Ltd",
+		address: {
+			line1: "128 City Road, London",
+			country: "United Kingdom",
+			postcode: "EC1V 2NX"
+		}
+	},
 	emails: {
 		support: "support@versetools.com",
+		privacy: "privacy@versetools.com",
+		reports: "reports@versetools.com",
 		noreply: "noreply@versetools.com",
 		datarequest: "datarequest@versetools.com"
 	},
 	policies: {
-		terms: `https://versetools.com/terms-of-service`,
-		privacy: `https://versetools.com/privacy-policy`,
-		cookies: `https://versetools.com/cookie-policy`
+		terms: `https://docs.versetools.com/policies/terms`,
+		privacy: `https://docs.versetools.com/policies/privacy`,
+		cookies: `https://docs.versetools.com/policies/cookies`
 	},
 	creatorHandle: "@l3dotdev",
 	socials: {

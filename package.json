@@ -12,6 +12,7 @@
         "dev:convex": "pnpm --filter=convex dev",
         "dev:web": "pnpm --filter=web dev",
         "dev:discord": "pnpm --filter=discord dev",
+        "dev:docs": "pnpm --filter=docs dev",
         "format": "syncpack format && pnpm -r format",
         "lint": "syncpack lint && pnpm -r lint",
         "lint-fix": "pnpm -r lint-fix",
