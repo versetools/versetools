@@ -1,4 +1,12 @@
 <script lang="ts" module>
+	type BreakpointClasses = {
+		class: string;
+		asideClass: string;
+		asideClosedClass: string;
+		openClass: string;
+		closeClass: string;
+	};
+
 	const breakpoints = {
 		window: {
 			class: "lg:w-full",
@@ -28,16 +36,7 @@
 			openClass: "",
 			closeClass: ""
 		}
-	} as const satisfies Record<
-		string,
-		{
-			class: string;
-			asideClass: string;
-			asideClosedClass: string;
-			openClass: string;
-			closeClass: string;
-		}
-	>;
+	} as const satisfies Record<string, BreakpointClasses>;
 
 	export type SidebarProps = {
 		class?: string;
@@ -48,6 +47,7 @@
 		CloseIcon?: Component;
 		width?: number | string;
 		breakpoint?: keyof typeof breakpoints;
+		customBreakpoint?: BreakpointClasses;
 		children: Snippet;
 		openButton?: Snippet;
 		closeButton?: Snippet;
@@ -73,12 +73,14 @@
 		CloseIcon,
 		width = 260,
 		breakpoint = "window",
+		customBreakpoint,
 		children,
 		openButton,
 		closeButton,
 		...rest
 	}: SidebarProps = $props();
 
+	const breakpointClasses = $derived(breakpoint === "custom" ? customBreakpoint : breakpoints[breakpoint]);
 	const widthMeasure = $derived(typeof width === "number" ? `${width}px` : width);
 
 	let asideNode: HTMLElement;
@@ -101,7 +103,7 @@
 </script>
 
 <div
-	class={twMerge("max-w-(--sidebar-width) relative w-0", breakpoints[breakpoint].class, className)}
+	class={twMerge("max-w-(--sidebar-width) relative w-0", breakpointClasses?.class, className)}
 	style="--sidebar-width:{widthMeasure};"
 >
 	{#if !open}
@@ -112,7 +114,7 @@
 			corners="none"
 			class={twMerge(
 				"z-1 absolute left-full top-0 ml-4 mt-4",
-				breakpoints[breakpoint].openClass,
+				breakpointClasses?.openClass,
 				openClass
 			)}
 			onclick={() => (open = true)}
@@ -125,9 +127,9 @@
 		bind:this={asideNode}
 		class={twMerge(
 			"bg-sidebar border-sidebar-border w-(--sidebar-width) left-0 top-0 flex h-full max-h-screen flex-col border-r transition-transform",
-			breakpoints[breakpoint].asideClass,
+			breakpointClasses?.asideClass,
 			breakpoint === "window" ? "z-41 fixed" : "sticky z-40",
-			open ? "translate-x-0" : breakpoints[breakpoint].asideClosedClass,
+			open ? "translate-x-0" : breakpointClasses?.asideClosedClass,
 			innerClass
 		)}
 	>
@@ -136,7 +138,7 @@
 			variant="ghost"
 			size="icon"
 			corners="none"
-			class={twMerge("absolute left-4 top-4", breakpoints[breakpoint].closeClass, closeClass)}
+			class={twMerge("absolute left-4 top-4", breakpointClasses?.closeClass, closeClass)}
 			onclick={() => (open = false)}
 		>
 			{@render closeButton?.()}
