@@ -27,6 +27,6 @@ Since the number and names of cookies may change, the table below may be updated
 | -------------------------------------- | --------------- | ------------------------------------------------------------------------------------ | ---------------- |
 | {config.name}                          | `consent`       | This cookie is used to track your consent choices on the web page                    | One year         |
 | {config.name}                          | `consent_date`  | This cookie is used to record when you last updated your consent preferences         | One year         |
-| [Posthog](https://posthog.com/privacy) | `ph_session`    | This cookie is used for analytics to store and track your visits across our websites | One year         |
+| [Posthog](https://posthog.com/privacy) | `posthog_user`  | This cookie is used for analytics to store and track your visits across our websites | One year         |
 
 \*_The expiration dates for the cookies listed above generally apply on a rolling basis._

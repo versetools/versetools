@@ -59,7 +59,7 @@ function createPosthogState() {
 				posthogjs.init(PUBLIC_POSTHOG_KEY, {
 					api_host: PUBLIC_POSTHOG_PROXY,
 					ui_host: "https://eu.i.posthog.com",
-					persistence_name: "ph_session",
+					persistence_name: "posthog_user",
 					persistence: consent.isEnabled("posthog") ? "localStorage+cookie" : "memory",
 					capture_exceptions: true,
 					disable_surveys: false
