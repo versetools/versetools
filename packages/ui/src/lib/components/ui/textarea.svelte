@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	const variants = tv({
-		base: "outline-hidden placeholder:text-input-placeholder relative flex w-full px-4 py-3",
+		base: "placeholder:text-input-placeholder relative flex w-full px-4 py-3 outline-hidden",
 		variants: {
 			size: {
 				base: "text-sm font-medium placeholder:text-sm",
@@ -54,7 +54,7 @@
 
 <div class={twMerge("relative", className)}>
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		corners="none small"
 		bg="--color-input"
 		border="--color-input-border"

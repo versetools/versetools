@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	const variants = tv({
-		base: "relative h-fit py-2.5 pl-10 pr-4",
+		base: "relative h-fit py-2.5 pr-4 pl-10",
 		variants: {
 			variant: {
 				default:
@@ -240,19 +240,19 @@
 	}}
 >
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		corners="none small"
 		bg="--date-picker-bg"
 		border="--date-picker-border"
 	/>
 	{#if disabled}
-		<div class="absolute left-0 top-0 h-full w-full p-px">
+		<div class="absolute top-0 left-0 h-full w-full p-px">
 			<Twill class="opacity-60" corners="none small" stroke="var(--date-picker-border)" />
 		</div>
 	{/if}
 	<CalendarIcon
 		class={twMerge(
-			"absolute bottom-0 left-3 top-0 my-auto size-5 outline-none",
+			"absolute top-0 bottom-0 left-3 my-auto size-5 outline-none",
 			disabled || readonly ? "opacity-60" : "cursor-pointer transition-opacity hover:opacity-70"
 		)}
 	/>

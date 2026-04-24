@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	const variants = tv({
-		base: "group/accordion-item not-last:[--content-bg-visibility:hidden] flex flex-col first:[--round-top:var(--radius-md)] last:[--round-bottom:var(--radius-md)]",
+		base: "group/accordion-item flex flex-col not-last:[--content-bg-visibility:hidden] first:[--round-top:var(--radius-md)] last:[--round-bottom:var(--radius-md)]",
 		variants: {
 			variant: {
 				primary:
@@ -69,7 +69,7 @@
 			{...item.trigger}
 			{...rest}
 			class={twMerge(
-				"accordion-item-trigger bg-(--accordion-bg) text-(--accordion-text) border-(--accordion-border) rounded-t-(--round-top) data-[state='closed']:rounded-b-(--round-bottom) border-b-1 flex w-full cursor-pointer items-center p-4 text-left font-medium",
+				"accordion-item-trigger flex w-full cursor-pointer items-center rounded-t-(--round-top) border-b-1 border-(--accordion-border) bg-(--accordion-bg) p-4 text-left font-medium text-(--accordion-text) data-[state='closed']:rounded-b-(--round-bottom)",
 				buttonClass,
 				border && "border-x-1 group-first/accordion-item:border-t-1",
 				!item.isExpanded && !border && "group-last/accordion-item:border-0"
@@ -89,13 +89,13 @@
 		<div
 			{...item.content}
 			class={twMerge(
-				"border-(--accordion-border) border-b-1 rounded-b-(--round-bottom) text-(--accordion-inner-text) bg-(--accordion-inner-bg) relative overflow-hidden p-4 text-sm font-medium group-last/accordion-item:border-0 group-last/accordion-item:bg-transparent",
+				"relative overflow-hidden rounded-b-(--round-bottom) border-b-1 border-(--accordion-border) bg-(--accordion-inner-bg) p-4 text-sm font-medium text-(--accordion-inner-text) group-last/accordion-item:border-0 group-last/accordion-item:bg-transparent",
 				contentClass
 			)}
 			transition:slide={{ duration: 200 }}
 		>
 			<StyledRect
-				class="absolute left-0 top-0 h-full w-full [visibility:var(--content-bg-visibility)]"
+				class="[visibility:var(--content-bg-visibility)] absolute top-0 left-0 h-full w-full"
 				corners="none large"
 				bg="--accordion-inner-bg"
 				rounded="large"

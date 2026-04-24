@@ -71,7 +71,7 @@
 		? `var(${border})`
 		: border};"
 	class={twMerge(
-		"border-(--rect-border) grid grid-rows-[1fr] stroke-0",
+		"grid grid-rows-[1fr] border-(--rect-border) stroke-0",
 		topLeft !== "none" || bottomRight !== "none" ? "grid-cols-2" : "grid-cols-1",
 		className
 	)}
@@ -94,10 +94,10 @@
 				bg="--rect-bg"
 				border="--rect-border"
 			/>
-			<div class="bg-(--rect-bg) border-t-1 border-inherit"></div>
+			<div class="border-t-1 border-inherit bg-(--rect-bg)"></div>
 			<div
 				class={twMerge(
-					"bg-(--rect-bg) border-b-1 border-l-1 col-span-2 border-inherit",
+					"col-span-2 border-b-1 border-l-1 border-inherit bg-(--rect-bg)",
 					!isConnected(connect, ["left", "bottom"]) &&
 						(rounded === "large" ? "rounded-bl-md" : "rounded-bl-sm")
 				)}
@@ -107,19 +107,19 @@
 	{#if topLeft === "none" || bottomRight === "none"}
 		<div
 			class={twMerge(
-				"bg-(--rect-bg) border-t-1 border-b-1 border-inherit",
+				"border-t-1 border-b-1 border-inherit bg-(--rect-bg)",
 				!isConnected(connect, ["left", "top"]) &&
 					topLeft === "none" &&
-					(rounded === "large" ? "border-l-1 rounded-tl-md" : "border-l-1 rounded-tl-sm"),
+					(rounded === "large" ? "rounded-tl-md border-l-1" : "rounded-tl-sm border-l-1"),
 				!isConnected(connect, ["left", "bottom"]) &&
 					topLeft === "none" &&
-					(rounded === "large" ? "border-l-1 rounded-bl-md" : "border-l-1 rounded-bl-sm"),
+					(rounded === "large" ? "rounded-bl-md border-l-1" : "rounded-bl-sm border-l-1"),
 				!isConnected(connect, ["right", "top"]) &&
 					bottomRight === "none" &&
-					(rounded === "large" ? "border-r-1 rounded-tr-md" : "border-r-1 rounded-tr-sm"),
+					(rounded === "large" ? "rounded-tr-md border-r-1" : "rounded-tr-sm border-r-1"),
 				!isConnected(connect, ["right", "bottom"]) &&
 					bottomRight === "none" &&
-					(rounded === "large" ? "border-r-1 rounded-br-md" : "border-r-1 rounded-br-sm")
+					(rounded === "large" ? "rounded-br-md border-r-1" : "rounded-br-sm border-r-1")
 			)}
 		></div>
 	{/if}
@@ -133,12 +133,12 @@
 		>
 			<div
 				class={twMerge(
-					"bg-(--rect-bg) border-t-1 border-r-1 col-span-2 border-inherit",
+					"col-span-2 border-t-1 border-r-1 border-inherit bg-(--rect-bg)",
 					!isConnected(connect, ["right", "top"]) &&
 						(rounded === "large" ? "rounded-tr-md" : "rounded-tr-sm")
 				)}
 			></div>
-			<div class="bg-(--rect-bg) border-b-1 border-inherit"></div>
+			<div class="border-b-1 border-inherit bg-(--rect-bg)"></div>
 			<StyledCorner
 				corner="bottomRight"
 				size={getCornerSize(bottomRight, inner)}

@@ -64,7 +64,7 @@
 		onclick?.(e);
 	}}
 	class={twMerge(
-		"group/checkbox bg-checkbox border-checkbox-border border-1 relative inline-flex aspect-square size-6 cursor-pointer items-center justify-center rounded-sm",
+		"group/checkbox bg-checkbox border-checkbox-border relative inline-flex aspect-square size-6 cursor-pointer items-center justify-center rounded-sm border-1",
 		checkbox.value && "bg-checkbox-on border-checkbox-on-border",
 		className
 	)}

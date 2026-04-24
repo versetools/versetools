@@ -53,7 +53,7 @@
 <input {...control.hiddenInput} {...rest} />
 <div {...control.root} class={twMerge("relative", className)}>
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		corners="small"
 		bg="--color-input"
 		border="--color-input-border"

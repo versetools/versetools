@@ -83,7 +83,7 @@
 		<div {...tooltip.arrow} class="size-2"></div>
 	</div>
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		{corners}
 		bg="--color-tooltip"
 		border="--color-tooltip-border"

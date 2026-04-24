@@ -30,7 +30,7 @@
 	{...rest}
 	{...element}
 	use:element
-	class={twMerge("gap-0.25 flex flex-col px-5 pb-4", className)}
+	class={twMerge("flex flex-col gap-0.25 px-5 pb-4", className)}
 >
 	{@render children?.()}
 </svelte:element>

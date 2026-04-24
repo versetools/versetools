@@ -45,7 +45,7 @@
 <Combobox option-class="justify-center" {...rest} {options} {highlighted} showAllOptions bind:value>
 	{#snippet customInput({ combobox, value, props })}
 		<DurationInput
-			class="py-2.5 pl-4 pr-10"
+			class="py-2.5 pr-10 pl-4"
 			{...props}
 			bind:value={
 				() => value,

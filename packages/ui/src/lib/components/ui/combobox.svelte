@@ -46,7 +46,7 @@
 	type Variant = VariantProps<typeof variants>;
 
 	const inputVariants = tv({
-		base: "outline-hidden placeholder:text-combobox-placeholder text-(--combobox-text) w-full !bg-transparent py-3 pl-4",
+		base: "placeholder:text-combobox-placeholder w-full !bg-transparent py-3 pl-4 text-(--combobox-text) outline-hidden",
 		variants: {
 			size: {
 				sm: "py-2 text-sm font-medium placeholder:text-sm",
@@ -59,7 +59,7 @@
 	type InputVariant = VariantProps<typeof inputVariants>;
 
 	const itemVariants = tv({
-		base: "group/combobox-item border-1 flex cursor-pointer items-center gap-1 rounded-sm px-1 text-sm hover:brightness-125",
+		base: "group/combobox-item flex cursor-pointer items-center gap-1 rounded-sm border-1 px-1 text-sm hover:brightness-125",
 		variants: {
 			variant: {
 				default: "bg-combobox-item border-combobox-item-border",
@@ -74,7 +74,7 @@
 	});
 
 	const optionVariants = tv({
-		base: "data-highlighted:bg-white/5 flex cursor-pointer items-center gap-2 bg-white/0 p-2 transition-colors hover:bg-white/5",
+		base: "flex cursor-pointer items-center gap-2 bg-white/0 p-2 transition-colors hover:bg-white/5 data-highlighted:bg-white/5",
 		variants: {
 			size: {
 				sm: "text-sm font-medium",
@@ -261,18 +261,18 @@
 
 <div class={twMerge(variants({ variant, disabled, readonly }), className)}>
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		corners="none small"
 		bg="--combobox-bg"
 		border="--combobox-border"
 	/>
 	{#if disabled}
-		<div class="absolute left-0 top-0 h-full w-full p-px">
+		<div class="absolute top-0 left-0 h-full w-full p-px">
 			<Twill class="opacity-60" corners="none small" stroke="var(--combobox-border)" />
 		</div>
 	{/if}
 	{#if atleastOneSelected}
-		<div class="relative flex w-full flex-wrap gap-2 pl-4 pr-8 pt-3">
+		<div class="relative flex w-full flex-wrap gap-2 pt-3 pr-8 pl-4">
 			{#each selected as TOption[] as option (option.value)}
 				<button
 					type="button"
@@ -291,7 +291,7 @@
 		</div>
 	{/if}
 	{#if !multiple && !Array.isArray(selected) && selected && (selected.Icon || selected.icon)}
-		<div class="absolute bottom-0 left-3 top-0 flex items-center">
+		<div class="absolute top-0 bottom-0 left-3 flex items-center">
 			{#if selected.Icon}
 				<selected.Icon
 					{...selected.iconProps}
@@ -341,7 +341,7 @@
 	{#if showClearButton}
 		<button
 			type="button"
-			class="absolute bottom-0 right-8 top-0 my-auto cursor-pointer opacity-60 outline-none transition-opacity hover:opacity-70"
+			class="absolute top-0 right-8 bottom-0 my-auto cursor-pointer opacity-60 transition-opacity outline-none hover:opacity-70"
 			aria-label="Clear"
 			onclick={clear}
 		>
@@ -350,18 +350,18 @@
 	{/if}
 	{#if disabled || readonly}
 		<ChevronDownIcon
-			class="absolute bottom-0 right-2 top-0 my-auto size-5 opacity-60 outline-none"
+			class="absolute top-0 right-2 bottom-0 my-auto size-5 opacity-60 outline-none"
 		/>
 	{:else}
 		<ChevronDownIcon
 			{...combobox.trigger}
-			class="absolute bottom-0 right-2 top-0 my-auto size-5 cursor-pointer outline-none transition-opacity hover:opacity-70"
+			class="absolute top-0 right-2 bottom-0 my-auto size-5 cursor-pointer transition-opacity outline-none hover:opacity-70"
 		/>
 	{/if}
 
 	<div {...combobox.content} class="relative overflow-hidden rounded-sm bg-transparent">
 		<StyledRect
-			class="absolute left-0 top-0 h-full w-full"
+			class="absolute top-0 left-0 h-full w-full"
 			corners="none small"
 			bg="--combobox-popover-bg"
 			border="--combobox-popover-border"

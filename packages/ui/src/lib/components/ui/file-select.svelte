@@ -40,18 +40,18 @@
 
 <div class={twMerge("flex flex-col", className)}>
 	<div
-		class="bg-file-select-toolbar border-file-select-border border-1 flex flex-wrap items-center rounded-t-md border-b-0"
+		class="bg-file-select-toolbar border-file-select-border flex flex-wrap items-center rounded-t-md border-1 border-b-0"
 	>
-		<div class="w-34 relative h-[38px] self-stretch">
+		<div class="relative h-[38px] w-34 self-stretch">
 			<div
 				{...modeTabs.triggerList}
-				class="z-1 absolute -left-px -top-px flex h-[calc(100%+2px)] items-end"
+				class="absolute -top-px -left-px z-1 flex h-[calc(100%+2px)] items-end"
 			>
 				{#each Object.keys(modes) as Mode[] as mode (mode)}
 					<button
 						type="button"
 						{...modeTabs.getTrigger(mode)}
-						class="text-text-80 border-1 data-active:bg-file-select-input data-active:text-text data-active:border-file-select-border cursor-pointer self-stretch rounded-t-md border-b-0 border-transparent px-2 text-sm"
+						class="text-text-80 data-active:bg-file-select-input data-active:text-text data-active:border-file-select-border cursor-pointer self-stretch rounded-t-md border-1 border-b-0 border-transparent px-2 text-sm"
 					>
 						{modes[mode]}
 					</button>
@@ -61,7 +61,7 @@
 	</div>
 	<div class="relative">
 		<StyledRect
-			class="absolute left-0 top-0 h-full w-full"
+			class="absolute top-0 left-0 h-full w-full"
 			corners="none small"
 			rounded="large"
 			connect="top"

@@ -40,7 +40,7 @@
 <nav class={twMerge("flex flex-col px-4 tracking-wide", className)}>
 	{#each items as item (item)}
 		{#if "title" in item}
-			<span class="not-first:pt-4 pb-1 text-xs font-medium">{item.title}</span>
+			<span class="pb-1 text-xs font-medium not-first:pt-4">{item.title}</span>
 		{:else}
 			<Item class={itemClass} inner-class={itemInnerClass} {item} {itemEnd} {isItemActive} />
 		{/if}

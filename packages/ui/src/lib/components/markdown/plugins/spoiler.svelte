@@ -13,7 +13,7 @@
 			type="button"
 			title="Show spoiler content"
 			aria-label="Show spoiler content"
-			class="bg-spoiler hover:bg-spoiler-hover absolute left-0 top-0 h-full w-full cursor-pointer rounded transition-colors"
+			class="bg-spoiler hover:bg-spoiler-hover absolute top-0 left-0 h-full w-full cursor-pointer rounded transition-colors"
 			out:fade={{ duration: 100 }}
 			onclick={() => (shown = true)}
 		></button>

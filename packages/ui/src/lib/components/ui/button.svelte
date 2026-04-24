@@ -119,7 +119,7 @@
 	} from "./styled-rect.svelte";
 
 	const backgroundVariants = tv({
-		base: "absolute left-0 top-0 h-full w-full",
+		base: "absolute top-0 left-0 h-full w-full",
 		variants: {
 			variant: {
 				ghost:
@@ -230,7 +230,7 @@
 	{#if variant === "destructive" && !nopattern}
 		<div
 			class={twMerge(
-				"absolute left-0 top-0 h-full w-full overflow-hidden",
+				"absolute top-0 left-0 h-full w-full overflow-hidden",
 				rounded === "large" ? "rounded-md" : "rounded-sm"
 			)}
 		>

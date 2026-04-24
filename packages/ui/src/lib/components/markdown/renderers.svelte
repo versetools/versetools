@@ -14,7 +14,7 @@
 	<Heading as="h1" size="lg" {...props} class={props.class as string}>
 		{@render props.children?.()}
 	</Heading>
-	<hr class="border-hr mb-4 mt-1.5" />
+	<hr class="border-hr mt-1.5 mb-4" />
 {/snippet}
 
 {#snippet h2(props: SvelteHTMLElements["h2"])}
@@ -47,13 +47,13 @@
 
 {#snippet blockquote(props: SvelteHTMLElements["blockquote"])}
 	<blockquote {...props} class={twMerge("relative my-2 pl-3", props.class as ClassNameValue)}>
-		<div class="bg-border absolute left-0 top-0 h-full w-[4px] rounded-full"></div>
+		<div class="bg-border absolute top-0 left-0 h-full w-[4px] rounded-full"></div>
 		{@render props.children?.()}
 	</blockquote>
 {/snippet}
 
 {#snippet ul(props: SvelteHTMLElements["ul"])}
-	<ul {...props} class={twMerge("pl-2.75 list-outside list-disc", props.class as ClassNameValue)}>
+	<ul {...props} class={twMerge("list-outside list-disc pl-2.75", props.class as ClassNameValue)}>
 		{@render props.children?.()}
 	</ul>
 {/snippet}
@@ -61,7 +61,7 @@
 {#snippet ol(props: SvelteHTMLElements["ol"])}
 	<ol
 		{...props}
-		class={twMerge("pl-2.75 list-outside list-decimal", props.class as ClassNameValue)}
+		class={twMerge("list-outside list-decimal pl-2.75", props.class as ClassNameValue)}
 	>
 		{@render props.children?.()}
 	</ol>

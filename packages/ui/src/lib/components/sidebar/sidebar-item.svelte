@@ -96,7 +96,7 @@
 			<item.Icon class={cls} />
 		{/if}
 	{/snippet}
-	<span class={twMerge("line-clamp-1 flex-1 break-all font-medium", innerClass)}>{item.name}</span>
+	<span class={twMerge("line-clamp-1 flex-1 font-medium break-all", innerClass)}>{item.name}</span>
 	{@render itemEnd?.(item)}
 	{#if collapsible}
 		<ChevronDownIcon

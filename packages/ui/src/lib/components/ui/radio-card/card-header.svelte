@@ -17,7 +17,7 @@
 	{@render children?.()}
 	<div
 		class={twMerge(
-			"border-1 border-input-border bg-input grid size-5 place-items-center rounded-full",
+			"border-input-border bg-input grid size-5 place-items-center rounded-full border-1",
 			item.checked && "border-radio-active-border"
 		)}
 	>

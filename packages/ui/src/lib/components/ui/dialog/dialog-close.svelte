@@ -24,7 +24,7 @@
 	corners="none"
 	{...rest}
 	element={close}
-	class={twMerge(!inline && "absolute right-2 top-2", className)}
+	class={twMerge(!inline && "absolute top-2 right-2", className)}
 >
 	{#if children}
 		{@render children?.()}

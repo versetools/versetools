@@ -114,7 +114,7 @@
 			class="relative flex aspect-video w-full flex-col items-center justify-center"
 		>
 			<StyledRect
-				class="absolute left-0 top-0 h-full w-full"
+				class="absolute top-0 left-0 h-full w-full"
 				corners="small"
 				bg="--color-input"
 				border="--color-input-border"
@@ -183,7 +183,7 @@
 							<PencilLineIcon class="text-text-60 mt-0.5 size-4 shrink-0" strokeWidth="2.5" />
 							<span
 								contenteditable
-								class="not-focus:line-clamp-1 break-all text-sm outline-none"
+								class="text-sm break-all outline-none not-focus:line-clamp-1"
 								bind:innerHTML={file.name}
 							></span>
 						</div>

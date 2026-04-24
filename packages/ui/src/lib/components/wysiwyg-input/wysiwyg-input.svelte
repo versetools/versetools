@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	const variants = tv({
-		base: "outline-hidden placeholder:text-input-placeholder relative flex w-full px-4 py-3 font-mono",
+		base: "placeholder:text-input-placeholder relative flex w-full px-4 py-3 font-mono outline-hidden",
 		variants: {
 			size: {
 				base: "text-sm placeholder:text-sm",
@@ -286,11 +286,11 @@
 	});
 </script>
 
-<div class={twMerge("@container/wysiwyg min-w-xs flex w-full flex-col", className)}>
+<div class={twMerge("@container/wysiwyg flex w-full min-w-xs flex-col", className)}>
 	<div
-		class="@xl/wysiwyg:flex-row-reverse @xl/wysiwyg:items-center bg-wysiwyg-toolbar border-wysiwyg-border border-1 flex flex-col flex-wrap justify-between rounded-t-md border-b-0"
+		class="bg-wysiwyg-toolbar border-wysiwyg-border flex flex-col flex-wrap justify-between rounded-t-md border-1 border-b-0 @xl/wysiwyg:flex-row-reverse @xl/wysiwyg:items-center"
 	>
-		<div class="@xl/wysiwyg:justify-end flex flex-wrap items-center px-1 py-0.5">
+		<div class="flex flex-wrap items-center px-1 py-0.5 @xl/wysiwyg:justify-end">
 			<WysiwygAction
 				title="Bold"
 				Icon={BoldIcon}
@@ -341,16 +341,16 @@
 				/>
 			</div>
 		</div>
-		<div class="w-34 relative h-[38px] self-stretch">
+		<div class="relative h-[38px] w-34 self-stretch">
 			<div
 				{...modeTabs.triggerList}
-				class="z-1 absolute -left-px -top-px flex h-[calc(100%+2px)] items-end"
+				class="absolute -top-px -left-px z-1 flex h-[calc(100%+2px)] items-end"
 			>
 				{#each Object.keys(modes) as Mode[] as mode (mode)}
 					<button
 						type="button"
 						{...modeTabs.getTrigger(mode)}
-						class="text-text-80 border-1 data-active:bg-wysiwyg-input data-active:text-text data-active:border-wysiwyg-border cursor-pointer self-stretch rounded-t-md border-b-0 border-transparent px-2 text-sm"
+						class="text-text-80 data-active:bg-wysiwyg-input data-active:text-text data-active:border-wysiwyg-border cursor-pointer self-stretch rounded-t-md border-1 border-b-0 border-transparent px-2 text-sm"
 					>
 						{modes[mode]}
 					</button>
@@ -360,7 +360,7 @@
 	</div>
 	<div class="relative">
 		<StyledRect
-			class="absolute left-0 top-0 h-full w-full"
+			class="absolute top-0 left-0 h-full w-full"
 			corners="none small"
 			rounded="large"
 			connect="top"
@@ -376,7 +376,7 @@
 			bind:value
 			{onkeydown}
 		></textarea>
-		<div {...modeTabs.getContent("preview")} class="min-h-46 relative px-4 py-3 text-sm">
+		<div {...modeTabs.getContent("preview")} class="relative min-h-46 px-4 py-3 text-sm">
 			{#if !!value && !!value?.trim()}
 				<Markdown {...markdown} {value} />
 			{:else}

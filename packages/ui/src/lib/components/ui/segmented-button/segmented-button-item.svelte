@@ -8,13 +8,13 @@
 			},
 			variant: {
 				primary:
-					"data-highlighted:[--segmented-item-hover:var(--color-light-80)] text-dark [--segmented-item:var(--color-light)]",
+					"text-dark [--segmented-item:var(--color-light)] data-highlighted:[--segmented-item-hover:var(--color-light-80)]",
 				accent:
-					"data-highlighted:[--segmented-item-hover:var(--color-accent-80)] [--segmented-item:var(--color-accent)]",
+					"[--segmented-item:var(--color-accent)] data-highlighted:[--segmented-item-hover:var(--color-accent-80)]",
 				success:
-					"data-highlighted:[--segmented-item-hover:var(--color-success)] [--segmented-item:var(--color-success-dark)]",
+					"[--segmented-item:var(--color-success-dark)] data-highlighted:[--segmented-item-hover:var(--color-success)]",
 				destructive:
-					"data-highlighted:[--segmented-item-hover:var(--color-destructive-light)] [--segmented-item:var(--color-destructive)]"
+					"[--segmented-item:var(--color-destructive)] data-highlighted:[--segmented-item-hover:var(--color-destructive-light)]"
 			}
 		}
 	});
@@ -67,13 +67,13 @@
 	class={twMerge(
 		optionVariants({ size, variant: item.checked ? (option.variant ?? variant) : undefined }),
 		!item.checked &&
-			"data-highlighted:[--segmented-item-hover:var(--color-light)] [--segmented-item:var(--color-light)]",
+			"[--segmented-item:var(--color-light)] data-highlighted:[--segmented-item-hover:var(--color-light)]",
 		className
 	)}
 >
 	<StyledRect
 		class={twMerge(
-			"absolute left-0 top-0 h-full w-full",
+			"absolute top-0 left-0 h-full w-full",
 			!item.checked && (item.highlighted ? "opacity-10" : "opacity-0")
 		)}
 		corners="{index === 0 ? 'small' : 'none'} {index === totalOptions - 1 ? 'small' : 'none'}"

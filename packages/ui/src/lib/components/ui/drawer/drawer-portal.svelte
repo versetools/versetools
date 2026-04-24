@@ -10,8 +10,8 @@
 				xl: "max-w-xl"
 			},
 			side: {
-				left: "left-0 top-0",
-				right: "right-0 top-0"
+				left: "top-0 left-0",
+				right: "top-0 right-0"
 			} satisfies Record<DrawerSide, string>
 		}
 	});

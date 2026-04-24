@@ -18,7 +18,7 @@
 
 <div
 	class={twMerge(
-		"data-disabled:cursor-not-allowed data-disabled:opacity-50 flex cursor-pointer items-center gap-3 outline-none",
+		"flex cursor-pointer items-center gap-3 outline-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
 		className
 	)}
 	{...item.attrs}
@@ -26,7 +26,7 @@
 >
 	<div
 		class={twMerge(
-			"border-1 border-input-border bg-input grid size-5 place-items-center rounded-full",
+			"border-input-border bg-input grid size-5 place-items-center rounded-full border-1",
 			item.checked && "border-radio-active-border"
 		)}
 	>
@@ -38,7 +38,7 @@
 		{/if}
 	</div>
 
-	<span class="text-sm font-medium leading-none">
+	<span class="text-sm leading-none font-medium">
 		{option}
 	</span>
 </div>

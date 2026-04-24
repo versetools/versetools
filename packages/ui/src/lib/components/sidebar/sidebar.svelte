@@ -80,7 +80,9 @@
 		...rest
 	}: SidebarProps = $props();
 
-	const breakpointClasses = $derived(breakpoint === "custom" ? customBreakpoint : breakpoints[breakpoint]);
+	const breakpointClasses = $derived(
+		breakpoint === "custom" ? customBreakpoint : breakpoints[breakpoint]
+	);
 	const widthMeasure = $derived(typeof width === "number" ? `${width}px` : width);
 
 	let asideNode: HTMLElement;
@@ -103,7 +105,7 @@
 </script>
 
 <div
-	class={twMerge("max-w-(--sidebar-width) relative w-0", breakpointClasses?.class, className)}
+	class={twMerge("relative w-0 max-w-(--sidebar-width)", breakpointClasses?.class, className)}
 	style="--sidebar-width:{widthMeasure};"
 >
 	{#if !open}
@@ -113,7 +115,7 @@
 			size="icon"
 			corners="none"
 			class={twMerge(
-				"z-1 absolute left-full top-0 ml-4 mt-4",
+				"absolute top-0 left-full z-1 mt-4 ml-4",
 				breakpointClasses?.openClass,
 				openClass
 			)}
@@ -126,9 +128,9 @@
 		{...rest}
 		bind:this={asideNode}
 		class={twMerge(
-			"bg-sidebar border-sidebar-border w-(--sidebar-width) left-0 top-0 flex h-full max-h-screen flex-col border-r transition-transform",
+			"bg-sidebar border-sidebar-border top-0 left-0 flex h-full max-h-screen w-(--sidebar-width) flex-col border-r transition-transform",
 			breakpointClasses?.asideClass,
-			breakpoint === "window" ? "z-41 fixed" : "sticky z-40",
+			breakpoint === "window" ? "fixed z-41" : "sticky z-40",
 			open ? "translate-x-0" : breakpointClasses?.asideClosedClass,
 			innerClass
 		)}
@@ -138,7 +140,7 @@
 			variant="ghost"
 			size="icon"
 			corners="none"
-			class={twMerge("absolute left-4 top-4", breakpointClasses?.closeClass, closeClass)}
+			class={twMerge("absolute top-4 left-4", breakpointClasses?.closeClass, closeClass)}
 			onclick={() => (open = false)}
 		>
 			{@render closeButton?.()}

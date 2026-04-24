@@ -82,7 +82,7 @@
 		{...$portalled}
 		use:portalled
 		class={twMerge(
-			"fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center px-4 pb-4",
+			"fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center px-4 pb-4",
 			className
 		)}
 	>

@@ -91,7 +91,7 @@
 <div
 	{...toaster.root}
 	class={twMerge(
-		"fixed !bottom-4 !right-0 flex w-full max-w-sm flex-col items-end gap-1 overflow-x-hidden bg-transparent p-0 px-4",
+		"fixed !right-0 !bottom-4 flex w-full max-w-sm flex-col items-end gap-1 overflow-x-hidden bg-transparent p-0 px-4",
 		className
 	)}
 >
@@ -103,7 +103,7 @@
 			out:fly={{ x: 400 }}
 		>
 			<StyledRect
-				class="absolute left-0 top-0 h-full w-full"
+				class="absolute top-0 left-0 h-full w-full"
 				corners="none large"
 				bg="--toast-bg"
 				border="--toast-border"
@@ -117,16 +117,16 @@
 						Math.max(0, toast.data.customPercentage ?? toast.percentage)
 					)}%"
 				>
-					<div class="w-(--width) bg-(--toast-border) h-[12px] rounded-t-sm"></div>
+					<div class="h-[12px] w-(--width) rounded-t-sm bg-(--toast-border)"></div>
 				</div>
 			{/if}
 			<div class="relative flex items-start p-1">
 				<div class="flex flex-1 flex-col p-2">
 					<Heading as="h3" size="base" {...toast.title} class="flex">
 						{#if toast.data.variant === "success"}
-							<CheckIcon class="text-text-success mr-1 mt-0.5 size-5 shrink-0" />
+							<CheckIcon class="text-text-success mt-0.5 mr-1 size-5 shrink-0" />
 						{:else if toast.data.variant === "destructive"}
-							<OctagonAlertIcon class="text-text-destructive mr-1 mt-0.5 size-5 shrink-0" />
+							<OctagonAlertIcon class="text-text-destructive mt-0.5 mr-1 size-5 shrink-0" />
 						{/if}
 						{toast.data.title}
 					</Heading>

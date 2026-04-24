@@ -68,7 +68,7 @@
 	{#snippet customInput({ combobox, value, props })}
 		<TimeInput
 			{locale}
-			class="py-2.5 pl-4 pr-10"
+			class="py-2.5 pr-10 pl-4"
 			{...props}
 			min={minValue}
 			max={maxValue}

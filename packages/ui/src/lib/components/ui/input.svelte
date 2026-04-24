@@ -46,7 +46,7 @@
 	type Variant = VariantProps<typeof variants>;
 
 	const inputVariants = tv({
-		base: "outline-hidden placeholder:text-input-placeholder text-(--input-text) relative w-full !bg-transparent px-4 py-3",
+		base: "placeholder:text-input-placeholder relative w-full !bg-transparent px-4 py-3 text-(--input-text) outline-hidden",
 		variants: {
 			size: {
 				sm: "py-2 text-sm font-medium placeholder:text-sm",
@@ -101,18 +101,18 @@
 
 <div class={twMerge(variants({ variant, disabled, readonly }), className)}>
 	<StyledRect
-		class="absolute left-0 top-0 h-full w-full"
+		class="absolute top-0 left-0 h-full w-full"
 		{corners}
 		bg="--input-bg"
 		border="--input-border"
 	/>
 	{#if disabled}
-		<div class="absolute left-0 top-0 h-full w-full p-px">
+		<div class="absolute top-0 left-0 h-full w-full p-px">
 			<Twill class="opacity-60" {corners} stroke="var(--input-border)" />
 		</div>
 	{/if}
 	{#if Icon || icon}
-		<div class="absolute left-2.5 top-1/2 -translate-y-1/2">
+		<div class="absolute top-1/2 left-2.5 -translate-y-1/2">
 			{#if Icon}
 				<Icon class={size === "sm" ? "size-4" : "size-5"} />
 			{:else if icon}

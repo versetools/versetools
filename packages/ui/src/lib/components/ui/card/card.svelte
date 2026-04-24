@@ -23,7 +23,7 @@
 				"4xl": "max-w-4xl"
 			},
 			clickable: {
-				true: "group/clickable-card data-disabled:cursor-not-allowed data-disabled:opacity-50 cursor-pointer text-left disabled:cursor-not-allowed disabled:opacity-50"
+				true: "group/clickable-card cursor-pointer text-left disabled:cursor-not-allowed disabled:opacity-50 data-disabled:cursor-not-allowed data-disabled:opacity-50"
 			}
 		}
 	});
@@ -85,7 +85,7 @@
 
 	const backgroundVariants = $derived(
 		tv({
-			base: "absolute left-0 top-0 h-full w-full",
+			base: "absolute top-0 left-0 h-full w-full",
 			variants: {
 				variant: {
 					ghost: `opacity-0 transition-opacity group-hover/clickable-card:opacity-5 group-disabled/clickable-card:opacity-0`

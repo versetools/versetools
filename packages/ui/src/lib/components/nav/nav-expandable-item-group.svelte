@@ -60,7 +60,7 @@
 </button>
 <ul
 	{...popover.content}
-	class="bg-background border-1 border-border overflow-hidden rounded-sm border-t-0"
+	class="bg-background border-border overflow-hidden rounded-sm border-1 border-t-0"
 >
 	{#each items as item ("items" in item ? `group:${item.name}` : item.href)}
 		{#if "items" in item}
