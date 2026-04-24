@@ -1,4 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
+
 import type { Span } from "@opentelemetry/api";
 
 const asyncLocalStorage = new AsyncLocalStorage<{ span: Span }>();

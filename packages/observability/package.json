@@ -1,23 +1,35 @@
 {
     "name": "@versetools/observability",
-    "version": "0.0.0",
-    "private": true,
+    "version": "0.1.0",
     "type": "module",
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
     "exports": {
         ".": {
-            "types": "./src/index.ts",
-            "import": "./src/index.ts"
+            "types": "./build/index.d.ts",
+            "import": "./build/index.js"
         },
         "./transports": {
-            "types": "./src/transports/index.ts",
-            "import": "./src/transports/index.ts"
+            "types": "./build/transports/index.d.ts",
+            "import": "./build/transports/index.js"
         }
     },
+    "files": [
+        "build"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "package": "pnpm build",
+        "prepublishOnly": "pnpm package"
+    },
+    "author": "l3dotdev",
+    "license": "UNLICENSED",
     "dependencies": {
         "@axiomhq/js": "^1.4.0"
     },
     "devDependencies": {
-        "@opentelemetry/api": "^1.9.0"
+        "@opentelemetry/api": "^1.9.0",
+        "tslog": "catalog:"
     },
     "packageManager": "pnpm@10.24.0"
 }
