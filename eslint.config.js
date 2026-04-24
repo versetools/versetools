@@ -48,7 +48,11 @@ const svelteApps = defineConfig({
 
 const sveltePackages = defineConfig({
 	name: "svelte-packages",
-	files: ["./packages/convex-client/src/svelte/**/*.{ts,svelte,svelte.ts}"],
+	files: [
+		"./packages/convex-client/src/svelte/**/*.{ts,svelte,svelte.ts}",
+		"./packages/ui/src/**/*.{ts,svelte,svelte.ts}",
+		"./packages/ui-consent/src/**/*.{ts,svelte,svelte.ts}"
+	],
 	languageOptions: {
 		globals: {
 			...globals.browser,

@@ -1,0 +1,295 @@
+@theme {
+	--text-xxs: 0.625rem;
+	--text-xxs--line-height: 1.25;
+
+	--radius-sm: 3px;
+	--radius-md: 6px;
+	--radius-lg: 12px;
+
+	--color-darker: hsl(0, 0%, 9%);
+	--color-dark: hsl(0, 0%, 12%);
+	--color-darkish: hsl(0, 0%, 15%);
+	--color-dark-80: hsl(220, 2%, 20%);
+	--color-dark-60: hsl(270, 1%, 40%);
+	--color-dark-40: hsl(255, 3%, 60%);
+
+	--color-lighter: hsl(256, 44%, 98%);
+	--color-light: hsl(256, 44%, 95%);
+	--color-lightish: hsl(256, 44%, 92%);
+	--color-light-80: hsl(216, 11%, 80%);
+	--color-light-60: hsl(255, 2%, 60%);
+	--color-light-40: hsl(257, 3%, 40%);
+
+	--color-secondary-light: hsl(227, 9%, 23%);
+	--color-secondary: hsl(227, 9%, 19%);
+	--color-secondary-dark: hsl(240, 4%, 15%);
+
+	--color-accent: hsl(252, 45%, 50%);
+	--color-accent-80: hsl(246, 51%, 58%);
+	--color-accent-60: hsl(246, 66%, 66%);
+	--color-accent-40: hsl(252, 79%, 72%);
+
+	--color-success-dark: hsl(133, 58%, 40%);
+	--color-success: hsl(135, 61%, 50%);
+	--color-success-light: hsl(135, 62%, 55%);
+
+	--color-destructive-dark: hsl(347, 67%, 40%);
+	--color-destructive: hsl(350, 74%, 50%);
+	--color-destructive-light: hsl(350, 83%, 55%);
+
+	--color-discord: hsl(227, 43%, 55%);
+	--color-discord-dark: hsl(230, 33%, 31%);
+
+	--color-glass-base: var(--color-light);
+	--color-glass: color-mix(in oklab, var(--color-glass-base) 70%, transparent);
+	--color-glass-secondary: color-mix(in oklab, var(--color-glass-base) 40%, transparent);
+
+	--color-background-dark: var(--color-darker);
+	--color-background: var(--color-dark);
+	--color-background-light: var(--color-darkish);
+	--color-background-secondary: var(--color-secondary);
+	--color-background-tertiary: hsl(240, 5%, 15%);
+	--color-background-destructive: color-mix(
+		in oklab,
+		var(--color-destructive) 10%,
+		var(--color-background)
+	);
+
+	--color-border: var(--color-dark-80);
+	--color-border-secondary: var(--color-secondary-dark);
+
+	--color-text: var(--color-light);
+	--color-text-80: var(--color-light-80);
+	--color-text-60: var(--color-light-60);
+	--color-text-40: var(--color-light-40);
+	--color-text-link: var(--color-accent-40);
+	--color-text-success: var(--color-success-light);
+	--color-text-destructive: var(--color-destructive-light);
+
+	--color-scrollbar: var(--color-light-40);
+
+	/* Cards */
+	--color-card: var(--color-background);
+	--color-card-border: var(--color-border);
+	--color-card-hover: color-mix(in oklab, var(--color-card) 95%, var(--color-light));
+	--color-card-border-hover: var(--color-light);
+
+	--color-card-secondary: var(--color-background-secondary);
+	--color-card-secondary-border: var(--color-border-secondary);
+	--color-card-secondary-hover: color-mix(
+		in oklab,
+		var(--color-card-secondary) 95%,
+		var(--color-light)
+	);
+	--color-card-secondary-border-hover: color-mix(
+		in oklab,
+		var(--color-card-secondary-border) 95%,
+		var(--color-light)
+	);
+
+	--color-card-destructive: var(--color-background-destructive);
+	--color-card-destructive-border: var(--color-destructive-light);
+	--color-card-destructive-hover: color-mix(
+		in oklab,
+		var(--color-card-destructive) 95%,
+		var(--color-light)
+	);
+	--color-card-destructive-border-hover: color-mix(
+		in oklab,
+		var(--color-card-destructive-border) 95%,
+		var(--color-light)
+	);
+
+	/* Toasts */
+	--color-toast: var(--color-card);
+	--color-toast-border: var(--color-light);
+
+	--color-toast-success: var(--color-toast);
+	--color-toast-success-border: var(--color-success-light);
+
+	--color-toast-destructive: var(--color-card-destructive);
+	--color-toast-destructive-border: var(--color-destructive-light);
+
+	/* Accordions */
+	--color-accordion: var(--color-background);
+	--color-accordion-border: var(--color-border);
+	--color-accordion-inner: var(--color-darkish);
+
+	--color-accordion-secondary: var(--color-background-secondary);
+	--color-accordion-secondary-border: var(--color-border-secondary);
+	--color-accordion-secondary-inner: var(--color-background);
+
+	--color-accordion-light: var(--color-light);
+	--color-accordion-light-border: var(--color-light-80);
+	--color-accordion-light-text: var(--color-dark);
+	--color-accordion-light-inner: var(--color-lightish);
+	--color-accordion-light-inner-text: var(--color-dark);
+
+	/* Input */
+	--color-input: var(--color-background-light);
+	--color-input-disabled: oklch(from var(--color-input) calc(l * 0.75) c h);
+	--color-input-border: var(--color-light-40);
+	--color-input-border-disabled: oklch(from var(--color-input-border) l c h / 0.5);
+	--color-input-text: var(--color-text);
+	--color-input-text-disabled: var(--color-text-80);
+	--color-input-placeholder: var(--color-text-40);
+
+	--color-input-destructive: color-mix(in oklab, var(--color-destructive) 10%, var(--color-input));
+	--color-input-destructive-disabled: oklch(from var(--color-input-destructive) calc(l * 0.75) c h);
+	--color-input-destructive-border: var(--color-destructive-dark);
+	--color-input-destructive-border-disabled: oklch(
+		from var(--color-input-destructive-border) l c h / 0.5
+	);
+	--color-input-destructive-text: var(--color-input-text);
+	--color-input-destructive-text-disabled: var(--color-input-text-disabled);
+
+	/* Combobox */
+	--color-combobox: var(--color-input);
+	--color-combobox-disabled: var(--color-input-disabled);
+	--color-combobox-border: var(--color-input-border);
+	--color-combobox-border-disabled: var(--color-input-border-disabled);
+	--color-combobox-text: var(--color-input-text);
+	--color-combobox-text-disabled: var(--color-input-text-disabled);
+	--color-combobox-placeholder: var(--color-input-placeholder);
+	--color-combobox-popover: var(--color-card);
+	--color-combobox-popover-border: var(--color-card-border);
+	--color-combobox-item: var(--color-background-secondary);
+	--color-combobox-item-border: var(--color-border);
+
+	--color-combobox-destructive: var(--color-input-destructive);
+	--color-combobox-destructive-disabled: var(--color-input-destructive-disabled);
+	--color-combobox-destructive-border: var(--color-input-destructive-border);
+	--color-combobox-destructive-border-disabled: var(--color-input-destructive-border-disabled);
+	--color-combobox-destructive-text: var(--color-input-destructive-text);
+	--color-combobox-destructive-text-disabled: var(--color-input-destructive-text-disabled);
+	--color-combobox-destructive-popover: var(--color-card-destructive);
+	--color-combobox-destructive-popover-border: var(--color-card-destructive-border);
+	--color-combobox-destructive-item: var(--color-destructive);
+	--color-combobox-destructive-item-border: var(--color-destructive-dark);
+
+	/* Date Picker */
+	--color-date-picker: var(--color-input);
+	--color-date-picker-disabled: var(--color-input-disabled);
+	--color-date-picker-border: var(--color-input-border);
+	--color-date-picker-border-disabled: var(--color-input-border-disabled);
+	--color-date-picker-text: var(--color-input-text);
+	--color-date-picker-text-disabled: var(--color-input-text-disabled);
+	--color-date-picker-popover: var(--color-card);
+	--color-date-picker-popover-border: var(--color-card-border);
+	--color-date-picker-selected-date: var(--color-button-accent);
+	--color-date-picker-selected-date-hover: var(--color-button-accent-hover);
+	--color-date-picker-selected-date-disabled: var(--color-button-accent);
+	--color-date-picker-selected-date-text: var(--color-button-accent-text);
+	--color-date-picker-date: var(--color-button);
+	--color-date-picker-date-hover: var(--color-button);
+	--color-date-picker-date-disabled: var(--color-button);
+	--color-date-picker-date-text: var(--color-text);
+
+	/* Radio */
+	--color-radio-active-dot: var(--color-light);
+	--color-radio-active-border: var(--color-light);
+
+	/* Switch */
+	--color-switch: var(--color-input);
+	--color-switch-border: var(--color-light-40);
+	--color-switch-on: var(--color-accent);
+	--color-switch-on-border: var(--color-accent-80);
+
+	/* Checkbox */
+	--color-checkbox: var(--color-input);
+	--color-checkbox-border: var(--color-light-40);
+	--color-checkbox-on: var(--color-accent);
+	--color-checkbox-on-border: var(--color-accent-80);
+
+	/* Wysiwyg */
+	--color-wysiwyg-input: var(--color-input);
+	--color-wysiwyg-toolbar: var(--color-dark);
+	--color-wysiwyg-border: var(--color-input-border);
+
+	/* File select */
+	--color-file-select-input: var(--color-background);
+	--color-file-select-toolbar: var(--color-dark-80);
+	--color-file-select-border: var(--color-input-border);
+
+	/* Tooltip */
+	--color-tooltip: var(--color-light);
+	--color-tooltip-border: var(--color-tooltip);
+	--color-tooltip-text: var(--color-dark);
+
+	/* Buttons */
+	--color-button: var(--color-light);
+	--color-button-hover: var(--color-light-60);
+	--color-button-border: transparent;
+	--color-button-border-hover: transparent;
+	--color-button-text: var(--color-dark);
+
+	--color-button-secondary: var(--color-dark-60);
+	--color-button-secondary-hover: var(--color-dark-80);
+	--color-button-secondary-border: transparent;
+	--color-button-secondary-border-hover: transparent;
+	--color-button-secondary-text: var(--color-text);
+
+	--color-button-accent: var(--color-accent);
+	--color-button-accent-hover: var(--color-accent-80);
+	--color-button-accent-border: transparent;
+	--color-button-accent-border-hover: transparent;
+	--color-button-accent-text: var(--color-text);
+
+	--color-button-outline: transparent;
+	--color-button-outline-hover: transparent;
+	--color-button-outline-border: var(--color-light-80);
+	--color-button-outline-border-hover: var(--color-light-40);
+	--color-button-outline-text: var(--color-text-80);
+
+	--color-button-destructive: var(--color-destructive);
+	--color-button-destructive-hover: var(--color-destructive-dark);
+	--color-button-destructive-border: transparent;
+	--color-button-destructive-border-hover: transparent;
+	--color-button-destructive-text: var(--color-text);
+
+	--color-button-discord: var(--color-discord);
+	--color-button-discord-hover: var(--color-discord-dark);
+	--color-button-discord-border: transparent;
+	--color-button-discord-border-hover: transparent;
+	--color-button-discord-text: var(--color-text);
+
+	--color-table-head: var(--color-background-secondary);
+	--color-table-body: var(--color-background);
+
+	/* Markdown */
+	--color-hr: var(--color-border);
+
+	--color-spoiler: var(--color-background-secondary);
+	--color-spoiler-hover: var(--color-secondary-light);
+	--color-spoiler-shown: color-mix(in oklab, var(--color-spoiler) 40%, transparent);
+
+	/* Drawer */
+	--color-drawer: var(--color-background);
+	--color-drawer-border: var(--color-border);
+
+	/* Sidebar */
+	--color-sidebar: var(--color-background);
+	--color-sidebar-border: var(--color-border);
+	--color-sidebar-subitem-border: var(--color-border);
+
+	--font-sans:
+		ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Noto Color Emoji";
+	--font-fractul:
+		Fractul, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@utility invert-colors {
+	--color-background-dark: var(--color-lightish);
+	--color-background: var(--color-light);
+	--color-background-light: var(--color-lighter);
+
+	--color-border: var(--color-light-80);
+	--color-border-secondary: hsl(240, 4%, 85%);
+
+	--color-text: var(--color-dark);
+	--color-text-80: var(--color-dark-80);
+	--color-text-60: var(--color-dark-60);
+	--color-text-40: var(--color-dark-40);
+}

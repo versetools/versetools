@@ -1,0 +1,95 @@
+{
+	"name": "@versetools/ui",
+	"version": "0.33.6",
+	"description": "Svelte UI components for VerseTools",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"svelte": "./dist/index.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		},
+		"./markdown": {
+			"types": "./dist/components/markdown/index.d.ts",
+			"svelte": "./dist/components/markdown/index.js"
+		},
+		"./markdown/plugins": {
+			"types": "./dist/components/markdown/plugins/index.d.ts",
+			"svelte": "./dist/components/markdown/plugins/index.js"
+		},
+		"./icons": {
+			"types": "./dist/icons/index.d.ts",
+			"svelte": "./dist/icons/index.js"
+		},
+		"./helpers": {
+			"types": "./dist/helpers/index.d.ts",
+			"svelte": "./dist/helpers/index.js"
+		},
+		"./patterns": {
+			"types": "./dist/patterns/index.d.ts",
+			"svelte": "./dist/patterns/index.js"
+		},
+		"./transitions": {
+			"types": "./dist/transitions/index.d.ts",
+			"svelte": "./dist/transitions/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*"
+	],
+	"scripts": {
+		"dev": "vite dev",
+		"sync": "svelte-kit sync",
+		"build": "rm -rf dist && svelte-kit sync && svelte-package",
+		"package": "pnpm lint && pnpm check && pnpm build",
+		"prepublishOnly": "pnpm package",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --check . && eslint .",
+		"lint-fix": "prettier --check --write . && eslint . --fix",
+		"format": "prettier --write .",
+		"watch": "svelte-kit sync && svelte-package --watch"
+	},
+	"author": "l3dotdev",
+	"license": "UNLICENSED",
+	"peerDependencies": {
+		"@l3dev/mixins": "^0.2.5",
+		"@sveltejs/kit": "^2.36.2",
+		"svelte": "^5.0.0",
+		"sveltekit-superforms": "^2.27.0",
+		"tailwindcss": "^4.0.0"
+	},
+	"dependencies": {
+		"@internationalized/date": "^3.10.1",
+		"@lucide/svelte": "^0.554.0",
+		"@melt-ui/svelte": "^0.86.6",
+		"formsnap": "^2.0.1",
+		"mdast-util-find-and-replace": "^3.0.2",
+		"mdast-util-gfm-strikethrough": "^2.0.0",
+		"melt": "^0.42.0",
+		"micromark-extension-gfm-strikethrough": "^2.1.0",
+		"remark-breaks": "^4.0.0",
+		"svelte-exmarkdown": "^5.0.2",
+		"tailwind-merge": "^3.3.1",
+		"tailwind-variants": "^3.1.0"
+	},
+	"devDependencies": {
+		"@floating-ui/dom": "^1.6.13",
+		"@sveltejs/package": "^2.5.0",
+		"@sveltejs/vite-plugin-svelte": "^6.1.3",
+		"@tailwindcss/vite": "^4.1.13",
+		"@types/mdast": "^4.0.4",
+		"dequal": "^2.0.3",
+		"mdast-util-from-markdown": "^2.0.2",
+		"mdast-util-to-markdown": "^2.1.2",
+		"micromark-util-types": "^2.0.2",
+		"svelte": "^5.38.3",
+		"svelte-check": "^4.3.1",
+		"tailwindcss": "^4.1.12",
+		"unified": "^11.0.5",
+		"vite": "^6.2.6"
+	}
+}

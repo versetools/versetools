@@ -1,0 +1,27 @@
+@import "./fractul.module.css" layer(base);
+
+@import "tailwindcss";
+@import "./lib/styles/theme.css";
+@import "./lib/styles/utilities.css";
+
+@theme {
+	--font-sans: var(--font-fractul);
+}
+
+@layer base {
+	body {
+		@apply bg-background text-text;
+	}
+
+	::-webkit-scrollbar {
+		@apply h-2 w-2;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-scrollbar rounded-full;
+	}
+}
