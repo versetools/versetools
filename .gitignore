@@ -6,6 +6,7 @@ node_modules
 .svelte-kit/
 .sveltepress/
 build/
+dist/
 
 # OS
 .DS_Store
