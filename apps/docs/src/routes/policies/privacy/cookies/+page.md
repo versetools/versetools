@@ -4,7 +4,7 @@ description: How Versetools uses cookies
 ---
 
 <script lang="ts">
-    import { config } from "@versetools/core/config";
+    import config from "@versetools/config";
 </script>
 
 {config.name} uses cookies to provide and secure our websites, as well as to analyze the usage of our websites, in order to offer you a great user experience. Please continue reading if you’d like more information about cookies, and on how and why we use them and cookie-related personal data. You can change your preference about non-essential cookies at any time by following [these instructions]().

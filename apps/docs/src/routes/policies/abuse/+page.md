@@ -4,7 +4,7 @@ description: It is not okay to use our products for these restricted purposes.
 ---
 
 <script lang="ts">
-    import { config } from "@versetools/core/config";
+    import config from "@versetools/config";
 </script>
 
 ## Restricted purposes

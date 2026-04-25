@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 import remarkCustomHeaderId from "remark-custom-header-id";
 import remarkSectionize from "remark-sectionize";
 
-import { config as appConfig } from "../../packages/core/src/config";
+import appConfig from "@versetools/config";
 
 const config = defineConfig({
 	plugins: [

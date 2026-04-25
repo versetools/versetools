@@ -1,9 +1,9 @@
-import { config } from "@versetools/core/config";
+import config from "@versetools/config";
+
+import type { RequestHandler } from "./$types";
 
 import { metaConfig } from "$config/meta";
 import { createETag } from "$server/etag";
-
-import type { RequestHandler } from "./$types";
 
 export const prerender = true;
 

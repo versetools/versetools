@@ -169,6 +169,9 @@ importers:
       '@typescript/native-preview':
         specifier: 'catalog:'
         version: 7.0.0-dev.20260111.1
+      '@versetools/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@versetools/convex-client':
         specifier: workspace:*
         version: link:../../packages/convex-client
@@ -200,6 +203,9 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3(discord.js@14.25.1)
     devDependencies:
+      '@versetools/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@versetools/convex-client':
         specifier: workspace:*
         version: link:../../packages/convex-client
@@ -239,6 +245,9 @@ importers:
       '@unocss/extractor-svelte':
         specifier: ^66.6.7
         version: 66.6.7
+      '@versetools/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@versetools/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -338,6 +347,9 @@ importers:
       '@uploadthing/svelte':
         specifier: ^7.3.3
         version: 7.3.3(svelte@5.55.0)(uploadthing@7.7.4(tailwindcss@4.2.2))
+      '@versetools/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@versetools/convex-client':
         specifier: workspace:*
         version: link:../../packages/convex-client
@@ -407,6 +419,8 @@ importers:
       uploadthing:
         specifier: ^7.7.4
         version: 7.7.4(tailwindcss@4.2.2)
+
+  packages/config: {}
 
   packages/convex-client:
     devDependencies:

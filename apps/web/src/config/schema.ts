@@ -1,4 +1,4 @@
-import { config } from "@versetools/core/config";
+import config from "@versetools/config";
 import type { SoftwareApplication } from "schema-dts";
 
 type CreatorType<T = SoftwareApplication["author"]> = T extends { "@type": string } ? T : never;

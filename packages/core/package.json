@@ -20,10 +20,6 @@
             "types": "./src/helpers/index.ts",
             "import": "./src/helpers/index.ts"
         },
-        "./config": {
-            "types": "./src/config.ts",
-            "import": "./src/config.ts"
-        },
         "./utility-types": {
             "types": "./src/utility-types.ts"
         }
@@ -34,5 +30,5 @@
         "lint": "eslint . && prettier --check .",
         "lint-fix": "eslint . --fix && prettier --check --write ."
     },
-    "packageManager": "pnpm@10.24.0"
+    "packageManager": "pnpm@10.33.2"
 }

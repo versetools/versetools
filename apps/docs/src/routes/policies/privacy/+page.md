@@ -4,7 +4,7 @@ description: The privacy of your data — and it is your data, not ours! — is 
 ---
 
 <script lang="ts">
-    import { config } from "@versetools/core/config";
+    import config from "@versetools/config";
 </script>
 
 _Last updated: April 18th, 2026_

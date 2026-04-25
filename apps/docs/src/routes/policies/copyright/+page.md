@@ -4,7 +4,7 @@ description: How we handle copyright infringement claims
 ---
 
 <script lang="ts">
-    import { config } from "@versetools/core/config";
+    import config from "@versetools/config";
 </script>
 
 ## Notification of Copyright Infringement Claims

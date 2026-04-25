@@ -6,9 +6,11 @@
 		// Apps
 		{ "path": "./apps/convex/tsconfig.json" },
 		{ "path": "./apps/discord/tsconfig.json" },
+		{ "path": "./apps/docs/tsconfig.json" },
 		{ "path": "./apps/web/tsconfig.json" },
 
 		// Packages
+		{ "path": "./packages/config/tsconfig.json" },
 		{ "path": "./packages/convex-client/tsconfig.json" },
 		{ "path": "./packages/core/tsconfig.json" },
 		{ "path": "./packages/observability/tsconfig.json" },

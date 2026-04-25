@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-sesv2";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { Result } from "@l3dev/result";
-import { config } from "@versetools/core/config";
+import config from "@versetools/config";
 
 import type { EmailTemplate } from "./templates/EmailTemplate";
 

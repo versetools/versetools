@@ -1,19 +1,20 @@
 <script lang="ts">
 	import "../app.css";
-	import { config } from "@versetools/core/config";
+	import config from "@versetools/config";
 	import { ConfirmationDialog, Toaster } from "@versetools/ui";
 	import { smoothScrolling } from "@versetools/ui/helpers";
 	import { ConsentManager } from "@versetools/ui-consent";
 	import { onMount } from "svelte";
 
 	import { PUBLIC_CONVEX_URL } from "$env/static/public";
+
+	import type { LayoutProps } from "./$types";
+
 	import emblem from "$lib/assets/emblem.png";
 	import logo from "$lib/assets/logo.png";
 	import { AppSchema } from "$lib/components/meta";
 	import { useUnsavedChanges } from "$lib/runes";
 	import { consent, posthog } from "$lib/states";
-
-	import type { LayoutProps } from "./$types";
 
 	let { children }: LayoutProps = $props();
 

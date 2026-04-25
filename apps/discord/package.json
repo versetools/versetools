@@ -17,9 +17,10 @@
 		"discordthing": "^0.2.3"
 	},
 	"devDependencies": {
+		"@versetools/config": "workspace:*",
 		"@versetools/convex-client": "workspace:*",
 		"@versetools/core": "workspace:*",
 		"@versetools/observability": "workspace:*"
 	},
-	"packageManager": "pnpm@10.24.0"
+	"packageManager": "pnpm@10.33.2"
 }

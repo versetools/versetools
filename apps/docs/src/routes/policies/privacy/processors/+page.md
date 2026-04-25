@@ -4,7 +4,7 @@ description: Versetools uses some third-party processors and subprocessors for p
 ---
 
 <script lang="ts">
-    import { config } from "@versetools/core/config";
+    import config from "@versetools/config";
 </script>
 
 _Last updated: April 18th, 2026_

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
+	import config from "@versetools/config";
 	import { Button, Card } from "@versetools/ui";
 
-	import { config } from "@versetools/core/config";
-	import {Meta} from "$lib/components/meta";
+	import { Meta } from "$lib/components/meta";
 </script>
 
 <Meta />

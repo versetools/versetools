@@ -60,7 +60,7 @@
 
 <script lang="ts">
 	import BugIcon from "@lucide/svelte/icons/bug";
-	import { config } from "@versetools/core/config";
+	import config from "@versetools/config";
 	import { smoothScrolling } from "@versetools/ui/helpers";
 	import { DiscordIcon, GithubIcon } from "@versetools/ui/icons";
 	import { openConsentOptions } from "@versetools/ui-consent";
@@ -73,12 +73,12 @@
 </script>
 
 <footer
-	class="z-1 invert-colors bg-background text-text relative flex w-full justify-center overflow-hidden"
+	class="invert-colors bg-background text-text relative z-1 flex w-full justify-center overflow-hidden"
 >
 	<img
 		src={backgroundEmblem}
 		alt="{config.name} emblem"
-		class="size-128 max-xl:opacity-2 absolute bottom-1/2 max-xl:translate-y-1/2 xl:-bottom-2 xl:-right-2 xl:size-64"
+		class="absolute bottom-1/2 size-128 max-xl:translate-y-1/2 max-xl:opacity-2 xl:-right-2 xl:-bottom-2 xl:size-64"
 	/>
 	<div class="relative flex w-full max-w-6xl flex-col gap-16 px-16 py-16">
 		<section class="flex h-fit w-full flex-col items-center gap-6 lg:items-start">
@@ -114,7 +114,7 @@
 		>
 			{#each footerSections as section (section.title)}
 				<section class="w-full max-w-48">
-					<h3 class="text-text-60 whitespace-nowrap text-xs font-semibold">{section.title}</h3>
+					<h3 class="text-text-60 text-xs font-semibold whitespace-nowrap">{section.title}</h3>
 					<ul class="flex flex-col gap-y-4 pt-4">
 						{#each section.items as item (item.name)}
 							{@const smoothScrollingProps = smoothScrolling(item.href)}

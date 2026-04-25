@@ -1,4 +1,4 @@
-import { config } from "@versetools/core/config";
+import config from "@versetools/config";
 
 const baseURL = process.env.SITE_URL ?? `https://${config.domain}`;
 

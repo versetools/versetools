@@ -18,5 +18,5 @@
     "devDependencies": {
         "@versetools/core": "workspace:*"
     },
-    "packageManager": "pnpm@10.24.0"
+    "packageManager": "pnpm@10.33.2"
 }

@@ -10,7 +10,8 @@ import zod from "eslint-plugin-zod";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-import svelteConfig from "./apps/web/svelte.config.js";
+import webSvelteConfigJs from "./apps/web/svelte.config.js";
+import docsSvelteConfigJs from "./apps/docs/svelte.config.js";
 
 const convexApp = defineConfig({
 	name: "convex/rules",
@@ -21,9 +22,7 @@ const convexApp = defineConfig({
 	}
 });
 
-const svelteApps = defineConfig({
-	name: "svelte-apps",
-	files: ["./apps/docs/**/*.{js,ts,svelte,svelte.ts}", "./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
+const svelteApp = defineConfig({
 	languageOptions: {
 		globals: {
 			...globals.browser,
@@ -32,8 +31,7 @@ const svelteApps = defineConfig({
 		},
 		parserOptions: {
 			extraFileExtensions: [".svelte"],
-			parser: tseslint.parser,
-			svelteConfig
+			parser: tseslint.parser
 		}
 	},
 	rules: {
@@ -43,6 +41,39 @@ const svelteApps = defineConfig({
 				ignore: ["^\\$app/.+", "^\\$env/.+", "^virtual:.+"]
 			}
 		]
+	}
+});
+
+const svelteApps = defineConfig(
+	{
+		extends: svelteApp,
+		name: "web-app",
+		files: ["./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
+		languageOptions: {
+			parserOptions: {
+				svelteConfig: webSvelteConfigJs
+			}
+		}
+	},
+	{
+		extends: svelteApp,
+		name: "docs-app",
+		files: ["./apps/docs/**/*.{js,ts,svelte,svelte.ts}"],
+		languageOptions: {
+			parserOptions: {
+				svelteConfig: docsSvelteConfigJs
+			}
+		}
+	}
+);
+
+const nodePackages = defineConfig({
+	name: "node-packages",
+	files: ["./packages/observability/**/*.{js,ts}"],
+	languageOptions: {
+		globals: {
+			...globals.node
+		}
 	}
 });
 
@@ -61,8 +92,7 @@ const sveltePackages = defineConfig({
 		},
 		parserOptions: {
 			extraFileExtensions: [".svelte"],
-			parser: tseslint.parser,
-			svelteConfig
+			parser: tseslint.parser
 		}
 	}
 });
@@ -113,15 +143,6 @@ export default defineConfig(
 		}
 	},
 	{
-		name: "globals/node",
-		files: ["./packages/observability/**/*.ts"],
-		languageOptions: {
-			globals: {
-				...globals.node
-			}
-		}
-	},
-	{
 		name: "global/rules",
 		rules: {
 			"import/no-duplicates": "off",
@@ -137,14 +158,6 @@ export default defineConfig(
 					pathGroups: [
 						{
 							pattern: "\$**",
-							group: "internal"
-						},
-						{
-							pattern: "$env/**",
-							group: "internal"
-						},
-						{
-							pattern: "$app/**",
 							group: "internal"
 						}
 					]
@@ -181,5 +194,6 @@ export default defineConfig(
 
 	sveltePackages,
 	convexApp,
+	nodePackages,
 	svelteApps
 );

@@ -5,11 +5,12 @@
 </script>
 
 <script lang="ts">
-	import { config } from "@versetools/core/config";
+	import config from "@versetools/config";
 	import type { HTMLAnchorAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
 	import { PUBLIC_SITE_URL } from "$env/static/public";
+
 	import logo from "$lib/assets/logo.png";
 
 	let { class: className, ...rest }: PoweredByProps = $props();

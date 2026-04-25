@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { config } from "@versetools/core/config";
+	import config from "@versetools/config";
 	import { openConsentOptions } from "@versetools/ui-consent";
+
+	import type { LayoutProps } from "./$types";
 
 	import background from "$lib/assets/background.png";
 	import logo from "$lib/assets/logo.png";
 	import madeByTheCommunity from "$lib/assets/made-by-the-community.png";
 	import gridTile from "$lib/assets/patterns/star-tile.png";
-
-	import type { LayoutProps } from "./$types";
 
 	let { children }: LayoutProps = $props();
 </script>
@@ -25,13 +25,7 @@
 		<div class="flex w-full flex-1 flex-col items-center px-4 pt-16">
 			<header>
 				<a href="/" class="flex items-center gap-1 pr-4">
-					<img
-						src={logo}
-						width="320"
-						height="64"
-						alt="{config.name} logo"
-						class="h-16 w-auto"
-					/>
+					<img src={logo} width="320" height="64" alt="{config.name} logo" class="h-16 w-auto" />
 					<h1 class="sr-only">{config.name}</h1>
 				</a>
 			</header>

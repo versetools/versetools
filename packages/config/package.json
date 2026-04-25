@@ -1,5 +1,5 @@
 {
-    "name": "@versetools/observability",
+    "name": "@versetools/config",
     "version": "0.1.0",
     "type": "module",
     "main": "./build/index.js",
@@ -8,10 +8,6 @@
         ".": {
             "types": "./build/index.d.ts",
             "import": "./build/index.js"
-        },
-        "./transports": {
-            "types": "./build/transports/index.d.ts",
-            "import": "./build/transports/index.js"
         }
     },
     "files": [
@@ -28,12 +24,5 @@
     },
     "author": "l3dotdev",
     "license": "UNLICENSED",
-    "dependencies": {
-        "@axiomhq/js": "^1.4.0"
-    },
-    "devDependencies": {
-        "@opentelemetry/api": "^1.9.0",
-        "tslog": "catalog:"
-    },
     "packageManager": "pnpm@10.33.2"
 }

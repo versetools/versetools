@@ -14,10 +14,11 @@
 </script>
 
 <script lang="ts">
-	import { config } from "@versetools/core/config";
+	import config from "@versetools/config";
 	import type { Snippet } from "svelte";
 
 	import { dev } from "$app/environment";
+
 	import { metaConfig } from "$config/meta";
 
 	const emblem =

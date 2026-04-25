@@ -1,6 +1,6 @@
 import "@l3dev/mixins";
 
-import { config } from "@versetools/core/config";
+import config from "@versetools/config";
 import { ActivityType } from "discord.js";
 import { Bot } from "discordthing";
 

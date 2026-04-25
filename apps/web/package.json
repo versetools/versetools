@@ -30,6 +30,7 @@
         "@tailwindcss/vite": "^4.1.13",
         "@uploadthing/shared": "^7.1.10",
         "@uploadthing/svelte": "^7.3.3",
+        "@versetools/config": "workspace:*",
         "@versetools/convex-client": "workspace:*",
         "@versetools/core": "workspace:*",
         "@versetools/observability": "workspace:*",
@@ -54,5 +55,5 @@
         "ua-parser-js": "^2.0.6",
         "uploadthing": "^7.7.4"
     },
-    "packageManager": "pnpm@10.24.0"
+    "packageManager": "pnpm@10.33.2"
 }
