@@ -5,8 +5,10 @@ packages:
 catalog:
   "@mmailaender/convex-svelte": ^0.18.0
   "@typescript/native-preview": 7.0.0-dev.20260111.1
+  "@sveltejs/kit": ^2.57.1
   convex: ^1.34.0
   effect: ^3.18.1
+  sveltekit-superforms: 2.30.1
   tslog: ^4.10.2
 
 catalogs:

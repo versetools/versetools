@@ -57,9 +57,9 @@
 	"license": "UNLICENSED",
 	"peerDependencies": {
 		"@l3dev/mixins": "^0.2.5",
-		"@sveltejs/kit": "^2.36.2",
+		"@sveltejs/kit": "catalog:",
 		"svelte": "^5.0.0",
-		"sveltekit-superforms": "^2.27.0",
+		"sveltekit-superforms": "catalog:",
 		"tailwindcss": "^4.0.0"
 	},
 	"dependencies": {
