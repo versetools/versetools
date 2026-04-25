@@ -1,7 +1,7 @@
-import { domain } from "./base";
-import { company } from "./company";
-import { emails } from "./emails";
-import { policies } from "./policies";
+import { domain } from "./base.js";
+import { company } from "./company.js";
+import { emails } from "./emails.js";
+import { policies } from "./policies.js";
 
 export default {
 	name: "Versetools",

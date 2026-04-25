@@ -9,7 +9,7 @@ description: All the terms that you agree to when you sign up for or use a Verse
 
 _Last updated: April 11th, 2026_
 
-When we say “Company”, “we”, “our”, or “us” in this document, we are referring to [{config.company.name}](https://find-and-update.company-information.service.gov.uk/company/17150313) trading as [{config.name}](https://{config.domain}).
+When we say “Company”, “we”, “our”, or “us” in this document, we are referring to [{config.company.name}]({config.company.registration.url}) trading as [{config.name}](https://{config.domain}).
 
 When we say “Services”, we mean our websites, including [{config.domain}](https://{config.domain}) and [scorgportal.com](https://scorgportal.com), and any product created and maintained by Versetools. That includes Versetools and Scorgportal, whether delivered within a web browser, desktop application, mobile application, or another format.
 

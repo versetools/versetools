@@ -1,4 +1,4 @@
-import { docsDomain } from "./base";
+import { docsDomain } from "./base.js";
 
 const baseURL = `https://${docsDomain}/policies`;
 

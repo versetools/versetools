@@ -1,4 +1,4 @@
-import { domain } from "./base";
+import { domain } from "./base.js";
 
 export const emails = {
 	support: `support@${domain}`,
