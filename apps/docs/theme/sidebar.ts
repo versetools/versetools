@@ -36,12 +36,12 @@ export const sidebar: Record<string, LinkItem[]> = {
 					]
 				},
 				{
-					title: "Security",
+					title: "Security Overview",
 					collapsible: true,
 					to: "/policies/security",
 					items: [
 						{
-							title: "Response",
+							title: "Security Response",
 							to: "/policies/security/response"
 						}
 					]
