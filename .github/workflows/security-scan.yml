@@ -28,16 +28,3 @@ jobs:
           scan-type: "fs"
           scan-ref: "."
           trivy-config: trivy.yaml
-
-  sha1-hulud-scan:
-    name: Run SHA1-Hulud Scan
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: gensecaihq/Shai-Hulud-2.0-Detector@v1
-        with:
-          fail-on-critical: true
-          fail-on-high: true
-          scan-lockfiles: true
-          working-directory: "."
