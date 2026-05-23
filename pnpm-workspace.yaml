@@ -5,9 +5,10 @@ packages:
 catalog:
   "@mmailaender/convex-svelte": ^0.18.0
   "@typescript/native-preview": 7.0.0-dev.20260111.1
-  "@sveltejs/kit": ^2.57.1
+  "@sveltejs/kit": ^2.61.0
   convex: ^1.34.0
   effect: ^3.18.1
+  svelte: ^5.55.9
   sveltekit-superforms: 2.30.1
   tslog: ^4.10.2
 
@@ -16,7 +17,7 @@ catalogs:
     "@aws-sdk/client-sesv2": 3.1014.0
     "@aws-sdk/client-sqs": 3.1014.0
   discord:
-    "discord.js": ^14.25.1
+    "discord.js": ^14.26.4
     discord-api-types: ^0.38.42
     "@discordjs/rest": ^2.6.1
   vite:
@@ -27,7 +28,6 @@ catalogs:
     "@vite-pwa/sveltekit": ^1.1.0
 
 overrides:
+  devalue: ^5.8.1
   effect: ^3.18.1
-  fast-xml-parser: ^5.5.8
   undici: ^6.24.1
-  "@discordjs/rest": ^2.6.1

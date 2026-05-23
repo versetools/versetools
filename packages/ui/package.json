@@ -86,7 +86,7 @@
 		"mdast-util-from-markdown": "^2.0.2",
 		"mdast-util-to-markdown": "^2.1.2",
 		"micromark-util-types": "^2.0.2",
-		"svelte": "^5.38.3",
+		"svelte": "catalog:",
 		"svelte-check": "^4.3.1",
 		"tailwindcss": "^4.1.12",
 		"unified": "^11.0.5",

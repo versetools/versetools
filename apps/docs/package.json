@@ -29,7 +29,7 @@
     "remark-custom-header-id": "^1.0.0",
     "remark-sectionize": "^2.1.0",
     "shiki": "^3.23.0",
-    "svelte": "^5.53.12",
+    "svelte": "catalog:",
     "uid": "^2.0.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",

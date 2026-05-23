@@ -1,6 +1,6 @@
 {
 	"name": "@versetools/ui-consent",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"description": "Consent svelte component",
 	"type": "module",
 	"main": "./dist/index.js",
@@ -29,7 +29,7 @@
 	"author": "l3dotdev",
 	"license": "UNLICENSED",
 	"peerDependencies": {
-		"@l3dev-private/consent": "^0.3.0",
+		"@l3dev-private/consent": "^0.3.1",
 		"@l3dev-private/consent-svelte": ">=0.6.2 <1.0.0",
 		"@sveltejs/kit": "catalog:",
 		"@versetools/ui": ">=0.22.0 <1.0.0",
@@ -47,7 +47,7 @@
 		"@sveltejs/package": "^2.5.0",
 		"@sveltejs/vite-plugin-svelte": "catalog:vite",
 		"@tailwindcss/vite": "catalog:vite",
-		"svelte": "^5.38.3",
+		"svelte": "catalog:",
 		"svelte-check": "^4.3.1",
 		"svelte-exmarkdown": "^5.0.2",
 		"tailwindcss": "^4.1.4",
