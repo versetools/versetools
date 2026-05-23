@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import { scale, slide } from "svelte/transition";
-	import type { LinkItem } from "virtual:sveltepress/theme-default";
+	import type { LinkItem } from "virtual:sveltepress/theme";
 
 	import ArrowDown from "./icons/ArrowDown.svelte";
 	import PointLeft from "./icons/PointLeft.svelte";

@@ -2,7 +2,7 @@
 /// <reference types="@sveltepress/vite/types" />
 /// <reference types="@sveltejs/kit/vite" />
 
-declare module "virtual:sveltepress/theme-default" {
+declare module "virtual:sveltepress/theme" {
 	import type { DocSearchProps } from "@sveltepress/docsearch/types";
 	import type { CreateTwoslashSvelteOptions } from "@sveltepress/twoslash";
 	import type { LoadTheme } from "@sveltepress/vite";
@@ -94,7 +94,7 @@ declare module "virtual:sveltepress/theme-default" {
 	export default options;
 }
 
-declare module "@sveltepress/theme-default/context" {
+declare module "@sveltepress/theme/context" {
 	import type { Writable } from "svelte/store";
 
 	export interface SveltepressContext {

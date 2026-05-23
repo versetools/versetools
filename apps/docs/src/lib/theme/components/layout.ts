@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
-import type { LinkItem } from "virtual:sveltepress/theme-default";
-import themeOptions from "virtual:sveltepress/theme-default";
+import type { LinkItem } from "virtual:sveltepress/theme";
+import themeOptions from "virtual:sveltepress/theme";
 
 export const MOBILE_EDGE_WIDTH = 950;
 

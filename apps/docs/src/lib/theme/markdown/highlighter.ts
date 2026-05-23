@@ -7,7 +7,7 @@ import { LRUCache } from "lru-cache";
 import type { BundledTheme, CodeToHastOptions, HighlighterGeneric } from "shiki";
 import { createHighlighter } from "shiki";
 import type { BundledLanguage } from "shiki/langs";
-import type { ThemeOptions } from "virtual:sveltepress/theme-default";
+import type { ThemeOptions } from "virtual:sveltepress/theme";
 
 import { themeOptionsRef } from "../index.js";
 import { processCommands } from "./commands.js";

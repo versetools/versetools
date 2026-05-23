@@ -1,6 +1,8 @@
+import "./types.d.ts";
+
 import type { ResolvedTheme, ThemeVitePlugins } from "@sveltepress/vite";
 import { SvelteKitPWA } from "@vite-pwa/sveltekit";
-import type { ThemeOptions, Theme } from "virtual:sveltepress/theme-default";
+import type { ThemeOptions, Theme } from "virtual:sveltepress/theme";
 import type { PluginOption } from "vite";
 
 import { SERVICE_WORKER_PATH } from "./constants.js";

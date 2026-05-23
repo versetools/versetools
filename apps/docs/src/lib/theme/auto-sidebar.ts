@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
-import type { LinkItem } from "virtual:sveltepress/theme-default";
+import type { LinkItem } from "virtual:sveltepress/theme";
 
 export interface AutoSidebarOptions {
 	/**

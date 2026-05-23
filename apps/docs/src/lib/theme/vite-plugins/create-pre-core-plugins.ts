@@ -4,14 +4,14 @@ import process from "node:process";
 import extractorSvelte from "@unocss/extractor-svelte";
 import { presetIcons, presetUno, transformerDirectives } from "unocss";
 import Unocss from "unocss/vite";
-import type { ThemeOptions } from "virtual:sveltepress/theme-default";
+import type { ThemeOptions } from "virtual:sveltepress/theme";
 import type { PluginOption } from "vite";
 
 import { generateSidebar, isAutoSidebarOptions } from "../auto-sidebar.js";
 import { SERVICE_WORKER_PATH } from "../constants.js";
 import { initHighlighter } from "../markdown/highlighter.js";
 
-const THEME_OPTIONS_MODULE = "virtual:sveltepress/theme-default";
+const THEME_OPTIONS_MODULE = "virtual:sveltepress/theme";
 
 const DEFAULT_GRADIENT = {
 	start: "#fa709a",
@@ -99,7 +99,7 @@ export default async (options?: ThemeOptions) => {
 					},
 					server: {
 						fs: {
-							allow: [SERVICE_WORKER_PATH, "./src/lib/theme/fonts", "../theme-default/dist/fonts"]
+							allow: [SERVICE_WORKER_PATH, "./src/lib/theme/fonts"]
 						}
 					}
 				};
