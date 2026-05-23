@@ -1,0 +1,30 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@import "../node_modules/@versetools/ui/dist/styles/theme.css";
+@import "../node_modules/@versetools/ui/dist/styles/utilities.css";
+
+@source "../node_modules/@versetools/ui";
+@source "../node_modules/@versetools/ui-consent";
+
+@plugin "tailwindcss-scoped-preflight" {
+	isolation-strategy: inside;
+	selector: .preflight;
+}
+
+@theme {
+	--color-darker: hsl(0, 0%, 6%);
+	--color-dark: hsl(240, 6%, 10%);
+	--color-darkish: hsl(240, 6%, 14%);
+	--color-dark-80: hsl(240, 6%, 20%);
+	--color-dark-60: hsl(240, 6%, 40%);
+	--color-dark-40: hsl(240, 6%, 60%);
+
+	--color-lighter: hsl(30, 3%, 90%);
+	--color-light: hsl(30, 3%, 87%);
+	--color-lightish: hsl(30, 3%, 84%);
+	--color-light-80: hsl(30, 4%, 80%);
+	--color-light-60: hsl(30, 3%, 60%);
+	--color-light-40: hsl(30, 3%, 40%);
+}

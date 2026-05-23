@@ -50,7 +50,7 @@
 		"svelte": "catalog:",
 		"svelte-check": "^4.3.1",
 		"svelte-exmarkdown": "^5.0.2",
-		"tailwindcss": "^4.1.4",
+		"tailwindcss": "catalog:",
 		"vite": "catalog:vite"
 	}
 }
