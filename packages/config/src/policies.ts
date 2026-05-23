@@ -6,7 +6,9 @@ export const policies = {
 	terms: `${baseURL}/terms`,
 	privacy: `${baseURL}/privacy`,
 	cookies: `${baseURL}/privacy/cookies`,
-	processors: `${baseURL}/privacy/processors`,
+	subprocessors: `${baseURL}/privacy/subprocessors`,
+	security: `${baseURL}/security`,
+	securityResponse: `${baseURL}/security/response`,
 	abuse: `${baseURL}/abuse`,
 	copyright: `${baseURL}/copyright`
 };

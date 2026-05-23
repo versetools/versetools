@@ -1,6 +1,6 @@
 ---
-title: Our processors and subprocessors
-description: Versetools uses some third-party processors and subprocessors for purposes of our products.
+title: Our subprocessors
+description: Versetools uses some third-party subprocessors for purposes of our products.
 ---
 
 <script lang="ts">
@@ -18,9 +18,9 @@ These subprocessors are all located in the United States:
 - [Amazon Web Services](https://aws.amazon.com/compliance/gdpr-center/). Cloud services provider.
 - [Polar](https://polar.sh/legal/privacy-policy). Payment processing services.
 - [Cloudflare](https://www.cloudflare.com/gdpr/introduction/). Cloud services provider.
-- [Convex](https://www.convex.dev/legal/privacy). Database and backend services host.
+- [Convex](https://www.convex.dev/legal/privacy). Database and backend as a service provider.
 - [hCaptcha](https://hcaptcha.com/privacy). Anti-bot protection.
-- [Posthog](https://posthog.com/docs/privacy/gdpr-compliance). Analytics and user tracking.
+- [Posthog](https://posthog.com/docs/privacy/gdpr-compliance). Analytics, logs and user tracking.
 - [Uploadthing](https://uploadthing.com/info/privacy-policy). File storage services.
 - [Axiom](https://axiom.co/docs/legal/privacy). Data processing services.
 
