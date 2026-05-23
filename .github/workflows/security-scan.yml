@@ -14,10 +14,10 @@ jobs:
     name: Run Trivy
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Cache Trivy database
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/trivy/
           key: trivy-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}
