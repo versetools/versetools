@@ -55,7 +55,7 @@
 	const collapsed = $derived(forcedOpen ? false : collapsedToggle);
 </script>
 
-<div class="sidebar-group">
+<div class="sidebar-group" class:top-level={!nested}>
 	<div class="group-title" class:with-mb={!nested}>
 		{#if to}
 			{@const active = !!routeId && isLinkActive(to, routeId)}
@@ -110,11 +110,14 @@
 	.with-mb {
 		--at-apply: "mb-2 sm:mb-4";
 	}
-	.sidebar-group:not(:last-of-type) {
+	.top-level.sidebar-group:not(:last-of-type) {
 		--at-apply: "border-b-solid border-b border-light-8 dark:border-b-gray-7 mb-4 pb-4";
 	}
 	.group-title {
-		--at-apply: "font-bold text-slate-8 dark:text-slate-2 flex items-center justify-between";
+		--at-apply: "text-slate-8 dark:text-slate-2 flex items-center justify-between";
+	}
+	.top-level > .group-title {
+		--at-apply: "font-bold";
 	}
 	.links {
 		--at-apply: "leading-8 overflow-hidden";
