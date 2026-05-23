@@ -30,7 +30,6 @@
 	} from "./layout";
 	import Navbar from "./Navbar.svelte";
 	import Sidebar from "./Sidebar.svelte";
-	import Toc from "./Toc.svelte";
 	import "virtual:uno.css";
 	import "../style.css";
 
@@ -86,8 +85,6 @@
 			onClose={() => ($navCollapsed = true)}
 		/>
 		{@render children?.()}
-
-		<Toc anchors={$anchors} />
 
 		<GoogleAnalytics />
 

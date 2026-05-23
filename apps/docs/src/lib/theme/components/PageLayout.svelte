@@ -20,6 +20,7 @@
 	import LastUpdate from "./LastUpdate.svelte";
 	import { anchors, pages, showHeader, showLayout, sidebar } from "./layout";
 	import PageSwitcher from "./PageSwitcher.svelte";
+	import Toc from "./Toc.svelte";
 
 	const routeId = $derived(page.route.id);
 
@@ -41,6 +42,7 @@
 	$showLayout = layout;
 
 	const isHome = $derived(routeId === "/" && fm.home !== false);
+	const showToc = $derived(!isHome && fm.toc !== false);
 
 	anchors.set(fmAnchors);
 
@@ -71,7 +73,7 @@
 		{/if}
 	{/snippet}
 	{#if isHome || fm.home === true}
-		<div class="content">
+		<div class="content @container/page" class:no-toc={!showToc}>
 			<Home
 				isHomepage={isHome}
 				{...fm}
@@ -90,7 +92,7 @@
 		</div>
 	{:else}
 		<div class="theme--page-layout pb-4">
-			<div class="content">
+			<div class="content @container/page" class:no-toc={!showToc}>
 				{#if fm.title}
 					<h1 class="page-title">
 						{fm.title}
@@ -109,6 +111,10 @@
 			</div>
 		</div>
 	{/if}
+{/if}
+
+{#if showToc}
+	<Toc anchors={$anchors} />
 {/if}
 
 <style>
@@ -149,6 +155,9 @@
 	}
 	.content {
 		--at-apply: "sm:w-[45vw] mx-auto pb-8 sm:pb-28 w-[90vw]";
+	}
+	.content.no-toc {
+		--at-apply: "sm:w-[60vw] sm:pl-[15vw]";
 	}
 	.page-title {
 		--at-apply: "mt-none";
