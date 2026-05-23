@@ -9,7 +9,8 @@ const config = {
 	preprocess: [vitePreprocess()],
 	kit: {
 		adapter: adapter({
-			pages: "dist"
+			pages: "build",
+			precompress: true
 		}),
 		paths: {
 			relative: false
