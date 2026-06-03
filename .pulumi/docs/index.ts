@@ -6,7 +6,6 @@ import * as pulumi from "@pulumi/pulumi";
 
 const config = new pulumi.Config();
 
-const zoneId = config.require("cloudflareZoneId");
 const domain = "docs.versetools.com";
 const cnameTarget = "aki.asgard.l3.dev";
 
@@ -98,7 +97,7 @@ const namespace = new k8s.core.v1.Namespace(namespaceName, {
 });
 
 new cloudflare.DnsRecord("CNAME-domain", {
-	zoneId,
+	zoneId: process.env.CLOUDFLARE_ZONE_ID!,
 	type: "CNAME",
 	name: domain,
 	content: cnameTarget,
