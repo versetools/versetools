@@ -1,4 +1,4 @@
 ---
-title: Versetools
-home: false
+title: Versetools Docs
+home: true
 ---
