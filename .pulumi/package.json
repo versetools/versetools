@@ -1,7 +1,16 @@
 {
-    "name": "@versetools/pulumi",
+    "name": "versetools-pulumi",
     "version": "0.0.0",
     "private": true,
     "type": "module",
+    "devDependencies": {
+        "@l3dev-private/pulumi-toolkit": "^0.6.2",
+        "@pulumi/aws": "^7.32.0",
+        "@pulumi/cloudflare": "^6.17.0",
+        "@pulumi/docker": "^5.0.0",
+        "@pulumi/docker-build": "^0.0.18",
+        "@pulumi/kubernetes": "^4.31.1",
+        "@pulumi/pulumi": "^3.244.0"
+    },
     "packageManager": "pnpm@10.33.2"
 }
