@@ -1,0 +1,7 @@
+environment:
+  - versetools/aws
+  - versetools/dns
+
+config:
+  versetools-docs:repositoryName: versetools/versetools-docs
+  aws:region: eu-central-1
