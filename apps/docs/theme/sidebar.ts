@@ -11,6 +11,10 @@ export const sidebar: Record<string, LinkItem[]> = {
 					to: "/policies/terms"
 				},
 				{
+					title: "Use Restrictions",
+					to: "/policies/abuse"
+				},
+				{
 					title: "Privacy Policy",
 					collapsible: true,
 					to: "/policies/privacy",
@@ -36,6 +40,24 @@ export const sidebar: Record<string, LinkItem[]> = {
 					]
 				},
 				{
+					title: "Payments and Subscriptions",
+					collapsible: true,
+					items: [
+						{
+							title: "Cancellations",
+							to: "/policies/cancellation"
+						},
+						{
+							title: "Refunds",
+							to: "/policies/refunds"
+						},
+						{
+							title: "Taxes",
+							to: "/policies/taxes"
+						}
+					]
+				},
+				{
 					title: "Security Overview",
 					collapsible: true,
 					to: "/policies/security",
@@ -45,10 +67,6 @@ export const sidebar: Record<string, LinkItem[]> = {
 							to: "/policies/security/response"
 						}
 					]
-				},
-				{
-					title: "Use Restrictions",
-					to: "/policies/abuse"
 				},
 				{
 					title: "Copyright Claims",
