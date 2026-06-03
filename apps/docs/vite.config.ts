@@ -1,5 +1,4 @@
 import { sveltepress } from "@sveltepress/vite";
-import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 import remarkCustomHeaderId from "remark-custom-header-id";
@@ -9,7 +8,6 @@ import theme, { siteConfig } from "./theme";
 
 const config = defineConfig({
 	plugins: [
-		tailwindcss(),
 		sveltepress({
 			theme,
 			siteConfig,
