@@ -13,6 +13,15 @@ export default theme({
 	},
 	navbar: [
 		{
+			title: "Products",
+			items: [
+				{
+					title: "Scorgportal",
+					to: "/scorgportal"
+				}
+			]
+		},
+		{
 			title: "Policies",
 			to: "/policies"
 		}
