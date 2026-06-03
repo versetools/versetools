@@ -68,7 +68,7 @@ If you violate any of the Terms, we may terminate your account. That’s a broad
 1. All content posted on the Services must comply with UK copyright law. We provide details on [how to file a copyright infringement claim](./copyright).
 2. You give us a limited license to use the content posted by you and your users in order to provide the Services to you, but we claim no ownership rights over those materials. All materials you submit to the Services remain yours.
 3. We do not pre-screen content, but we reserve the right (but not the obligation) in our sole discretion to refuse or remove any content that is available via the Service.
-4. The Company or its licensors own all right, title, and interest in and to the Services, including all intellectual property rights therein, and you obtain no ownership rights in the Services as a result of your use. You may not duplicate, copy, or reuse any portion of the HTML, CSS, JavaScript, or visual design elements without express written permission from the Company. You must request permission to use the Company’s logos or any Service logos for promotional purposes. Please [email us]({config.emails.support}) requests to use logos. We reserve the right to rescind any permissions if you violate these Terms.
+4. The Company or its licensors own all right, title, and interest in and to the Services, including all intellectual property rights therein, and you obtain no ownership rights in the Services as a result of your use. You may not duplicate, copy, or reuse any portion of the HTML, CSS, JavaScript, or visual design elements without express written permission from the Company. You must request permission to use the Company’s logos or any Service logos for promotional purposes. Please [email us](mailto:{config.emails.support}) requests to use logos. We reserve the right to rescind any permissions if you violate these Terms.
 5. You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Services, use of the Services, or access to the Services without the express written permission of the Company.
 
 ## Features and Bugs
@@ -93,4 +93,4 @@ We mention liability throughout these Terms but to put it all in one section:
 
 In other words: choosing to use our Services does mean you are making a bet on us. If the bet does not work out, that’s on you, not us. We do our darnedest to be as safe a bet as possible through careful management of the business; investments in security, infrastructure, and talent. If you choose to use our Services, thank you for betting on us.
 
-If you have a question about any of these Terms, please [contact our Support team]({config.emails.support}).
+If you have a question about any of these Terms, please [contact our Support team](mailto:{config.emails.support}).
