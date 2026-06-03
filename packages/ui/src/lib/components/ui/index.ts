@@ -22,6 +22,7 @@ export { default as Input, type InputProps } from "./input.svelte";
 export { default as Label, type LabelProps } from "./label.svelte";
 export { default as Link, type LinkProps } from "./link.svelte";
 export { default as ScrollArea, type ScrollAreaProps } from "./scroll-area.svelte";
+export { default as StyledCorner, type StyledCornerProps } from "./styled-corner.svelte";
 export {
 	default as StyledRect,
 	type StyledRectProps,
