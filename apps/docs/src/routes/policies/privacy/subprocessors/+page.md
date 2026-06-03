@@ -1,5 +1,5 @@
 ---
-title: Our subprocessors
+title: Our Subprocessors
 description: Versetools uses some third-party subprocessors for purposes of our products.
 ---
 
@@ -7,7 +7,7 @@ description: Versetools uses some third-party subprocessors for purposes of our 
     import config from "@versetools/config";
 </script>
 
-_Last updated: April 18th, 2026_
+_Last updated: May 28th, 2026_
 
 We use third party subprocessors, such as cloud computing providers and payment processors, to run {config.name} Services. We establish GDPR-compliant data processing agreements with each subprocessor, extending [GDPR safeguards](.) everywhere personal data is processed.
 
@@ -27,3 +27,5 @@ These subprocessors are all located in the United States:
 These subprocessors are located in the EU:
 
 - [Hetzner](https://www.hetzner.com/legal/privacy-policy/). Server infrastructure and cloud services provider.
+- [Alwyzon](https://www.alwyzon.com/en/legal/privacy). Server infrastructure.
+- [Contabo](https://contabo.com/en/legal/privacy/). Server infrastructure.

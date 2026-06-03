@@ -20,7 +20,7 @@ export const sidebar: Record<string, LinkItem[]> = {
 							to: "/policies/privacy/cookies"
 						},
 						{
-							title: "Our Subprocessors",
+							title: "Subprocessors",
 							to: "/policies/privacy/subprocessors"
 						},
 						{
