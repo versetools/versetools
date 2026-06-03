@@ -21,7 +21,24 @@ export default theme({
 	editLink: "https://github.com/versetools/versetools/tree/main/apps/docs/src/routes/:route",
 	discord: config.socials.discord,
 	github: config.socials.github + "/versetools",
-	logo: "/favicon.png"
+	logo: "/favicon.png",
+	footer: {
+		copyright: config.company.name,
+		links: [
+			{
+				label: "Terms",
+				to: "/policies/terms"
+			},
+			{
+				label: "Privacy",
+				to: "/policies/privacy"
+			},
+			{
+				label: "Status",
+				to: "https://status.versetools.com"
+			}
+		]
+	}
 });
 
 export const siteConfig = {
