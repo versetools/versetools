@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import process from "node:process";
 
 import extractorSvelte from "@unocss/extractor-svelte";
-import { presetIcons, presetUno, transformerDirectives } from "unocss";
+import { presetIcons, presetWind3, transformerDirectives } from "unocss";
 import Unocss from "unocss/vite";
 import type { ThemeOptions } from "virtual:sveltepress/theme";
 import type { PluginOption } from "vite";
@@ -59,7 +59,7 @@ export default async (options?: ThemeOptions) => {
 	const vitePluginsPre: PluginOption = [
 		Unocss({
 			extractors: [extractorSvelte()],
-			presets: [presetUno(), presetIcons()],
+			presets: [presetWind3(), presetIcons()],
 			transformers: [transformerDirectives()],
 			theme: {
 				colors: {
@@ -69,21 +69,22 @@ export default async (options?: ThemeOptions) => {
 					}
 				},
 				breakpoints: {
-					sm: "950px",
-					md: "1240px"
+					sm: "1024px",
+					md: "1240px",
+					lg: "1456px"
 				}
 			},
 			shortcuts: {
 				"svp-gradient-bg": `bg-gradient-linear bg-gradient-[45deg,${gradient.start},${gradient.end}]`,
 				"svp-gradient-text": "svp-gradient-bg bg-clip-text text-transparent",
 				"svp-modal-bg":
-					"sm:hidden fixed top-0 bottom-0 right-0 left-0 bg-black dark:bg-white bg-opacity-70 dark:bg-opacity-70 z-900 opacity-0 pointer-events-none transition-opacity transition-300",
+					"sm:hidden fixed top-0 bottom-0 right-0 left-0 bg-black bg-opacity-70 dark:bg-opacity-70 z-900 opacity-0 pointer-events-none transition-opacity transition-300",
 				"svp-modal-bg-show": "opacity-100 pointer-events-auto"
 			},
 			safelist: [...iconSafelist]
 		}) as PluginOption,
 		{
-			name: "@sveltepress/default-theme",
+			name: "@sveltepress/theme",
 			resolveId(id) {
 				if (id === THEME_OPTIONS_MODULE) return THEME_OPTIONS_MODULE;
 			},

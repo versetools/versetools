@@ -40,7 +40,7 @@ function resolveTitleAndId(node: any) {
 
 	if (!slugId) {
 		slugId = title
-			.replace(/[&#$?* :/.]+/g, "-")
+			.replace(/[&#$?* :/.,]+/g, "-")
 			.replace(/^-+/g, "")
 			.replace(/-+$/g, "")
 			.toLowerCase();

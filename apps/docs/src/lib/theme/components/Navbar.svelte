@@ -43,9 +43,24 @@
 			}
 		}
 	});
+
+	function headerHeight(header: HTMLElement) {
+		document.documentElement.style.setProperty("--header-height", `${header.clientHeight}px`);
+
+		const observer = new ResizeObserver(() => {
+			document.documentElement.style.setProperty("--header-height", `${header.clientHeight}px`);
+		});
+		observer.observe(header);
+
+		return {
+			destroy() {
+				observer.unobserve(header);
+			}
+		};
+	}
 </script>
 
-<header class="header" class:hidden-in-mobile={$scrollDirection === "down"}>
+<header class="header" class:hidden-in-mobile={$scrollDirection === "down"} use:headerHeight>
 	<div class="header-inner">
 		<div class="left">
 			<NavbarMobile />
@@ -98,7 +113,7 @@
 
 <style>
 	.header {
-		--at-apply: "transition-transform fixed top-0 left-0 right-0 sm:h-[73px] z-888 dark:bg-opacity-40";
+		--at-apply: "transition-transform fixed top-0 left-0 right-0 sm:h-[73px] pt-2 sm:pt-0 z-888 dark:bg-opacity-40";
 		backdrop-filter: blur(5px);
 	}
 	.hidden-in-mobile {
@@ -128,10 +143,5 @@
 	}
 	.nav-links {
 		--at-apply: "flex items-stretch flex-grow justify-end";
-	}
-
-	.navbar-pc :global(.nav-item:not(.nav-item--icon)),
-	.navbar-pc :global(.nav-item--user-icon) {
-		--at-apply: "hidden sm:flex";
 	}
 </style>

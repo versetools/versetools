@@ -24,6 +24,7 @@ export const darkMode = writable("auto");
 export const isDark = writable(false);
 
 export const sidebar = writable(true);
+export const showToc = writable(true);
 export const showHeader = writable(true);
 export const showLayout = writable(true);
 

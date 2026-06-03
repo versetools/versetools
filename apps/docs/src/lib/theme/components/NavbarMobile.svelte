@@ -56,19 +56,6 @@
 		--at-apply: "ml-4 text-6 flex items-center sm:hidden";
 	}
 	.navbar-mobile {
-		--at-apply: "fixed top-[48px] left-0 right-0 bg-white dark:bg-black z-900 shadow-lg pb-4 dark:shadow-gray-8";
-	}
-	:global(.navbar-mobile .nav-item) {
-		--at-apply: "leading-12 px-4";
-	}
-	:global(.navbar-mobile .nav-item--icon) {
-		--at-apply: "h-12";
-	}
-
-	:global(.navbar-mobile .c-expansion--title) {
-		--at-apply: "text-4 font-700";
-	}
-	:global(.navbar-mobile .c-expansion .nav-item) {
-		--at-apply: "indent-[1em]";
+		--at-apply: "sm:hidden fixed top-[var(--header-height)] left-0 right-0 bg-white dark:bg-black z-900 shadow-lg pb-4 dark:shadow-gray-8";
 	}
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	export type PageLayoutProps = {
 		fm: Record<string, any>;
-		heroImage?: string;
+		heroImage?: Snippet;
 		children?: Snippet;
 	};
 </script>
@@ -11,16 +11,17 @@
 	import siteConfig from "virtual:sveltepress/site";
 	import themeOptions from "virtual:sveltepress/theme";
 
-	import { afterNavigate, beforeNavigate } from "$app/navigation";
-	import { page } from "$app/state";
-
 	import EditPage from "./EditPage.svelte";
 	import HeroImage from "./home/HeroImage.svelte";
 	import Home from "./Home.svelte";
 	import LastUpdate from "./LastUpdate.svelte";
-	import { anchors, pages, showHeader, showLayout, sidebar } from "./layout";
+	import { anchors, pages, showToc, showHeader, showLayout, sidebar } from "./layout";
+	import Link from "./Link.svelte";
 	import PageSwitcher from "./PageSwitcher.svelte";
 	import Toc from "./Toc.svelte";
+
+	import { afterNavigate, beforeNavigate } from "$app/navigation";
+	import { page } from "$app/state";
 
 	const routeId = $derived(page.route.id);
 
@@ -34,17 +35,19 @@
 		anchors: fmAnchors = [],
 		sidebar: fmSidebar = true,
 		header = true,
-		layout = true
+		layout = true,
+		home: fmHome,
+		toc: fmToc
 	} = fm;
 
 	$sidebar = fmSidebar;
+	$showToc = fmHome !== true && fmToc !== false;
 	$showHeader = header;
 	$showLayout = layout;
 
-	const isHome = $derived(routeId === "/" && fm.home !== false);
-	const showToc = $derived(!isHome && fm.toc !== false);
-
 	anchors.set(fmAnchors);
+
+	const isHome = $derived(routeId === "/" && fmHome !== false);
 
 	let ready = $state(false);
 
@@ -72,27 +75,34 @@
 			<HeroImage heroImage={fm.heroImage} />
 		{/if}
 	{/snippet}
-	{#if isHome || fm.home === true}
-		<div class="content @container/page" class:no-toc={!showToc}>
-			<Home
-				isHomepage={isHome}
-				{...fm}
-				{siteConfig}
-				heroImage={heroImage ?? defaultHeroImage}
-				{children}
-			/>
-			{#if fm.meta}
-				<div class="meta" class:without-edit-link={!themeOptions.editLink}>
-					{#if themeOptions.editLink}
-						<EditPage {pageType} />
-					{/if}
-					<LastUpdate {lastUpdate} />
-				</div>
-			{/if}
+	{#if isHome || fmHome === true}
+		<div class:no-toc={!$showToc} class:content={!isHome} class:theme--page-layout={!isHome}>
+			<Home isHomepage={isHome} {...fm} {siteConfig} heroImage={heroImage ?? defaultHeroImage}>
+				{@render children?.()}
+				{#if fm.meta}
+					<div class="meta" class:without-edit-link={!themeOptions.editLink}>
+						{#if themeOptions.editLink}
+							<EditPage {pageType} />
+						{/if}
+						<LastUpdate {lastUpdate} />
+					</div>
+				{/if}
+				{#if themeOptions.footer}
+					<div class="footer">
+						<div class="copyright">
+							© {new Date().getFullYear()}
+							{themeOptions.footer.copyright}
+						</div>
+						{#each themeOptions.footer.links as link (link)}
+							<Link {...link} />
+						{/each}
+					</div>
+				{/if}
+			</Home>
 		</div>
 	{:else}
 		<div class="theme--page-layout pb-4">
-			<div class="content @container/page" class:no-toc={!showToc}>
+			<div class="content" class:no-toc={!$showToc}>
 				{#if fm.title}
 					<h1 class="page-title">
 						{fm.title}
@@ -108,51 +118,27 @@
 				{#if ready && $pages.length}
 					<PageSwitcher />
 				{/if}
+				{#if themeOptions.footer}
+					<div class="footer">
+						<div class="copyright">
+							© {new Date().getFullYear()}
+							{themeOptions.footer.copyright}
+						</div>
+						{#each themeOptions.footer.links as link (link)}
+							<Link {...link} />
+						{/each}
+					</div>
+				{/if}
 			</div>
 		</div>
 	{/if}
 {/if}
 
-{#if showToc}
+{#if $showToc}
 	<Toc anchors={$anchors} />
 {/if}
 
 <style>
-	:global(.theme--page-layout h1 .svp-title-anchor),
-	:global(.theme--page-layout h2 .svp-title-anchor),
-	:global(.theme--page-layout h3 .svp-title-anchor),
-	:global(.theme--page-layout h4 .svp-title-anchor),
-	:global(.theme--page-layout h5 .svp-title-anchor),
-	:global(.theme--page-layout h6 .svp-title-anchor) {
-		--at-apply: "absolute left-0 top-[50%] flex items-center opacity-0 pointer-events-none hover:text-svp-hover transition-all transition-200";
-		transform: translate(-100%, -50%);
-	}
-
-	:global(.theme--page-layout h2 .svp-title-anchor) {
-		transform: translate(-100%, calc((-100% + 1rem) / 2));
-	}
-	:global(.theme--page-layout h1),
-	:global(.theme--page-layout h2),
-	:global(.theme--page-layout h3),
-	:global(.theme--page-layout h4),
-	:global(.theme--page-layout h5),
-	:global(.theme--page-layout h6) {
-		--at-apply: "relative";
-	}
-	:global(.theme--page-layout h2) {
-		--at-apply: "border-t-solid border-t border-light-7 dark:border-gray-7 pt-4 mt-8 mb-4";
-	}
-	:global(.theme--page-layout h1:hover .svp-title-anchor),
-	:global(.theme--page-layout h2:hover .svp-title-anchor),
-	:global(.theme--page-layout h3:hover .svp-title-anchor),
-	:global(.theme--page-layout h4:hover .svp-title-anchor),
-	:global(.theme--page-layout h5:hover .svp-title-anchor),
-	:global(.theme--page-layout h6:hover .svp-title-anchor) {
-		--at-apply: "pointer-events-auto opacity-100";
-	}
-	:global(.theme--page-layout img) {
-		--at-apply: "max-w-full";
-	}
 	.content {
 		--at-apply: "sm:w-[45vw] mx-auto pb-8 sm:pb-28 w-[90vw]";
 	}
@@ -167,5 +153,12 @@
 	}
 	.without-edit-link {
 		--at-apply: "justify-end";
+	}
+
+	.footer {
+		--at-apply: "flex gap-4 text-[14px] mt-12";
+	}
+	.copyright {
+		--at-apply: "text-gray-5 dark:text-gray-4";
 	}
 </style>

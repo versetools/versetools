@@ -2,7 +2,7 @@
 	import themeOptions from "virtual:sveltepress/theme";
 
 	import MenuOpen from "./icons/MenuOpen.svelte";
-	import { sidebarCollapsed, tocCollapsed } from "./layout";
+	import { showToc, sidebarCollapsed, tocCollapsed } from "./layout";
 	import { DEFAULT_ON_THIS_PAGE } from "./Toc.svelte";
 
 	function openSidebar() {
@@ -18,9 +18,11 @@
 	<div role="button" tabindex="0" class="text-6" onclick={openSidebar} onkeypress={openSidebar}>
 		<MenuOpen />
 	</div>
-	<div role="button" tabindex="0" onclick={openToc} onkeypress={openToc}>
-		{themeOptions?.i18n?.onThisPage || DEFAULT_ON_THIS_PAGE}
-	</div>
+	{#if $showToc}
+		<div role="button" tabindex="0" onclick={openToc} onkeypress={openToc}>
+			{themeOptions?.i18n?.onThisPage || DEFAULT_ON_THIS_PAGE}
+		</div>
+	{/if}
 </nav>
 
 <style>

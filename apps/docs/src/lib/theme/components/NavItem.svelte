@@ -102,11 +102,6 @@
 		--at-apply: "text-4";
 	}
 	.nav-item--icon:not(:first-child)::after,
-	:global(.navbar-pc .toggle::after) {
-		--at-apply: "absolute left-0 bg-stone-2 w-[1px] top-[50%] h-[20px] dark:bg-stone-7";
-		transform: translateY(-50%);
-		content: " ";
-	}
 	.nav-item--icon:first-of-type::after {
 		--at-apply: "hidden sm:display-[unset]";
 	}
@@ -114,19 +109,12 @@
 	.nav-item--icon:hover {
 		--at-apply: "opacity-80";
 	}
-	:global(:not(.dropdown) > .nav-item:not(.nav-item--icon):hover) {
-		--at-apply: "svp-gradient-text";
-	}
+
 	.dropdown {
 		--at-apply: "transition-transform transition-opacity transition-300 opacity-0 pointer-events-none  absolute top-0 right-0 bg-white dark:bg-[#232323] whitespace-nowrap z-3 rounded shadow-sm p-2";
 		transform: translateY(72px);
 	}
-	:global(.dropdown > .nav-item) {
-		--at-apply: "block py-2 px-4 decoration-none rounded hover:bg-svp-primary hover:bg-opacity-20 hover:text-svp-primary text-[#213547] dark:text-[#efefef]";
-	}
-	:global(.dropdown > .nav-item:hover) {
-		background-image: none;
-	}
+
 	.nav-item:hover .dropdown {
 		--at-apply: "opacity-100 pointer-events-initial";
 		transform: translateY(54px);

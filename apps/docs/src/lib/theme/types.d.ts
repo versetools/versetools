@@ -11,6 +11,8 @@ declare module "virtual:sveltepress/theme" {
 	import type { BundledLanguage } from "shiki/langs";
 	import type { Component } from "svelte";
 
+	import type { LinkProps } from "./components/Link.svelte";
+
 	export interface WithTitle {
 		title?: string;
 	}
@@ -61,6 +63,10 @@ declare module "virtual:sveltepress/theme" {
 				start: string;
 				end: string;
 			};
+		};
+		footer?: {
+			copyright: string;
+			links?: LinkProps[];
 		};
 		highlighter?: {
 			languages?: BundledLanguage[];
