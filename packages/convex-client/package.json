@@ -16,9 +16,9 @@
         }
     },
     "devDependencies": {
-        "@mmailaender/convex-svelte": "catalog:",
         "@versetools/core": "workspace:*",
-        "@sveltejs/kit": "catalog:"
+        "@sveltejs/kit": "catalog:",
+        "convex-svelte": "catalog:"
     },
     "packageManager": "pnpm@10.33.2"
 }

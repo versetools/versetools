@@ -1,6 +1,6 @@
-import { useConvexClient } from "@mmailaender/convex-svelte";
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from "convex/server";
 import { convexToJson } from "convex/values";
+import { useConvexClient } from "convex-svelte";
 
 export type UseActionQueryOptions = {
 	keepPreviousData?: boolean;

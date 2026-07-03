@@ -7,7 +7,7 @@ import { components, internal } from "$convex/_generated/api";
 import { internalMutation } from "$convex/_generated/server";
 import { DeleteEntryFileMutation } from "$convex/app/commands/files/DeleteEntryFileMutation";
 import { TagFilesForDeletionMutation } from "$convex/app/commands/files/TagFilesForDeletionMutation";
-import { runner } from "$convex/app/main";
+import { router } from "$convex/app/main";
 
 export const deleteFilesWorkflowManager = new WorkflowManager(components.workflow, {
 	workpoolOptions: {
@@ -64,3 +64,15 @@ export const deleteFiles = internalMutation({
 		await runner.mapMutation(ctx, files, (file) => new DeleteEntryFileMutation(file));
 	}
 });
+
+export const _deleteFiles = router
+	.internalMutation({
+		args: {
+			fileIds: v.array(v.id("files"))
+		}
+	})
+	.withDependencies((ctxId, argsId) => [ctxId, argsId])
+	.withHandler(async async (ctx, args) => {
+		const files = pruneNull(await getAll(ctx.db, args.fileIds));
+		await runner.mapMutation(ctx, files, (file) => new DeleteEntryFileMutation(file));
+	});

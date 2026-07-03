@@ -27,9 +27,9 @@
 <script lang="ts" generics="Query extends OffsetPaginatedQueryReference">
 	import type { Id } from "$convex/_generated/dataModel";
 	import SearchIcon from "@lucide/svelte/icons/search";
-	import type { UseQueryReturn } from "@mmailaender/convex-svelte";
 	import { Input } from "@versetools/ui";
 	import type { FunctionArgs, FunctionReference, FunctionReturnType } from "convex/server";
+	import type { UseQueryReturn } from "convex-svelte";
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";

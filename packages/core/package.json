@@ -1,16 +1,15 @@
 {
     "name": "@versetools/core",
-    "version": "0.0.0",
-    "private": true,
+    "version": "0.1.0",
     "type": "module",
     "exports": {
-        "./apis": {
-            "types": "./src/apis/index.ts",
-            "import": "./src/apis/index.ts"
-        },
         "./commands": {
             "types": "./src/commands/index.ts",
             "import": "./src/commands/index.ts"
+        },
+        "./config/*": {
+            "types": "./src/config/*.ts",
+            "import": "./src/config/*.ts"
         },
         "./errors": {
             "types": "./src/errors/index.ts",
@@ -19,6 +18,18 @@
         "./helpers": {
             "types": "./src/helpers/index.ts",
             "import": "./src/helpers/index.ts"
+        },
+        "./requests/*": {
+            "types": "./src/requests/*.ts",
+            "import": "./src/requests/*.ts"
+        },
+        "./routers": {
+            "types": "./src/routers/index.ts",
+            "import": "./src/routers/index.ts"
+        },
+        "./services/*": {
+            "types": "./src/services/*.ts",
+            "import": "./src/services/*.ts"
         },
         "./utility-types": {
             "types": "./src/utility-types.ts"
@@ -29,6 +40,13 @@
         "format": "prettier --write .",
         "lint": "eslint . && prettier --check .",
         "lint-fix": "eslint . --fix && prettier --check --write ."
+    },
+    "devDependencies": {
+        "@aws-sdk/client-sesv2": "catalog:aws-sdk",
+        "@aws-sdk/client-sqs": "catalog:aws-sdk",
+        "@types/whatwg-mimetype": "^5.0.0",
+        "whatwg-mimetype": "^5.0.0",
+        "yaml": "^2.8.1"
     },
     "packageManager": "pnpm@10.33.2"
 }

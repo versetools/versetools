@@ -1,8 +1,8 @@
 import type { GenericDataModel, GenericMutationCtx } from "convex/server";
 
 import type { GenericCtx, GenericQueryableCtx } from "../../helpers";
+import type { RunnerService } from "../../services/commands/RunnerService";
 import type { Class, MaybePromise } from "../../utility-types";
-import type { Runner } from "../Runner";
 
 export type SubscriptionPhase = "before" | "after";
 
@@ -11,7 +11,7 @@ export type SubscriptionListener<
 	Ctx extends GenericCtx<DataModel>,
 	CommandType extends Class
 > = (
-	runner: Runner<DataModel>,
+	runner: RunnerService<DataModel>,
 	ctx: Ctx,
 	command: InstanceType<CommandType>,
 	value?: any
@@ -43,7 +43,7 @@ export class Subscription<DataModel extends GenericDataModel, CommandType extend
 	}
 
 	runBefore(
-		runner: Runner<DataModel>,
+		runner: RunnerService<DataModel>,
 		ctx: GenericCtx<DataModel>,
 		command: InstanceType<CommandType>
 	) {
@@ -54,7 +54,7 @@ export class Subscription<DataModel extends GenericDataModel, CommandType extend
 	}
 
 	runAfter(
-		runner: Runner<DataModel>,
+		runner: RunnerService<DataModel>,
 		ctx: GenericCtx<DataModel>,
 		command: InstanceType<CommandType>,
 		value: any

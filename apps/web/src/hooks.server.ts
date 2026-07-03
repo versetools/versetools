@@ -1,5 +1,5 @@
-import { withRequest, withTracing } from "@versetools/observability";
 import { error, type Handle } from "@sveltejs/kit";
+import { withRequest, withTracing } from "@versetools/observability";
 
 import { db } from "$lib/convex/server";
 

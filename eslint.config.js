@@ -99,7 +99,7 @@ const sveltePackages = defineConfig({
 
 export default defineConfig(
 	globalIgnores([
-		".syncpackrc.ts",
+		"syncpack.config.ts",
 		"eslint.config.js",
 		"**/svelte.config.js",
 		"**/vite.config.ts",

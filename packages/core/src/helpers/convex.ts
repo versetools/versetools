@@ -10,6 +10,7 @@ import type {
 	GenericDataModel,
 	GenericMutationCtx,
 	GenericQueryCtx,
+	GenericSchema,
 	GenericTableInfo,
 	OptionalRestArgs,
 	TableNamesInDataModel
@@ -17,7 +18,7 @@ import type {
 import { v, type GenericId, type GenericValidator, type Value, type VLiteral } from "convex/values";
 import { asyncMap } from "convex-helpers";
 
-import type { NonUnion } from "../utility-types";
+import type { NonUnion, UnionToIntersection } from "../utility-types";
 
 export type GenericQueryableCtx<DataModel extends GenericDataModel> =
 	| GenericQueryCtx<DataModel>
@@ -133,7 +134,7 @@ export async function deleteAll<
 	});
 }
 
-/** Values */
+/* Values */
 
 export type Enum<E, Value extends number | string = number | string> = Record<keyof E, Value> & {
 	[k: number]: string;
@@ -164,4 +165,10 @@ export function vEnumRecord<EnumValue extends string, V extends GenericValidator
 ) {
 	const keys = Object.values(enumx).filter((value) => typeof value === "string");
 	return vRecord(keys, valueValidator);
+}
+
+/* Schema */
+
+export function mergeSchema<T extends GenericSchema>(schemas: T[]) {
+	return schemas.reduce((acc, schema) => ({ ...acc, ...schema }), {}) as UnionToIntersection<T>;
 }

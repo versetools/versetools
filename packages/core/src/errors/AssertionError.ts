@@ -9,10 +9,10 @@ export class AssertionError<TContext extends Value> extends ResultError<"ASSERTI
 	}
 }
 
-export function assert(condition: unknown, message?: string): asserts condition {
+export function assert(condition: unknown, message?: string | (() => string)): asserts condition {
 	if (!condition) {
 		throw new AssertionError({
-			message
+			message: typeof message === "function" ? message() : message
 		});
 	}
 }

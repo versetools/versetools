@@ -1,7 +1,7 @@
 import type { GenericDataModel } from "convex/server";
 
-import type { Runner } from "./Runner";
+import type { RunnerService } from "../services/commands/RunnerService";
 
 export abstract class Command<DataModel extends GenericDataModel> {
-	runner!: Runner<DataModel>;
+	runner!: RunnerService<DataModel>;
 }

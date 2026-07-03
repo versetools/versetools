@@ -1,6 +1,6 @@
-import { useQuery, type UseQueryOptions } from "@mmailaender/convex-svelte";
 import { getResultErrorType, isConvexResultError } from "@versetools/core/errors";
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from "convex/server";
+import { useQuery, type UseQueryOptions } from "convex-svelte";
 
 import { useActionQuery } from "./use-action-query.svelte";
 

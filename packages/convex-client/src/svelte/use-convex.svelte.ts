@@ -1,8 +1,8 @@
 import { err, ok, Result } from "@l3dev/result";
-import { useConvexClient } from "@mmailaender/convex-svelte";
 import { isConvexResultError } from "@versetools/core/errors";
 import type { MutationOptions } from "convex/browser";
 import type { FunctionArgs, FunctionReference } from "convex/server";
+import { useConvexClient } from "convex-svelte";
 
 async function wrapConvexCall<T>(call: () => Promise<T>) {
 	try {

@@ -13,9 +13,6 @@ catalogs:
       specifier: 3.1014.0
       version: 3.1014.0
   default:
-    '@mmailaender/convex-svelte':
-      specifier: ^0.18.0
-      version: 0.18.0
     '@sveltejs/kit':
       specifier: ^2.61.0
       version: 2.61.0
@@ -23,8 +20,11 @@ catalogs:
       specifier: 7.0.0-dev.20260111.1
       version: 7.0.0-dev.20260111.1
     convex:
-      specifier: ^1.34.0
-      version: 1.34.1
+      specifier: ^1.41.0
+      version: 1.41.0
+    convex-svelte:
+      specifier: ^0.14.0
+      version: 0.14.0
     svelte:
       specifier: ^5.55.9
       version: 5.55.9
@@ -72,10 +72,10 @@ importers:
     devDependencies:
       '@convex-dev/eslint-plugin':
         specifier: ^1.2.2
-        version: 1.2.2(convex@1.34.1)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+        version: 1.2.2(convex@1.41.0)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@convex-dev/workflow':
         specifier: ^0.3.3
-        version: 0.3.8(@convex-dev/workpool@0.4.6(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1))(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1)
+        version: 0.3.8(@convex-dev/workpool@0.4.6(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0))(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0)
       '@eslint/js':
         specifier: 9.39.2
         version: 9.39.2
@@ -102,10 +102,10 @@ importers:
         version: 9.2.1
       convex:
         specifier: 'catalog:'
-        version: 1.34.1
+        version: 1.41.0
       convex-helpers:
-        specifier: ^0.1.111
-        version: 0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6)
+        specifier: ^0.1.119
+        version: 0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6)
       discord-api-types:
         specifier: catalog:discord
         version: 0.38.42
@@ -133,6 +133,9 @@ importers:
       globals:
         specifier: ^16.0.0
         version: 16.5.0
+      haywire:
+        specifier: ^0.1.8
+        version: 0.1.8
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -174,7 +177,13 @@ importers:
         version: 3.1014.0
       '@convex-dev/rate-limiter':
         specifier: ^0.3.2
-        version: 0.3.2(convex@1.34.1)
+        version: 0.3.2(convex@1.41.0)
+      '@posthog/convex':
+        specifier: ^2.0.29
+        version: 2.0.29(convex@1.41.0)(rxjs@7.8.2)
+      '@types/whatwg-mimetype':
+        specifier: ^5.0.0
+        version: 5.0.0
       '@typescript/native-preview':
         specifier: 'catalog:'
         version: 7.0.0-dev.20260111.1
@@ -195,7 +204,10 @@ importers:
         version: 6.0.3
       convex:
         specifier: 'catalog:'
-        version: 1.34.1
+        version: 1.41.0
+      whatwg-mimetype:
+        specifier: ^5.0.0
+        version: 5.0.0
       yaml:
         specifier: ^2.8.1
         version: 2.8.3
@@ -329,9 +341,6 @@ importers:
       '@melt-ui/svelte':
         specifier: ^0.86.6
         version: 0.86.6(svelte@5.55.9(@typescript-eslint/types@8.58.2))
-      '@mmailaender/convex-svelte':
-        specifier: 'catalog:'
-        version: 0.18.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.34.1)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
       '@rodrigodagostino/svelte-sortable-list':
         specifier: ^2.1.9
         version: 2.1.13(esm-env@1.2.2)(svelte@5.55.9(@typescript-eslint/types@8.58.2))
@@ -374,6 +383,9 @@ importers:
       '@versetools/ui-consent':
         specifier: workspace:*
         version: link:../../packages/ui-consent
+      convex-svelte:
+        specifier: 'catalog:'
+        version: 0.14.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.41.0)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
       effect:
         specifier: ^3.18.1
         version: 3.21.0
@@ -427,17 +439,33 @@ importers:
 
   packages/convex-client:
     devDependencies:
-      '@mmailaender/convex-svelte':
-        specifier: 'catalog:'
-        version: 0.18.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.34.1)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
       '@sveltejs/kit':
         specifier: 'catalog:'
         version: 2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
       '@versetools/core':
         specifier: workspace:*
         version: link:../core
+      convex-svelte:
+        specifier: 'catalog:'
+        version: 0.14.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.41.0)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
 
-  packages/core: {}
+  packages/core:
+    devDependencies:
+      '@aws-sdk/client-sesv2':
+        specifier: catalog:aws-sdk
+        version: 3.1014.0
+      '@aws-sdk/client-sqs':
+        specifier: catalog:aws-sdk
+        version: 3.1014.0
+      '@types/whatwg-mimetype':
+        specifier: ^5.0.0
+        version: 5.0.0
+      whatwg-mimetype:
+        specifier: ^5.0.0
+        version: 5.0.0
+      yaml:
+        specifier: ^2.8.1
+        version: 2.8.3
 
   packages/observability:
     dependencies:
@@ -1939,12 +1967,6 @@ packages:
     peerDependencies:
       svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.118
 
-  '@mmailaender/convex-svelte@0.18.0':
-    resolution: {integrity: sha512-2dv4cQjThk2Hs9BRrvKv8xc/Z6GqZP428uV9OTzVYBHih65uTF+/r3cqnEnDJv34H2Rr7TOHrfpCu/9aXP2yUg==}
-    peerDependencies:
-      convex: '>1.10.0'
-      svelte: '>=5.36.0'
-
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
     cpu: [arm64]
@@ -2128,8 +2150,19 @@ packages:
   '@poppinss/macroable@1.1.2':
     resolution: {integrity: sha512-FAVBRzzWhYP5mA3lCwLH1A0fKBqq5anyjGet90Z81aRK5c/+LTGUE1zJhZrErjaenBSOOI9BVUs3WVmotneFQA==}
 
+  '@posthog/convex@2.0.29':
+    resolution: {integrity: sha512-MLymPKl+eZ6MzytBs74SwhRMWHruWRCD603eO93E/0CdVQKCL0ReK2xO8Wd7QbxvrcAzjqJLr1HOZTjdw7qIGg==}
+    peerDependencies:
+      convex: ^1.39.0
+
+  '@posthog/core@1.35.3':
+    resolution: {integrity: sha512-EsGPbSLl39Jgo2KZ+kI9UAxFnh5nddaN5bNm2rXvUwF+vGmam9eN1EXeNbxhRU7ulEeIiGdm7XjoU7pzavkgIQ==}
+
   '@posthog/core@1.5.2':
     resolution: {integrity: sha512-iedUP3EnOPPxTA2VaIrsrd29lSZnUV+ZrMnvY56timRVeZAXoYCkmjfIs3KBAsF8OUT5h1GXLSkoQdrV0r31OQ==}
+
+  '@posthog/types@1.390.2':
+    resolution: {integrity: sha512-WcfKz2GNn2vfDX8vXmJYbKxegPxVWHuDQ/pHdAn0HoZDXDFnEp/+x3qBQA+fEvtbPjjtjgAt2wIgJMlM7asx7g==}
 
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
@@ -2814,6 +2847,9 @@ packages:
 
   '@types/validator@13.15.10':
     resolution: {integrity: sha512-T8L6i7wCuyoK8A/ZeLYt1+q0ty3Zb9+qbSSvrIVitzT3YjZqkTZ40IbRsPanlB4h1QB3JVL1SYCdR6ngtFYcuA==}
+
+  '@types/whatwg-mimetype@5.0.0':
+    resolution: {integrity: sha512-YYiBDCoqBgDIF2ByYn4qDb4RaXZ46cOQ6j2We1Ni3bikFNI7YFeL8jxSiYowWsriZrb1mw09CLZ+b+ZkIhsLVw==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -3506,15 +3542,15 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  convex-helpers@0.1.114:
-    resolution: {integrity: sha512-elEdh+gG6BDv2dWIWVvBeJPbHnDQS5+WexUuwlGVJXz1EbMkXz/UIQwFIfLMZIXUwW6ot4JYf/1JJKNStrE6lg==}
+  convex-helpers@0.1.119:
+    resolution: {integrity: sha512-fGNK9KAlBLk8Un729ZXBqD9S5jy910nxSrH6PloIL/Gl6TalFJvjN8+xCCwahlox8Ft+bb54SSg9MbcrsQb98w==}
     hasBin: true
     peerDependencies:
       '@standard-schema/spec': ^1.0.0
       convex: ^1.32.0
       hono: ^4.0.5
       react: ^17.0.2 || ^18.0.0 || ^19.0.0
-      typescript: ^5.5
+      typescript: ^5.5 || ^6.0.0
       zod: ^3.25.0 || ^4.0.0
     peerDependenciesMeta:
       '@standard-schema/spec':
@@ -3528,18 +3564,27 @@ packages:
       zod:
         optional: true
 
-  convex@1.34.1:
-    resolution: {integrity: sha512-ooyFnZVVq0u6b5zt0Ptq8QB2ixhf/2vXe+PIcUtdtrs0lq/TwpkmmruHdqkFmWgMd6N+Tmfy8AGkz6QnZUYZBA==}
+  convex-svelte@0.14.0:
+    resolution: {integrity: sha512-eCaId++XnczQvEGc0sQi30BHkSEQ5AZjdDWaAqSlva2h9zKezGz8enp6MdFN7MIIMIlYZF3dKdzQ/LQ0d59KhQ==}
+    peerDependencies:
+      convex: ^1.30.0
+      svelte: ^5.19.0
+
+  convex@1.41.0:
+    resolution: {integrity: sha512-euxVf6yfpB7/VGKOobkLgjpbJidsUgW+b0ezonEyCUPqlpHFwR4/yIiI1hjjErzraiw91GxrtxpXQClMLNqU+w==}
     engines: {node: '>=18.0.0', npm: '>=7.0.0'}
     hasBin: true
     peerDependencies:
       '@auth0/auth0-react': ^2.0.1
       '@clerk/clerk-react': ^4.12.8 || ^5.0.0
+      '@clerk/react': ^6.4.3
       react: ^18.0.0 || ^19.0.0-0 || ^19.0.0
     peerDependenciesMeta:
       '@auth0/auth0-react':
         optional: true
       '@clerk/clerk-react':
+        optional: true
+      '@clerk/react':
         optional: true
       react:
         optional: true
@@ -4150,6 +4195,10 @@ packages:
 
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
+
+  haywire@0.1.8:
+    resolution: {integrity: sha512-6Vhb/EytmMXZg/G9Yph75hFsaQDVMCSDsZbLcMTCRLzZZlNNCWlrLr0JOnuKusAt3938NwcpP9kEbzQIzc4PjA==}
+    engines: {node: '>=20'}
 
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
@@ -4873,6 +4922,10 @@ packages:
     peerDependencies:
       oxc-parser: '>=0.98.0'
 
+  p-defer@4.0.1:
+    resolution: {integrity: sha512-Mr5KC5efvAK5VUptYEIopP1bakB85k2IWXaRC0rsh1uwn1L6M0LVml8OIQ4Gudg4oyZakf7FmeRLkMMtZW1i5A==}
+    engines: {node: '>=12'}
+
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
     engines: {node: '>=10'}
@@ -4970,6 +5023,15 @@ packages:
 
   posthog-js@1.292.0:
     resolution: {integrity: sha512-sKBwrVT0vMqai8pAknmzK86vSQ5t36TDpQJyrLDj30ImkaiGuG4cVyI2wQ6l8vqdzk+rGAFUSP6Rqc2dMSQWWQ==}
+
+  posthog-node@5.38.2:
+    resolution: {integrity: sha512-eiKpU+vX4hVuHbO/EosvPHsmh2AVIdoVmWss/uUOs1t4b0ViCblw2o8OIFqHxKj3mYRnSOBlX0Dw3wBvcCaYpA==}
+    engines: {node: ^20.20.0 || >=22.22.0}
+    peerDependencies:
+      rxjs: ^7.0.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
 
   preact@10.29.0:
     resolution: {integrity: sha512-wSAGyk2bYR1c7t3SZ3jHcM6xy0lcBcDel6lODcs9ME6Th++Dx2KU+6D3HD8wMMKGA8Wpw7OMd3/4RGzYRpzwRg==}
@@ -5937,6 +5999,10 @@ packages:
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
 
+  whatwg-mimetype@5.0.0:
+    resolution: {integrity: sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==}
+    engines: {node: '>=20'}
+
   whatwg-url@7.1.0:
     resolution: {integrity: sha512-WUu7Rg1DroM7oQvGWfOiAK21n74Gg+T4elXEQYkOhtyLeWiJFoOGLXPKI/9gzIie9CtwVLm8wtw6YJdKyxSjeg==}
 
@@ -6030,8 +6096,8 @@ packages:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
     engines: {node: '>=10'}
 
-  ws@8.18.0:
-    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -6042,8 +6108,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.20.0:
-    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
+  ws@8.20.1:
+    resolution: {integrity: sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -7194,31 +7260,31 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@convex-dev/eslint-plugin@1.2.2(convex@1.34.1)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@convex-dev/eslint-plugin@1.2.2(convex@1.41.0)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/types': 8.58.2
       '@typescript-eslint/utils': 8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      convex: 1.34.1
+      convex: 1.41.0
     transitivePeerDependencies:
       - eslint
       - supports-color
       - typescript
 
-  '@convex-dev/rate-limiter@0.3.2(convex@1.34.1)':
+  '@convex-dev/rate-limiter@0.3.2(convex@1.41.0)':
     dependencies:
-      convex: 1.34.1
+      convex: 1.41.0
 
-  '@convex-dev/workflow@0.3.8(@convex-dev/workpool@0.4.6(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1))(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1)':
+  '@convex-dev/workflow@0.3.8(@convex-dev/workpool@0.4.6(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0))(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0)':
     dependencies:
-      '@convex-dev/workpool': 0.4.6(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1)
+      '@convex-dev/workpool': 0.4.6(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0)
       async-channel: 0.2.0
-      convex: 1.34.1
-      convex-helpers: 0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6)
+      convex: 1.41.0
+      convex-helpers: 0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6)
 
-  '@convex-dev/workpool@0.4.6(convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6))(convex@1.34.1)':
+  '@convex-dev/workpool@0.4.6(convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6))(convex@1.41.0)':
     dependencies:
-      convex: 1.34.1
-      convex-helpers: 0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6)
+      convex: 1.41.0
+      convex-helpers: 0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6)
 
   '@discordjs/builders@1.14.1':
     dependencies:
@@ -7708,16 +7774,6 @@ snapshots:
       nanoid: 5.1.7
       svelte: 5.55.9(@typescript-eslint/types@8.58.2)
 
-  '@mmailaender/convex-svelte@0.18.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.34.1)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)':
-    dependencies:
-      convex: 1.34.1
-      esm-env: 1.2.2
-      runed: 0.37.1(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
-      svelte: 5.55.9(@typescript-eslint/types@8.58.2)
-    transitivePeerDependencies:
-      - '@sveltejs/kit'
-      - zod
-
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     optional: true
 
@@ -7826,9 +7882,23 @@ snapshots:
   '@poppinss/macroable@1.1.2':
     optional: true
 
+  '@posthog/convex@2.0.29(convex@1.41.0)(rxjs@7.8.2)':
+    dependencies:
+      '@posthog/core': 1.35.3
+      convex: 1.41.0
+      posthog-node: 5.38.2(rxjs@7.8.2)
+    transitivePeerDependencies:
+      - rxjs
+
+  '@posthog/core@1.35.3':
+    dependencies:
+      '@posthog/types': 1.390.2
+
   '@posthog/core@1.5.2':
     dependencies:
       cross-spawn: 7.0.6
+
+  '@posthog/types@1.390.2': {}
 
   '@quansync/fs@1.0.0':
     dependencies:
@@ -8587,6 +8657,8 @@ snapshots:
 
   '@types/validator@13.15.10':
     optional: true
+
+  '@types/whatwg-mimetype@5.0.0': {}
 
   '@types/ws@8.18.1':
     dependencies:
@@ -9385,19 +9457,29 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  convex-helpers@0.1.114(@standard-schema/spec@1.1.0)(convex@1.34.1)(typescript@5.9.3)(zod@4.3.6):
+  convex-helpers@0.1.119(@standard-schema/spec@1.1.0)(convex@1.41.0)(typescript@5.9.3)(zod@4.3.6):
     dependencies:
-      convex: 1.34.1
+      convex: 1.41.0
     optionalDependencies:
       '@standard-schema/spec': 1.1.0
       typescript: 5.9.3
       zod: 4.3.6
 
-  convex@1.34.1:
+  convex-svelte@0.14.0(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(convex@1.41.0)(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6):
+    dependencies:
+      convex: 1.41.0
+      esm-env: 1.2.2
+      runed: 0.37.1(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@5.9.3)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(zod@4.3.6)
+      svelte: 5.55.9(@typescript-eslint/types@8.58.2)
+    transitivePeerDependencies:
+      - '@sveltejs/kit'
+      - zod
+
+  convex@1.41.0:
     dependencies:
       esbuild: 0.27.0
       prettier: 3.8.1
-      ws: 8.18.0
+      ws: 8.20.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -10168,6 +10250,10 @@ snapshots:
       hast-util-parse-selector: 4.0.0
       property-information: 7.1.0
       space-separated-tokens: 2.0.2
+
+  haywire@0.1.8:
+    dependencies:
+      p-defer: 4.0.1
 
   html-void-elements@3.0.0: {}
 
@@ -11101,6 +11187,8 @@ snapshots:
       magic-regexp: 0.10.0
       oxc-parser: 0.115.0(@emnapi/core@1.9.1)(@emnapi/runtime@1.9.1)
 
+  p-defer@4.0.1: {}
+
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
@@ -11193,6 +11281,12 @@ snapshots:
       fflate: 0.4.8
       preact: 10.29.0
       web-vitals: 4.2.4
+
+  posthog-node@5.38.2(rxjs@7.8.2):
+    dependencies:
+      '@posthog/core': 1.35.3
+    optionalDependencies:
+      rxjs: 7.8.2
 
   preact@10.29.0: {}
 
@@ -12294,6 +12388,8 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
+  whatwg-mimetype@5.0.0: {}
+
   whatwg-url@7.1.0:
     dependencies:
       lodash.sortby: 4.7.0
@@ -12482,9 +12578,9 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
-  ws@8.18.0: {}
-
   ws@8.20.0: {}
+
+  ws@8.20.1: {}
 
   wsl-utils@0.1.0:
     dependencies:

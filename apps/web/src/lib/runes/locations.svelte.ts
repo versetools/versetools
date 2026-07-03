@@ -1,6 +1,6 @@
 import { api } from "$convex/_generated/api";
 import type { LocationWithChildren } from "$convex/app/commands/locations/LocationTreeQuery";
-import { useQuery, type UseQueryReturn } from "@mmailaender/convex-svelte";
+import { useQuery, type UseQueryReturn } from "convex-svelte";
 
 export type LocationsQuery = UseQueryReturn<typeof api.locations.list>;
 

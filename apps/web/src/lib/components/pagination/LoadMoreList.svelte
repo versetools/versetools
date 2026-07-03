@@ -9,8 +9,8 @@
 </script>
 
 <script lang="ts">
-	import { usePaginatedQuery } from "@mmailaender/convex-svelte";
 	import { Button, Card } from "@versetools/ui";
+	import { usePaginatedQuery } from "convex-svelte";
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";

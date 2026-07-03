@@ -14,13 +14,16 @@
         "@aws-sdk/client-sesv2": "catalog:aws-sdk",
         "@aws-sdk/client-sqs": "catalog:aws-sdk",
         "@convex-dev/rate-limiter": "^0.3.2",
+        "@posthog/convex": "^2.0.29",
+        "@types/whatwg-mimetype": "^5.0.0",
+        "@typescript/native-preview": "catalog:",
         "@versetools/config": "workspace:*",
         "@versetools/convex-client": "workspace:*",
         "@versetools/core": "workspace:*",
         "@versetools/types": "workspace:*",
-        "@typescript/native-preview": "catalog:",
         "buffer": "^6.0.3",
         "convex": "catalog:",
+        "whatwg-mimetype": "^5.0.0",
         "yaml": "^2.8.1"
     },
     "packageManager": "pnpm@10.33.2"

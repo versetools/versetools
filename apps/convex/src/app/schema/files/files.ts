@@ -1,14 +1,10 @@
-import type { DataModel } from "$convex/_generated/dataModel";
 import { vWorkflowId } from "@convex-dev/workflow";
-import {
-	defineTable,
-	type DocumentByName,
-} from "convex/server";
-import {
-	v
-} from "convex/values";
+import { defineTable } from "convex/server";
+import { v } from "convex/values";
 
-export type File = DocumentByName<DataModel, "files">;
+import type { Doc } from "$convex/_generated/dataModel";
+
+export type File = Doc<"files">;
 
 export const filesSchema = {
 	files: defineTable({
@@ -25,5 +21,5 @@ export const filesSchema = {
 		.index("by_key", ["key"])
 		.index("by_expiresAt", ["expiresAt"])
 		.index("by_uploaderId", ["uploaderId"])
-		.index("by_deletionWorkflowId", ["deletionWorkflowId"]),
+		.index("by_deletionWorkflowId", ["deletionWorkflowId"])
 };

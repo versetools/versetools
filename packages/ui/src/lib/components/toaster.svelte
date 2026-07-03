@@ -91,7 +91,7 @@
 <div
 	{...toaster.root}
 	class={twMerge(
-		"fixed !right-0 !bottom-4 flex w-full max-w-sm flex-col items-end gap-1 overflow-x-hidden bg-transparent p-0 px-4",
+		"fixed right-0! bottom-4! flex w-full max-w-sm flex-col items-end gap-1 overflow-x-hidden bg-transparent p-0 px-4",
 		className
 	)}
 >
@@ -111,13 +111,13 @@
 			/>
 			{#if toast.closeDelay > 0 || toast.data.customPercentage}
 				<div
-					class="relative h-[2px] w-full overflow-hidden"
+					class="relative h-0.5 w-full overflow-hidden"
 					style="--width:{Math.min(
 						100,
 						Math.max(0, toast.data.customPercentage ?? toast.percentage)
 					)}%"
 				>
-					<div class="h-[12px] w-(--width) rounded-t-sm bg-(--toast-border)"></div>
+					<div class="h-3 w-(--width) rounded-t-sm bg-(--toast-border)"></div>
 				</div>
 			{/if}
 			<div class="relative flex items-start p-1">

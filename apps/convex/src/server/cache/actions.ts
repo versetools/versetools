@@ -2,7 +2,7 @@ import { v } from "convex/values";
 
 import { internal } from "$convex/_generated/api";
 import { internalMutation, internalQuery } from "$convex/_generated/server";
-import { ActionCache, type ActionCacheResult } from "$convex/app/cache";
+import ActionCache, { type ActionCacheResult } from "$convex/app/services/cache/ActionCache";
 
 export const get = internalQuery({
 	args: {

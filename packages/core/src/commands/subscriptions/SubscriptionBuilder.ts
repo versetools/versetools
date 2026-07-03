@@ -1,6 +1,5 @@
 import type { Expand, GenericDataModel, GenericMutationCtx } from "convex/server";
 
-import type { Runner } from "../Runner";
 import {
 	Subscription,
 	type AnySubscriptionListener,
@@ -9,10 +8,11 @@ import {
 	type SubscriptionPhase
 } from "./Subscription";
 import type { GenericCtx, GenericQueryableCtx } from "../../helpers";
+import type { RunnerService } from "../../services/commands/RunnerService";
+import type { SubscriptionRegistry } from "../../services/commands/subscriptions/SubscriptionRegistry";
 import type { Class, MaybePromise } from "../../utility-types";
 import type { MutationCommand, MutationValue } from "../MutationCommand";
 import type { QueryCommand, QueryValue } from "../QueryCommand";
-import type { SubscriptionRegistry } from "./SubscriptionRegistry";
 
 export type SubscriptionMiddleware<
 	DataModel extends GenericDataModel,
@@ -20,7 +20,7 @@ export type SubscriptionMiddleware<
 	CommandType extends Class,
 	MiddlewareContext extends object = {}
 > = (
-	runner: Runner<DataModel>,
+	runner: RunnerService<DataModel>,
 	ctx: Ctx,
 	query: InstanceType<CommandType>,
 	next: (context: MiddlewareContext) => void
@@ -137,13 +137,13 @@ export type QueryListener<
 	Context extends object = {}
 > = Phase extends "after"
 	? (
-			runner: Runner<DataModel>,
+			runner: RunnerService<DataModel>,
 			ctx: GenericQueryableCtx<DataModel> & Context,
 			query: Query,
 			value: QueryValue<Query>
 		) => MaybePromise<void>
 	: (
-			runner: Runner<DataModel>,
+			runner: RunnerService<DataModel>,
 			ctx: GenericQueryableCtx<DataModel> & Context,
 			query: Query
 		) => MaybePromise<void>;
@@ -196,13 +196,13 @@ export type MutationListener<
 	Context extends object = {}
 > = Phase extends "after"
 	? (
-			runner: Runner<DataModel>,
+			runner: RunnerService<DataModel>,
 			ctx: GenericMutationCtx<DataModel> & Context,
 			mutation: Mutation,
 			value: MutationValue<Mutation>
 		) => MaybePromise<void>
 	: (
-			runner: Runner<DataModel>,
+			runner: RunnerService<DataModel>,
 			ctx: GenericMutationCtx<DataModel> & Context,
 			mutation: Mutation
 		) => MaybePromise<void>;
