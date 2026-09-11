@@ -1,0 +1,37 @@
+
+[package]
+edition = "2021"
+name = "versetools_sc_data_extractor"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi-derive = "3.0.0"
+roxmltree = "0.21.1"
+serde_json = "1.0.151"
+
+[dependencies.starbreaker-datacore]
+git = "https://github.com/diogotr7/StarBreaker.git"
+version = "0.3.2"
+
+[dependencies.starbreaker-p4k]
+git = "https://github.com/diogotr7/StarBreaker.git"
+version = "0.3.2"
+
+[dependencies.starbreaker-cryxml]
+git = "https://github.com/diogotr7/StarBreaker.git"
+version = "0.3.2"
+
+[dependencies.napi]
+version = "3.0.0"
+features = ["napi10","serde-json"]
+
+[build-dependencies]
+napi-build = "2"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = "symbols"
