@@ -24,7 +24,7 @@ export class CreateLocationMutation extends MutationCommand<DataModel> {
 
 			worldSpace: this.input.worldSpace,
 			surface: this.input.surface,
-			position: this.input.position,
+			position: [this.input.position.x, this.input.position.y, this.input.position.z],
 			rotation: this.input.rotation,
 
 			parentId: this.input.parentId ?? null

@@ -27,7 +27,9 @@ export class UpdateLocationDataMutation extends MutationCommand<DataModel> {
 
 			worldSpace: this.input.worldSpace ?? this.location.worldSpace,
 			surface: this.input.surface ?? this.location.surface,
-			position: this.input.position ?? this.location.position,
+			position: this.input.position
+				? [this.input.position.x, this.input.position.y, this.input.position.z]
+				: this.location.position,
 			rotation:
 				this.input.rotation === null ? null : (this.input.rotation ?? this.location.rotation)
 		});

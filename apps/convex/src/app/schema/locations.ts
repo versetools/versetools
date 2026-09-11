@@ -1,4 +1,4 @@
-import { vLocationType, vQuat, vVec3, vWorldSpace } from "@versetools/types";
+import { vLocationType, vQuat, vWorldSpace } from "@versetools/types";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -20,7 +20,7 @@ export const locationsSchema = {
 
 		worldSpace: vWorldSpace,
 		surface: v.boolean(),
-		position: vVec3,
+		position: v.array(v.number()),
 		rotation: v.nullable(vQuat),
 
 		parentId: v.nullable(v.id("locations"))
