@@ -1,9 +1,10 @@
-import { bind, singletonScope } from "haywire";
+import { bind, requestScope } from "haywire";
 
 import { RunnerService } from "../../services/commands/RunnerService";
-import { runnerServiceId, subscriptionRegistryId } from "../ids/commands";
+import { genericRunnerServiceId, genericSubscriptionRegistryId } from "../ids/commands";
+import { genericCtxId } from "../../routers";
 
-export const runnerServiceBinding = bind(runnerServiceId)
-	.withDependencies([subscriptionRegistryId])
-	.withProvider((registry) => new RunnerService(registry))
-	.scoped(singletonScope);
+export const runnerServiceBinding = bind(genericRunnerServiceId)
+	.withDependencies([genericCtxId, genericSubscriptionRegistryId])
+	.withProvider((ctx, registry) => new RunnerService(ctx, registry))
+	.scoped(requestScope);
