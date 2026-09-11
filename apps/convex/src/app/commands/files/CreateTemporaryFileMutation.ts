@@ -1,4 +1,4 @@
-import type { DataModel, Id } from "$convex/_generated/dataModel";
+import type { DataModel } from "$convex/_generated/dataModel";
 import type { MutationCtx } from "$convex/_generated/server";
 import { MutationCommand } from "@versetools/core/commands";
 
@@ -8,19 +8,17 @@ export class CreateTemporaryFileMutation extends MutationCommand<DataModel> {
 			key: string;
 			sizeBytes: number;
 			expiresAt: number;
-			uploaderId: Id<"user">;
 		}
 	) {
 		super();
 	}
 
 	async execute(ctx: MutationCtx) {
-		const { key, sizeBytes, expiresAt, uploaderId } = this.data;
+		const { key, sizeBytes, expiresAt } = this.data;
 
 		return ctx.db.insert("files", {
 			key,
 			sizeBytes,
-			uploaderId,
 			expiresAt,
 			awaitingAttachment: true,
 			deleted: false
