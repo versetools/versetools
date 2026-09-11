@@ -1,117 +1,48 @@
-import type {
-	ArgsArray,
-	ArgsArrayToObject,
-	DefaultFunctionArgs,
-	FunctionVisibility,
-	GenericActionCtx,
-	GenericDataModel,
-	GenericMutationCtx,
-	GenericQueryCtx
+import {
+	type ArgsArrayToObject,
+	type FunctionVisibility,
+	type GenericDataModel,
+	type FunctionType
 } from "convex/server";
-import type { Infer, ObjectType, PropertyValidators, Validator } from "convex/values";
 import type { Registration } from "convex-helpers/server/customFunctions";
-import { type GenericHaywireId, type HaywireId, type IsClass } from "haywire";
-import * as zCore from "zod/v4/core";
+import { type GenericHaywireId, type IsClass } from "haywire";
 
 import type { ConvexRouter } from "./ConvexRouter";
 import { genericArgsId, genericCtxId } from "./ids";
 import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
+import type {
+	ArgsArrayFromOptionsOptionalValidator,
+	ContextForFunctionType,
+	DependencyIdsObject,
+	RouteBuilderOptions
+} from "./types";
+import { createRegistration } from "./registration";
+import { genericRunnerServiceId } from "../../config/ids/commands";
 
-type ConvexArgOptions = {
-	validator?: "convex";
-	args?: PropertyValidators | Validator<any, "required", any> | void;
-};
-
-type ZodFields = Record<string, zCore.$ZodType>;
-
-type ZodArgOptions = {
-	validator: "zod";
-	args?: ZodFields | zCore.$ZodObject<any> | void;
-	skipConvexValidation?: boolean;
-};
-
-export type RouteBuilderOptions = {} & (ConvexArgOptions | ZodArgOptions);
-
-type CtxId<Ctx extends GenericQueryCtx<any> | GenericMutationCtx<any> | GenericActionCtx<any>> =
-	HaywireId<Ctx, null, null, false, false, false, false>;
-
-type ArgsId<ArgsObject extends DefaultFunctionArgs = DefaultFunctionArgs> = HaywireId<
-	ArgsObject,
-	null,
-	null,
-	false,
-	false,
-	false,
-	false
->;
-
-type ArgsArrayToArgsIdArray<Args extends ArgsArray> = Args extends [
-	infer ArgsObject extends DefaultFunctionArgs
-]
-	? [ArgsId<ArgsObject>]
-	: [];
-
-type ArgsArrayFromConvexValidator<
-	ArgsValidator extends PropertyValidators | Validator<any, "required", any> | void
-> = [ArgsValidator] extends [Validator<any, any, any>]
-	? [Infer<ArgsValidator>]
-	: [ArgsValidator] extends [PropertyValidators]
-		? [ObjectType<ArgsValidator>]
-		: ArgsArray;
-
-type ArgsArrayFromZodValidator<ArgsValidator extends ZodFields | zCore.$ZodObject<any> | void> = [
-	ArgsValidator
-] extends [zCore.$ZodObject<any>]
-	? [zCore.output<ArgsValidator>]
-	: [ArgsValidator] extends [ZodFields]
-		? [zCore.output<zCore.$ZodObject<ArgsValidator, zCore.$strict>>]
-		: ArgsArray;
-
-type ArgsArrayFromOptionsOptionalValidator<Options extends RouteBuilderOptions> =
-	Options["validator"] extends "zod"
-		? Options["args"] extends ZodFields | zCore.$ZodObject<any> | void
-			? ArgsArrayFromZodValidator<Options["args"]>
-			: []
-		: Options["args"] extends PropertyValidators | Validator<any, "required", any> | void
-			? ArgsArrayFromConvexValidator<Options["args"]>
-			: [];
-
-type ArgsIdArrayFromOptions<Options extends RouteBuilderOptions> = ArgsArrayToArgsIdArray<
-	ArgsArrayFromOptionsOptionalValidator<Options>
->;
-
-type ContextForFunctionType<
-	FunctionType extends "query" | "mutation" | "action",
-	DataModel extends GenericDataModel
-> = {
-	query: GenericQueryCtx<DataModel>;
-	mutation: GenericMutationCtx<DataModel>;
-	action: GenericActionCtx<DataModel>;
-}[FunctionType];
+export type { RouteBuilderOptions } from "./types";
 
 export class RouteBuilder<
 	DataModel extends GenericDataModel,
-	FunctionType extends "query" | "mutation" | "action",
+	Router extends ConvexRouter<DataModel, any, any>,
+	Type extends FunctionType,
 	Visibility extends FunctionVisibility,
-	Options extends RouteBuilderOptions
+	Options extends RouteBuilderOptions<any>
 > {
 	constructor(
-		private readonly router: ConvexRouter<DataModel>,
-		private readonly functionType: FunctionType,
+		private readonly router: Router,
+		private readonly functionType: Type,
 		private readonly visibility: Visibility,
 		private readonly options: Options
 	) {}
 
 	withDependencies<Dependencies extends readonly (GenericHaywireId | IsClass)[]>(
-		dependencyIdsSupplier: (
-			ctxId: CtxId<ContextForFunctionType<FunctionType, DataModel>>,
-			...argsId: ArgsIdArrayFromOptions<Options>
-		) => [...Dependencies]
+		dependencyIdsSupplier: (ids: DependencyIdsObject<DataModel, Type, Options>) => [...Dependencies]
 	) {
-		const dependencyIds = dependencyIdsSupplier(
-			genericCtxId as CtxId<ContextForFunctionType<FunctionType, DataModel>>,
-			...([genericArgsId] as ArgsIdArrayFromOptions<Options>)
-		);
+		const dependencyIds = dependencyIdsSupplier({
+			runnerId: genericRunnerServiceId,
+			ctxId: genericCtxId,
+			argsId: genericArgsId
+		} as unknown as DependencyIdsObject<DataModel, Type, Options>);
 
 		return new DepsRouteBuilder(
 			this.router,
@@ -124,27 +55,37 @@ export class RouteBuilder<
 
 	withHandler<ReturnValue>(
 		handler: (
-			ctx: ContextForFunctionType<FunctionType, DataModel>,
+			ctx: ContextForFunctionType<Type, DataModel>,
 			...args: ArgsArrayFromOptionsOptionalValidator<Options>
 		) => ReturnValue
 	): Registration<
-		FunctionType,
+		Type,
 		Visibility,
 		ArgsArrayToObject<ArgsArrayFromOptionsOptionalValidator<Options>>,
 		ReturnValue
-	> {}
+	> {
+		return createRegistration({
+			functionType: this.functionType,
+			visibility: this.visibility,
+			dependencyIds: [],
+			middlewarePipeline: this.router._middlewarePipeline,
+			handler,
+			options: this.options,
+			factory: this.router._factory
+		});
+	}
 }
 
 class DepsRouteBuilder<
 	DataModel extends GenericDataModel,
-	FunctionType extends "query" | "mutation" | "action",
+	Type extends FunctionType,
 	Visibility extends FunctionVisibility,
-	Options extends RouteBuilderOptions,
+	Options extends RouteBuilderOptions<any>,
 	DependencyIds extends readonly [...GenericHaywireId[]]
 > {
 	constructor(
 		private readonly router: ConvexRouter<DataModel>,
-		private readonly functionType: FunctionType,
+		private readonly functionType: Type,
 		private readonly visibility: Visibility,
 		private readonly options: Options,
 		private readonly dependencyIds: DependencyIds
@@ -153,9 +94,19 @@ class DepsRouteBuilder<
 	withHandler<ReturnValue>(
 		handler: (...deps: HaywireDependencyIdTypes<DependencyIds>) => ReturnValue
 	): Registration<
-		FunctionType,
+		Type,
 		Visibility,
 		ArgsArrayToObject<ArgsArrayFromOptionsOptionalValidator<Options>>,
 		ReturnValue
-	> {}
+	> {
+		return createRegistration({
+			functionType: this.functionType,
+			visibility: this.visibility,
+			dependencyIds: this.dependencyIds,
+			middlewarePipeline: this.router._middlewarePipeline,
+			handler,
+			options: this.options,
+			factory: this.router._factory
+		});
+	}
 }
