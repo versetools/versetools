@@ -1,52 +1,35 @@
 import { MutationCommand } from "@versetools/core/commands";
-import { type UpdateGameLocationSchema } from "@versetools/types";
+import { type UpdateLocationSchema } from "@versetools/types";
 import type * as z from "zod";
 
 import type { DataModel } from "$convex/_generated/dataModel";
 import type { MutationCtx } from "$convex/_generated/server";
-import type { GameLocation } from "$convex/app/schema/gameLocations";
+import type { Location } from "$convex/app/schema/locations";
 
 export class UpdateLocationDataMutation extends MutationCommand<DataModel> {
 	constructor(
-		readonly location: GameLocation,
-		readonly input: z.infer<typeof UpdateGameLocationSchema>
+		readonly location: Location,
+		readonly input: z.infer<typeof UpdateLocationSchema>
 	) {
 		super();
 	}
 
 	async execute(ctx: MutationCtx) {
-		await ctx.db.patch("gameLocations", this.location._id, {
-			cryGuid: this.input.cryGuid ?? this.location.cryGuid,
-			parentCryGuid:
-				this.input.parentCryGuid !== undefined
-					? this.input.parentCryGuid
-					: this.location.parentCryGuid,
-			typeCryGuid:
-				this.input.typeCryGuid !== undefined ? this.input.typeCryGuid : this.location.typeCryGuid,
+		await ctx.db.patch("locations", this.location._id, {
+			cigGuid: this.input.cigGuid ?? this.location.cigGuid,
 
 			name: this.input.name ?? this.location.name,
-			type: this.input.type ?? this.location.type,
-			surface: this.input.surface ?? this.location.surface,
+			description: this.input.description ?? this.location.description,
 
-			transformType:
-				this.input.transformType !== undefined
-					? this.input.transformType
-					: this.location.transformType,
-			position: this.input.position
-				? [this.input.position.x, this.input.position.y, this.input.position.z]
-				: this.input.position === null
-					? null
-					: this.location.position,
-			rotation: this.input.rotation
-				? [
-						this.input.rotation.w,
-						this.input.rotation.x,
-						this.input.rotation.y,
-						this.input.rotation.z
-					]
-				: this.input.rotation === null
-					? null
-					: this.location.rotation
+			type: this.input.type ?? this.location.type,
+			typeCigGuid:
+				this.input.typeCigGuid !== undefined ? this.input.typeCigGuid : this.location.typeCigGuid,
+
+			worldSpace: this.input.worldSpace ?? this.location.worldSpace,
+			surface: this.input.surface ?? this.location.surface,
+			position: this.input.position ?? this.location.position,
+			rotation:
+				this.input.rotation === null ? null : (this.input.rotation ?? this.location.rotation)
 		});
 	}
 }

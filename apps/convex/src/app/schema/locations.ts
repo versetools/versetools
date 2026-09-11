@@ -1,4 +1,4 @@
-import { vGameLocationType, vGameTransformType } from "@versetools/types";
+import { vLocationType, vQuat, vVec3, vWorldSpace } from "@versetools/types";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -6,28 +6,31 @@ import type { Doc } from "$convex/_generated/dataModel";
 
 export type Location = Doc<"locations">;
 export type LocationClosure = Doc<"locationClosures">;
+export type LocationProperty = Doc<"locationProperties">;
 
 export const locationsSchema = {
 	locations: defineTable({
-		cryGuid: v.string(),
-		parentCryGuid: v.nullable(v.string()),
-		typeCryGuid: v.nullable(v.string()),
+		cigGuid: v.string(),
 
 		name: v.string(),
-		type: vGameLocationType,
-		surface: v.boolean(),
+		description: v.nullable(v.string()),
 
-		transformType: v.nullable(vGameTransformType),
-		position: v.nullable(v.array(v.number())),
-		rotation: v.nullable(v.array(v.number())),
+		type: vLocationType,
+		typeCigGuid: v.nullable(v.string()),
+
+		worldSpace: vWorldSpace,
+		surface: v.boolean(),
+		position: vVec3,
+		rotation: v.nullable(vQuat),
 
 		parentId: v.nullable(v.id("locations"))
 	})
+		.index("by_cigGuid", ["cigGuid"])
 		.index("by_parentId", ["parentId"])
 		.vectorIndex("by_position", {
 			vectorField: "position",
 			dimensions: 3,
-			filterFields: ["transformType"]
+			filterFields: ["worldSpace"]
 		}),
 
 	locationClosures: defineTable({
@@ -37,5 +40,14 @@ export const locationsSchema = {
 	})
 		.index("by_ancestorId", ["ancestorId"])
 		.index("by_descendantId", ["descendantId"])
-		.index("by_ancestorId_and_descendantId", ["ancestorId", "descendantId"])
+		.index("by_ancestorId_and_descendantId", ["ancestorId", "descendantId"]),
+
+	locationProperties: defineTable({
+		locationId: v.id("locations"),
+		key: v.string(),
+		value: v.string()
+	})
+		.index("by_locationId", ["locationId"])
+		.index("by_key", ["key"])
+		.index("by_locationId_and_key", ["locationId", "key"])
 };

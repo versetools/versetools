@@ -10,7 +10,7 @@ export class RootLocationsQuery extends QueryCommand<DataModel> {
 
 	async execute(ctx: QueryableCtx) {
 		return await ctx.db
-			.query("gameLocations")
+			.query("locations")
 			.withIndex("by_parentId", (q) => q.eq("parentId", null))
 			.collect();
 	}

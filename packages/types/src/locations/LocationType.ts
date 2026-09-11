@@ -1,7 +1,7 @@
 import { vEnum } from "@versetools/core/helpers";
 import * as z from "zod/v4";
 
-export enum GameLocationType {
+export enum LocationType {
 	Marker = "marker",
 	System = "system",
 	Planet = "planet",
@@ -18,11 +18,11 @@ export enum GameLocationType {
 	Prison = "prison"
 }
 
-export const GameLocationTypeSchema = z.enum(GameLocationType);
+export const LocationTypeSchema = z.enum(LocationType);
 
-export const vGameLocationType = vEnum(GameLocationType);
+export const vLocationType = vEnum(LocationType);
 
-export const GameLocationTypeNames = {
+export const LocationTypeNames = {
 	marker: "Marker",
 	system: "System",
 	planet: "Planet",
@@ -37,11 +37,11 @@ export const GameLocationTypeNames = {
 	city: "City",
 	outpost: "Outpost",
 	prison: "Prison"
-} satisfies Record<GameLocationType, string>;
+} satisfies Record<LocationType, string>;
 
-export const GameLocationTypeOptions = (
-	Object.keys(GameLocationTypeNames) as GameLocationType[]
-).map((key) => ({
-	name: GameLocationTypeNames[key],
-	value: key
-}));
+export const LocationTypeOptions = (Object.keys(LocationTypeNames) as LocationType[]).map(
+	(key) => ({
+		name: LocationTypeNames[key],
+		value: key
+	})
+);

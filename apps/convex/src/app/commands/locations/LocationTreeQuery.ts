@@ -5,21 +5,21 @@ import { getAll } from "convex-helpers/server/relationships";
 
 import type { DataModel, Id } from "$convex/_generated/dataModel";
 import type { QueryableCtx } from "$convex/app/dataModel";
-import type { GameLocation } from "$convex/app/schema/gameLocations";
+import type { Location } from "$convex/app/schema/locations";
 
 import { LocationSubtreeQuery } from "./LocationSubtreeQuery";
 
-export type LocationWithChildren = GameLocation & {
+export type LocationWithChildren = Location & {
 	children?: LocationWithChildren[];
 };
 
 export class LocationTreeQuery extends QueryCommand<DataModel> {
-	constructor(readonly locationId: Id<"gameLocations">) {
+	constructor(readonly locationId: Id<"locations">) {
 		super();
 	}
 
 	async execute(ctx: QueryableCtx) {
-		const tree = await this.runner.query(ctx, new LocationSubtreeQuery(this.locationId));
+		const tree = await this.runner.query(new LocationSubtreeQuery(this.locationId));
 
 		const locations = pruneNull(
 			await getAll(

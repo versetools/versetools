@@ -2,16 +2,16 @@ import { QueryCommand } from "@versetools/core/commands";
 
 import type { DataModel, Id } from "$convex/_generated/dataModel";
 import type { QueryableCtx } from "$convex/app/dataModel";
-import type { GameLocationClosure } from "$convex/app/schema/gameLocations";
+import type { LocationClosure } from "$convex/app/schema/locations";
 
 export class LocationAncestorsQuery extends QueryCommand<DataModel> {
-	constructor(readonly locationId: Id<"gameLocations">) {
+	constructor(readonly locationId: Id<"locations">) {
 		super();
 	}
 
-	async execute(ctx: QueryableCtx): Promise<GameLocationClosure[]> {
+	async execute(ctx: QueryableCtx): Promise<LocationClosure[]> {
 		const ancestors = await ctx.db
-			.query("gameLocationClosures")
+			.query("locationClosures")
 			.withIndex("by_descendantId", (q) => q.eq("descendantId", this.locationId))
 			.filter((q) => q.not(q.eq(q.field("depth"), 0)))
 			.collect();
