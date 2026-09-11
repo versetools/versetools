@@ -4,7 +4,6 @@ import { pruneNull } from "convex-helpers";
 import { getAll } from "convex-helpers/server/relationships";
 
 import { components, internal } from "$convex/_generated/api";
-import { internalMutation } from "$convex/_generated/server";
 import { DeleteEntryFileMutation } from "$convex/app/commands/files/DeleteEntryFileMutation";
 import { TagFilesForDeletionMutation } from "$convex/app/commands/files/TagFilesForDeletionMutation";
 import { router } from "$convex/app/main";
@@ -27,52 +26,44 @@ export const workflow = deleteFilesWorkflowManager.define({
 		fileIds: v.array(v.id("files"))
 	},
 	handler: async (step, args): Promise<void> => {
-		console.log(`[DeleteFilesWorkflow] Tagging ${args.fileIds.length} files for deletion...`);
+		console.log(`[workflow:deleteFiles] Tagging ${args.fileIds.length} files for deletion...`);
 		await step.runMutation(internal.files.workflow.deleteFiles.tagFiles, {
 			workflowId: step.workflowId,
 			fileIds: args.fileIds
 		});
 
-		console.log(`[DeleteFilesWorkflow] Deleting ${args.fileIds.length} files from storage...`);
+		console.log(`[workflow:deleteFiles] Deleting ${args.fileIds.length} files from storage...`);
 		await step.runAction(internal.server.fileStorage.deleteFiles, {
 			keys: args.keys
 		});
 
-		console.log(`[DeleteFilesWorkflow] Deleting ${args.fileIds.length} file entries...`);
+		console.log(`[workflow:deleteFiles] Deleting ${args.fileIds.length} file entries...`);
 		await step.runMutation(internal.files.workflow.deleteFiles.deleteFiles, {
 			fileIds: args.fileIds
 		});
 	}
 });
 
-export const tagFiles = internalMutation({
-	args: {
-		workflowId: vWorkflowId,
-		fileIds: v.array(v.id("files"))
-	},
-	handler: async (ctx, args): Promise<void> => {
-		await runner.mutation(ctx, new TagFilesForDeletionMutation(args.workflowId, args.fileIds));
-	}
-});
+export const tagFiles = router
+	.internalMutation({
+		args: {
+			workflowId: vWorkflowId,
+			fileIds: v.array(v.id("files"))
+		}
+	})
+	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
+	.withHandler(async (runner, args) => {
+		await runner.mutation(new TagFilesForDeletionMutation(args.workflowId, args.fileIds));
+	});
 
-export const deleteFiles = internalMutation({
-	args: {
-		fileIds: v.array(v.id("files"))
-	},
-	handler: async (ctx, args): Promise<void> => {
-		const files = pruneNull(await getAll(ctx.db, args.fileIds));
-		await runner.mapMutation(ctx, files, (file) => new DeleteEntryFileMutation(file));
-	}
-});
-
-export const _deleteFiles = router
+export const deleteFiles = router
 	.internalMutation({
 		args: {
 			fileIds: v.array(v.id("files"))
 		}
 	})
-	.withDependencies((ctxId, argsId) => [ctxId, argsId])
-	.withHandler(async async (ctx, args) => {
+	.withDependencies(({ ctxId, runnerId, argsId }) => [ctxId, runnerId, argsId])
+	.withHandler(async (ctx, runner, args) => {
 		const files = pruneNull(await getAll(ctx.db, args.fileIds));
-		await runner.mapMutation(ctx, files, (file) => new DeleteEntryFileMutation(file));
+		await runner.mapMutation(files, (file) => new DeleteEntryFileMutation(file));
 	});

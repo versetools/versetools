@@ -1,8 +1,7 @@
 import { NONE, type Err, type None } from "@l3dev/result";
 import { ResultError } from "@versetools/core/errors";
-import { CreateGameLocationSchema, UpdateGameLocationSchema } from "@versetools/types";
+import { CreateLocationSchema, UpdateLocationSchema } from "@versetools/types";
 import { v } from "convex/values";
-import { zid } from "convex-helpers/server/zod4";
 
 import { CreateLocationMutation } from "$convex/app/commands/locations/CreateLocationMutation";
 import { DeleteLocationMutation } from "$convex/app/commands/locations/DeleteLocationMutation";
@@ -13,65 +12,71 @@ import {
 import { MoveLocationMutation } from "$convex/app/commands/locations/MoveLocationMutation";
 import { RootLocationsQuery } from "$convex/app/commands/locations/RootLocationsQuery";
 import { UpdateLocationDataMutation } from "$convex/app/commands/locations/UpdateLocationDataMutation";
-import { zInternalMutation } from "$convex/app/functions";
-import { runner } from "$convex/app/main";
+import { router } from "$convex/app/main";
 
-import { query } from "./_generated/server";
-
-export const list = query({
-	args: {
-		rootIds: v.optional(v.array(v.id("gameLocations")))
-	},
-	handler: async (ctx, args): Promise<LocationWithChildren[]> => {
+export const list = router
+	.query({
+		args: {
+			rootIds: v.optional(v.array(v.id("locations")))
+		}
+	})
+	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
+	.withHandler(async (runner, args): Promise<LocationWithChildren[]> => {
 		const rootIds = args.rootIds
 			? args.rootIds
-			: (await runner.query(ctx, new RootLocationsQuery())).map((l) => l._id);
+			: (await runner.query(new RootLocationsQuery())).map((l) => l._id);
 
 		return await runner.mapQuery(
-			ctx,
 			rootIds,
 			(rootId): LocationTreeQuery => new LocationTreeQuery(rootId)
 		);
-	}
-});
+	});
 
-export const create = zInternalMutation({
-	args: CreateGameLocationSchema,
-	handler: async (ctx, args): Promise<None> => {
-		await runner.mutation(ctx, new CreateLocationMutation(args));
+export const create = router
+	.internalMutation({
+		validator: "zod",
+		args: CreateLocationSchema
+	})
+	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
+	.withHandler(async (runner, args): Promise<None> => {
+		await runner.mutation(new CreateLocationMutation(args));
 		return NONE;
-	}
-});
+	});
 
-export const update = zInternalMutation({
-	args: UpdateGameLocationSchema,
-	handler: async (ctx, args): Promise<None | Err<"LOCATION_NOT_FOUND", null>> => {
-		const existing = await ctx.db.get("gameLocations", args.id);
+export const update = router
+	.internalMutation({
+		validator: "zod",
+		args: UpdateLocationSchema
+	})
+	.withDependencies(({ ctxId, runnerId, argsId }) => [ctxId, runnerId, argsId])
+	.withHandler(async (ctx, runner, args): Promise<None | Err<"LOCATION_NOT_FOUND", null>> => {
+		const existing = await ctx.db.get("locations", args.id);
 		if (!existing) {
 			throw new ResultError("LOCATION_NOT_FOUND");
 		}
 
-		await runner.mutation(ctx, new UpdateLocationDataMutation(existing, args));
+		await runner.mutation(new UpdateLocationDataMutation(existing, args));
 
 		if (args.parentId !== undefined && existing.parentId !== args.parentId) {
-			await runner.mutation(ctx, new MoveLocationMutation(existing, args.parentId));
+			await runner.mutation(new MoveLocationMutation(existing, args.parentId));
 		}
 
 		return NONE;
-	}
-});
+	});
 
-export const remove = zInternalMutation({
-	args: {
-		id: zid("gameLocations")
-	},
-	handler: async (ctx, args): Promise<None | Err<"LOCATION_NOT_FOUND", null>> => {
-		const existing = await ctx.db.get("gameLocations", args.id);
+export const remove = router
+	.internalMutation({
+		args: {
+			id: v.id("locations")
+		}
+	})
+	.withDependencies(({ ctxId, runnerId, argsId }) => [ctxId, runnerId, argsId])
+	.withHandler(async (ctx, runner, args): Promise<None | Err<"LOCATION_NOT_FOUND", null>> => {
+		const existing = await ctx.db.get("locations", args.id);
 		if (!existing) {
 			throw new ResultError("LOCATION_NOT_FOUND");
 		}
 
-		await runner.mutation(ctx, new DeleteLocationMutation(existing));
+		await runner.mutation(new DeleteLocationMutation(existing));
 		return NONE;
-	}
-});
+	});

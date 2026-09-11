@@ -1,13 +1,15 @@
 import { v } from "convex/values";
 
-import { internalAction } from "$convex/_generated/server";
-import { fileStorage } from "$convex/app/main";
+import { router } from "$convex/app/main";
+import FileStorageService from "@versetools/core/services/files/FileStorageService";
 
-export const deleteFiles = internalAction({
-	args: {
-		keys: v.array(v.string())
-	},
-	handler: async (_ctx, args): Promise<void> => {
+export const deleteFiles = router
+	.internalAction({
+		args: {
+			keys: v.array(v.string())
+		}
+	})
+	.withDependencies(({ argsId }) => [FileStorageService, argsId])
+	.withHandler(async (fileStorage, args): Promise<void> => {
 		await fileStorage.deleteFiles(args.keys);
-	}
-});
+	});
