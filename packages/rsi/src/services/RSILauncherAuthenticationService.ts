@@ -1,10 +1,10 @@
 import { ok } from "@l3dev/result";
 import { ResultError } from "@versetools/core/errors";
+import FetchClient from "@versetools/core/requests/FetchClient";
 
-import FetchClient from "$convex/app/requests/FetchClient";
-import LauncherManifestRequest from "$convex/app/requests/rsi/LauncherManifestRequest";
-import type { SigninRequestParams } from "$convex/app/requests/rsi/SigninRequest";
-import SigninRequest from "$convex/app/requests/rsi/SigninRequest";
+import LauncherManifestRequest from "../requests/LauncherManifestRequest";
+import type { SigninRequestParams } from "../requests/SigninRequest";
+import SigninRequest from "../requests/SigninRequest";
 
 export default class RSILauncherAuthenticationService {
 	private readonly rsi: FetchClient;

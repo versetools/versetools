@@ -1,19 +1,19 @@
 import { createCoreModule } from "@versetools/core/config/module";
 import { convexRouter } from "@versetools/core/routers";
-import { createContainer, createFactory, createModule } from "haywire";
+import { rsiLauncherAuthenticationServiceBinding } from "@versetools/rsi/config/module";
+import { createFactory, createModule } from "haywire";
 
 import type { DataModel } from "$convex/_generated/dataModel";
 
 import { sesClientBinding } from "./config/aws";
 import { envModule } from "./config/env";
-import { rsiLauncherAuthenticationServiceBinding } from "./config/rsi";
 import { subscriptionRegistryBinding } from "./config/subscriptions";
 
 const appModule = createModule(subscriptionRegistryBinding)
 	.addBinding(rsiLauncherAuthenticationServiceBinding)
 	.addBinding(sesClientBinding);
 
-const module = appModule
+const bundle = appModule
 	.mergeModule(
 		createCoreModule({
 			email: {
@@ -27,8 +27,6 @@ const module = appModule
 	)
 	.mergeModule(envModule);
 
-export const containerFactory = createFactory(module);
-
-void createContainer(module);
+export const containerFactory = createFactory(bundle);
 
 export const router = convexRouter<DataModel>(containerFactory);

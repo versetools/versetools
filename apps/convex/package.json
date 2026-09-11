@@ -20,6 +20,7 @@
         "@versetools/config": "workspace:*",
         "@versetools/convex-client": "workspace:*",
         "@versetools/core": "workspace:*",
+        "@versetools/rsi": "workspace:*",
         "@versetools/types": "workspace:*",
         "buffer": "^6.0.3",
         "convex": "catalog:",
