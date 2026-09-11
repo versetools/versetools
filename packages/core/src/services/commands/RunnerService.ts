@@ -1,9 +1,4 @@
-import type {
-	FunctionReference,
-	GenericActionCtx,
-	GenericDataModel,
-	GenericMutationCtx
-} from "convex/server";
+import type { FunctionReference, GenericDataModel } from "convex/server";
 import { asyncMap } from "convex-helpers";
 
 import type { SubscriptionRegistry } from "./subscriptions/SubscriptionRegistry";
@@ -16,12 +11,17 @@ import type {
 	QueryCommand,
 	QueryValue
 } from "../../commands";
-import { assert } from "../../errors"; isMutation, isQuery, type GenericCtx } from "../../helpers/convex";
-import {
 import { assert } from "../../errors";
+import {
+	isAction,
+	isMutation,
+	isQuery,
+	isRunMutationCtx,
+	type GenericCtx
+} from "../../helpers/convex";
 
 export class RunnerService<DataModel extends GenericDataModel> {
-	private readonly subscripti
+	private readonly subscriptions: SubscriptionRunner<DataModel>;
 	constructor(
 		private readonly ctx: GenericCtx<DataModel>,
 		subscriptionRegistry: SubscriptionRegistry<DataModel>
@@ -30,11 +30,11 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	}
 
 	async query<Query extends QueryCommand<DataModel>>(query: Query): Promise<QueryValue<Query>> {
-		const ctx = this.ctx;
-		assert(isQuery(ctx), "Invalid context for query, expected a queryable context, got ");
+		assert(isQuery(this.ctx), "Invalid context for query, expected a queryable context");
+
 		console.debug(query);
 
-		return this.subscriptions.runQuerySubscriptions(ctx, query, () => {
+		return this.subscriptions.runQuerySubscriptions(this.ctx, query, (ctx) => {
 			query.runner = this;
 			return query.execute(ctx);
 		});
@@ -85,24 +85,24 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	}
 
 	async mutation<Mutation extends MutationCommand<DataModel>>(
-		ctx: GenericMutationCtx<DataModel>,
 		mutation: Mutation
 	): Promise<MutationValue<Mutation>> {
+		assert(isMutation(this.ctx), "Invalid context for mutation, expected a mutation context");
+
 		console.debug(mutation);
 
-		return this.subscriptions.runMutationSubscriptions(ctx, mutation, () => {
+		return this.subscriptions.runMutationSubscriptions(this.ctx, mutation, (ctx) => {
 			mutation.runner = this;
 			return mutation.execute(ctx);
 		});
 	}
 
 	async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
-		ctx: GenericMutationCtx<DataModel>,
 		arr: T[] | IteratorObject<T>,
 		callback: (value: T, index: number) => Mutation
 	): Promise<MutationValue<Mutation>[]> {
 		const mutations = arr.map(callback);
-		return await asyncMap(mutations, (mutation) => this.mutation(ctx, mutation));
+		return await asyncMap(mutations, (mutation) => this.mutation(mutation));
 	}
 
 	async dynamicMutation<
@@ -113,32 +113,36 @@ export class RunnerService<DataModel extends GenericDataModel> {
 			any,
 			MutationValue<Mutation>
 		>
-	>(
-		ctx: GenericMutationCtx<DataModel> | GenericActionCtx<DataModel>,
-		{
-			mutation,
-			func,
-			args
-		}: {
-			mutation: Mutation;
-			func: MutationFunctionReference;
-		} & (keyof MutationFunctionReference["_args"] extends never
-			? { args?: undefined }
-			: { args: MutationFunctionReference["_args"] })
-	): Promise<MutationValue<Mutation>> {
-		if (isMutation(ctx)) {
-			return this.query(ctx, mutation);
+	>({
+		mutation,
+		func,
+		args
+	}: {
+		mutation: Mutation;
+		func: MutationFunctionReference;
+	} & (keyof MutationFunctionReference["_args"] extends never
+		? { args?: undefined }
+		: { args: MutationFunctionReference["_args"] })): Promise<MutationValue<Mutation>> {
+		if (isMutation(this.ctx)) {
+			return this.mutation(mutation);
 		}
 
-		return ctx.runMutation(func, args);
+		assert(
+			isRunMutationCtx(this.ctx),
+			"Invalid context for dynamic mutation, expected a context with runMutation()"
+		);
+
+		return this.ctx.runMutation(func, args);
 	}
 
 	async action<Action extends ActionCommand<DataModel>>(
-		ctx: GenericActionCtx<DataModel>,
 		action: Action
 	): Promise<ActionValue<Action>> {
-		action.runner = this;
+		assert(isAction(this.ctx), "Invalid context for action, expected an action context");
 
-		return await action.execute(ctx);
+		console.debug(action);
+
+		action.runner = this;
+		return await action.execute(this.ctx);
 	}
 }
