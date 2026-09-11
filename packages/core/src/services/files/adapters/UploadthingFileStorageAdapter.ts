@@ -15,6 +15,10 @@ export default class UploadthingFileStorageAdapter implements FileStorageAdapter
 		});
 	}
 
+	urlFromKey(key: string) {
+		return `https://${process.env.UPLOADTHING_APP_ID}.ufs.sh/f/${key}`;
+	}
+
 	async deleteFiles(keys: string[]) {
 		const request = new DeleteFilesRequest(keys);
 

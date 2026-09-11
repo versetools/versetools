@@ -5,16 +5,20 @@ import type { FileStorageAdapterInterface } from "./adapters/FileStorageAdapterI
 export default class FileStorageService {
 	constructor(protected readonly adapter: FileStorageAdapterInterface) {}
 
+	urlFromKey(key: string) {
+		return this.adapter.urlFromKey(key);
+	}
+
 	async deleteFiles(keys: string[]) {
 		const result = await this.adapter.deleteFiles(keys);
 
 		if (!result.ok) {
-			console.error("[FileStorage.deleteFiles] Delete files request failed:", result);
+			console.error("[FileStorageService.deleteFiles] Delete files request failed:", result);
 			throw ResultError.from(result);
 		}
 
 		console.log(
-			`[FileStorage.deleteFiles] Successfully deleted ${result.value.deletedCount} files from storage`
+			`[FileStorageService.deleteFiles] Successfully deleted ${result.value.deletedCount} files from storage`
 		);
 	}
 }
