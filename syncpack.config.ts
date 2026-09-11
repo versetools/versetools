@@ -36,10 +36,6 @@ export default {
 			aliasName: "sveltejs-kit-dependency"
 		},
 		{
-			dependencies: ["@typescript/native-preview"],
-			aliasName: "typescript-native-preview-dependency"
-		},
-		{
 			dependencies: ["convex-svelte"],
 			aliasName: "convex-svelte-dependency"
 		}

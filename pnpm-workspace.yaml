@@ -3,9 +3,8 @@ packages:
   - packages/*
 
 catalog:
-  "@typescript/native-preview": 7.0.0-dev.20260111.1
   "@sveltejs/kit": ^2.61.0
-  convex: ^1.41.0
+  convex: ^1.45.0
   convex-svelte: ^0.14.0
   effect: ^3.18.1
   svelte: ^5.55.9
@@ -35,3 +34,5 @@ overrides:
 
 syncInjectedDepsAfterScripts:
   - build
+
+enablePrePostScripts: true
