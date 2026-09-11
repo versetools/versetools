@@ -21,7 +21,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	async runQuerySubscriptions<Query extends QueryCommand<DataModel>>(
 		ctx: GenericQueryableCtx<DataModel>,
 		query: Query,
-		execute: () => MaybePromise<QueryValue<Query>>
+		execute: (ctx: GenericQueryableCtx<DataModel>) => MaybePromise<QueryValue<Query>>
 	): Promise<QueryValue<Query>> {
 		const type = this.getType<typeof QueryCommand>(query);
 
@@ -32,7 +32,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 			}
 		}
 
-		const value = await execute();
+		const value = await execute(ctx);
 
 		for (const subscription of this.registry.getSubscriptions(type, "after")) {
 			await subscription.runAfter(this.runner, ctx, query, value);
@@ -47,7 +47,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	async runMutationSubscriptions<Mutation extends MutationCommand<DataModel>>(
 		ctx: GenericMutationCtx<DataModel>,
 		mutation: Mutation,
-		execute: () => MaybePromise<MutationValue<Mutation>>
+		execute: (ctx: GenericMutationCtx<DataModel>) => MaybePromise<MutationValue<Mutation>>
 	): Promise<MutationValue<Mutation>> {
 		const type = this.getType<typeof MutationCommand>(mutation);
 
@@ -58,7 +58,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 			}
 		}
 
-		const value = await execute();
+		const value = await execute(ctx);
 
 		for (const subscription of this.registry.getSubscriptions(type, "after")) {
 			await subscription.runAfter(this.runner, ctx, mutation, value);
