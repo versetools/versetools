@@ -2,6 +2,8 @@
     "name": "@versetools/config",
     "version": "0.1.0",
     "type": "module",
+    "author": "l3dotdev",
+    "license": "UNLICENSED",
     "main": "./build/index.js",
     "types": "./build/index.d.ts",
     "exports": {
@@ -10,19 +12,17 @@
             "import": "./build/index.js"
         }
     },
-    "files": [
-        "build"
-    ],
     "scripts": {
         "build": "tsc -p tsconfig.json",
-        "check": "tsgo --noEmit",
+        "check": "tsc --noEmit",
         "format": "prettier --write .",
         "lint": "eslint . && prettier --check .",
         "lint-fix": "eslint . --fix && prettier --check --write .",
         "package": "pnpm build",
         "prepublishOnly": "pnpm package"
     },
-    "author": "l3dotdev",
-    "license": "UNLICENSED",
+    "files": [
+        "build"
+    ],
     "packageManager": "pnpm@10.33.2"
 }

@@ -3,14 +3,21 @@ packages:
   - packages/*
 
 catalog:
-  "@sveltejs/kit": ^2.61.0
+  "@melt-ui/svelte": ^0.86.6
+  "@sveltejs/kit": ^2.70.3
   convex: ^1.45.0
   convex-svelte: ^0.14.0
   effect: ^3.18.1
-  svelte: ^5.55.9
+  svelte: ^5.57.0
+  svelte-check: ^4.7.6
   sveltekit-superforms: 2.30.1
+  tailwind-merge: ^3.7.0
+  tailwind-variants: ^3.3.1
   tailwindcss: ^4.3.0
   tslog: ^4.10.2
+  typescript: ~6.0.3
+  "@typescript/native": npm:typescript@^7.0.2
+  vitest: ^5.0.0
 
 catalogs:
   aws-sdk:
@@ -20,6 +27,16 @@ catalogs:
     "discord.js": ^14.26.4
     discord-api-types: ^0.38.42
     "@discordjs/rest": ^2.6.1
+  md:
+    "@types/mdast": ^4.0.4
+    hast-util-from-html: ^2.0.3
+    hast-util-to-text: ^4.0.2
+    mdast-util-from-markdown: ^2.0.3
+    mdast-util-gfm: ^3.1.0
+    mdast-util-to-markdown: ^2.1.2
+    micromark-util-types: ^2.0.2
+    unist-util-visit: ^5.1.0
+    unified: ^11.0.5
   vite:
     vite: ^7.3.2
     "@sveltejs/vite-plugin-svelte": ^6.2.4

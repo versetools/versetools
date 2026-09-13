@@ -5,15 +5,18 @@
     "type": "module",
     "scripts": {
         "check": "tsc --noEmit",
+        "convex": "convex",
         "dev": "convex dev",
         "format": "prettier --write .",
         "lint": "eslint . && prettier --check .",
-        "lint-fix": "eslint . --fix && prettier --check --write ."
+        "lint-fix": "eslint . --fix && prettier --check --write .",
+        "test": "vitest run"
     },
     "devDependencies": {
         "@aws-sdk/client-sesv2": "catalog:aws-sdk",
         "@aws-sdk/client-sqs": "catalog:aws-sdk",
         "@convex-dev/rate-limiter": "^0.3.2",
+        "@edge-runtime/vm": "^5.0.0",
         "@posthog/convex": "^2.1.4",
         "@types/whatwg-mimetype": "^5.0.0",
         "@versetools/config": "workspace:*",
@@ -23,6 +26,8 @@
         "@versetools/types": "workspace:*",
         "buffer": "^6.0.3",
         "convex": "catalog:",
+        "convex-test": "^0.0.58",
+        "vitest": "catalog:",
         "whatwg-mimetype": "^5.0.0",
         "yaml": "^2.8.1"
     },
