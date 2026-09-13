@@ -17,6 +17,14 @@ export class DeleteLocationMutation extends MutationCommand<DataModel> {
 
 		for (const closure of subtree) {
 			const locationId = closure.descendantId;
+			await deleteAll(
+				ctx.db,
+				"locationProperties",
+				await ctx.db
+					.query("locationProperties")
+					.withIndex("by_locationId", (q) => q.eq("locationId", locationId))
+					.collect()
+			);
 			await ctx.db.delete("locations", locationId);
 
 			const allRelations = [

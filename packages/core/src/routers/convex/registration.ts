@@ -1,7 +1,3 @@
-import { pick } from "convex-helpers";
-import type { Registration } from "convex-helpers/server/customFunctions";
-import { zodOutputToConvex, zodToConvexFields } from "convex-helpers/server/zod4";
-import { addFieldsToValidator } from "convex-helpers/validators";
 import {
 	actionGeneric,
 	internalActionGeneric,
@@ -20,16 +16,20 @@ import {
 	type Value,
 	type VObject
 } from "convex/values";
+import { pick } from "convex-helpers";
+import type { Registration } from "convex-helpers/server/customFunctions";
+import { zodOutputToConvex, zodToConvexFields } from "convex-helpers/server/zod4";
+import { addFieldsToValidator } from "convex-helpers/validators";
 import { type GenericHaywireId } from "haywire";
 import * as z from "zod/v4";
 import * as zCore from "zod/v4/core";
 
-import type { GenericHaywireFactory } from "../../haywire-types";
-import type { GenericCtx } from "../../helpers";
-import type { Class } from "../../utility-types";
 import { genericArgsId, genericCtxId } from "./ids";
 import type { Middleware, RouteBuilderOptions, ZodFields } from "./types";
 import { ServerConfigurationError } from "../../errors";
+import type { GenericHaywireFactory } from "../../haywire-types";
+import type { GenericCtx } from "../../helpers";
+import type { Class } from "../../utility-types";
 
 type GenericBuilder<
 	Type extends FunctionType,
@@ -112,28 +112,29 @@ export function createRegistration<
 		}
 	}
 
+	let fullArgsValidator = argsValidator;
 	for (const middleware of params.middlewarePipeline) {
 		if (!middleware.args) continue;
 
-		if (!argsValidator) {
-			argsValidator = middleware.args;
+		if (!fullArgsValidator) {
+			fullArgsValidator = middleware.args;
 			continue;
 		}
 
-		argsValidator = addFieldsToValidator(
-			argsValidator as VObject<any, any, any, string>,
+		fullArgsValidator = addFieldsToValidator(
+			fullArgsValidator as VObject<any, any, any, string>,
 			middleware.args
 		);
 	}
 
-	if (!args && skipConvexValidation && argsValidator) {
+	if (!args && skipConvexValidation && fullArgsValidator) {
 		throw new Error(
 			"If you're using middleware with arguments, you cannot skip convex validation."
 		);
 	}
 
 	return builder({
-		args: argsValidator,
+		args: fullArgsValidator,
 		returns: returnsValidator,
 		handler: async (ctx: any, allArgs: any) => {
 			let factory = params.factory;

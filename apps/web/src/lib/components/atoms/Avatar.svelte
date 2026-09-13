@@ -3,9 +3,9 @@
 		base: "bg-background-dark object-cover",
 		variants: {
 			size: {
-				xs: "rounded-xs size-[24px] text-xs",
-				sm: "rounded-xs size-[32px] text-xs",
-				base: "rounded-xs size-[40px] text-base",
+				xs: "size-[24px] rounded-xs text-xs",
+				sm: "size-[32px] rounded-xs text-xs",
+				base: "size-[40px] rounded-xs text-base",
 				lg: "size-[80px] rounded-md text-3xl",
 				xl: "size-[160px] rounded-lg text-6xl"
 			}

@@ -44,9 +44,7 @@ export default uploadthing(
 			});
 		}
 
-		return {
-			
-		};
+		return {};
 	})
 	.onUploadComplete(async ({ metadata, file }) => {
 		// const result = await db.safeMutation(api.users.users.secretSetAvatar, {
@@ -56,7 +54,6 @@ export default uploadthing(
 		// 	uploaderId: metadata.userId,
 		// 	userId: metadata.userId
 		// });
-
 		// if (!result.ok) {
 		// 	logger.error("Failed to upload user avatar", { metadata, error: result });
 		// 	await uploadAPI.deleteFiles(file.key);
@@ -65,6 +62,5 @@ export default uploadthing(
 		// 		message: "Failed to persist upload"
 		// 	});
 		// }
-
 		// return result.value;
 	});

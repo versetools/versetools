@@ -105,14 +105,14 @@
 	</div>
 	<div
 		class={twMerge(
-			"border-accent-80 pointer-events-none absolute left-0 right-0 border-b border-t",
+			"border-accent-80 pointer-events-none absolute right-0 left-0 border-t border-b",
 			!viewOfToday && "border-dashed"
 		)}
 		style="top: {(currentTime / 1440) * 100}%;"
 	>
 		{#if viewOfToday}
 			<div
-				class="bg-accent-80 border-background absolute -left-3 top-1/2 size-3.5 -translate-y-1/2 rounded-full border-2"
+				class="bg-accent-80 border-background absolute top-1/2 -left-3 size-3.5 -translate-y-1/2 rounded-full border-2"
 			></div>
 		{/if}
 	</div>

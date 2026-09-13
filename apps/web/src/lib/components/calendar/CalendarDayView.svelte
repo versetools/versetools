@@ -53,7 +53,7 @@
 >
 	<section class="relative grid grid-cols-[calc(var(--spacing)*12)_1fr] grid-rows-[auto_1fr]">
 		<header
-			class="bg-portal-background z-1 sticky left-0 top-0 col-span-full grid grid-cols-subgrid"
+			class="bg-portal-background sticky top-0 left-0 z-1 col-span-full grid grid-cols-subgrid"
 		>
 			<div class="col-start-2 grid grid-cols-subgrid">
 				<CalendarDayHeading date={focusedDate} bind:selecting bind:selectedRange />

@@ -1,25 +1,87 @@
-import { readDatacoreRecordByGuid } from "@versetools/sc-data-extractor";
+import { api } from "$convex/_generated/api";
+import { createHttpClient } from "@versetools/convex-client";
 
-const UNIVERSE_GUID = "d4aff31c-4a4e-432b-adf2-464369a7fa7a";
+import { assertConvexReachable } from "./convex";
+import { batchLocations, extractLocations, snapshotHash } from "./locations";
 
-const universeRecord = readDatacoreRecordByGuid(UNIVERSE_GUID);
-console.log(universeRecord);
+const MAX_COMPLETION_ATTEMPTS = 10_000;
 
-// const level = readDatacoreRecordByGuid(universeRecord._RecordValue_.level.guid);
-// console.log(level);
-// console.log(level._RecordValue_.potentialSpawnLocations);
-
-const solarSystems = universeRecord._RecordValue_.SolarSystems;
-for (const megaMapSolarSystem of solarSystems) {
-	const solarSystem = readDatacoreRecordByGuid(megaMapSolarSystem.Record.guid);
-	console.log(solarSystem._RecordValue_.Name);
-	// console.log(solarSystem);
-	const starmap = readDatacoreRecordByGuid(solarSystem._RecordValue_.SolarSystemRecord.guid);
-	console.log(starmap);
-
-	// const systemContainer = readSocpak(megaMapSolarSystem.ObjectContainers[0]);
-	// const orbitingContainer = (systemContainer.children as any[]).find(
-	// 	(child) => child.class === "OrbitingObjectContainer"
-	// );
-	// console.log(orbitingContainer);
+function requireSuccess<T>(operation: string, result: ClientResult<T>): T {
+	if (!result.ok) {
+		console.error(`${operation} failed`, { type: result.type, context: result.context });
+		throw new Error(`${operation} failed with ${result.type}`);
+	}
+	return result.value;
 }
+
+async function runUntilDone(
+	operation: string,
+	mutation: () => Promise<ClientResult<{ done: boolean }>>
+) {
+	for (let attempt = 1; attempt <= MAX_COMPLETION_ATTEMPTS; attempt++) {
+		if (requireSuccess(operation, await mutation()).done) return;
+	}
+	throw new Error(`${operation} did not complete after ${MAX_COMPLETION_ATTEMPTS} attempts`);
+}
+
+type ClientResult<T> = { ok: true; value: T } | { ok: false; type: string; context: unknown };
+
+const url = process.env.CONVEX_URL;
+const secret = process.env.CONVEX_SECRET;
+if (!url || !secret) throw new Error("CONVEX_URL and CONVEX_SECRET must be configured");
+await assertConvexReachable(url);
+
+const snapshot = extractLocations();
+const batches = batchLocations(snapshot);
+console.info("Extracted location snapshot", {
+	locations: snapshot.locations.length,
+	invalidLocations: snapshot.invalidCigGuids.length,
+	batches: batches.length,
+	snapshotHash: snapshotHash(snapshot)
+});
+
+const db = createHttpClient({ url, secret, logger: false });
+const generationId = requireSuccess(
+	"locations.beginImport",
+	await db.safeMutation(api.locations.beginImport, {
+		snapshotHash: snapshotHash(snapshot),
+		expectedBatchCount: batches.length
+	})
+);
+
+try {
+	for (const [batchNumber, batch] of batches.entries()) {
+		requireSuccess(
+			`locations.reconcileImportBatch batch ${batchNumber}`,
+			await db.safeMutation(api.locations.reconcileImportBatch, {
+				generationId,
+				batchNumber,
+				...batch
+			})
+		);
+	}
+
+	await runUntilDone("locations.finalizeImport", () =>
+		db.safeMutation(api.locations.finalizeImport, { generationId })
+	);
+	await runUntilDone("locations.rebuildImportClosures", () =>
+		db.safeMutation(api.locations.rebuildImportClosures, { generationId })
+	);
+} catch (error) {
+	try {
+		requireSuccess(
+			"locations.abortImport",
+			await db.safeMutation(api.locations.abortImport, { generationId })
+		);
+	} catch (abortError) {
+		// A committed batch makes the generation resumable rather than abortable.
+		console.error("Failed to abort import, generation may be resumable", abortError);
+	}
+	throw error;
+}
+
+console.info("Ingested location snapshot", {
+	locations: snapshot.locations.length,
+	invalidLocations: snapshot.invalidCigGuids.length,
+	batches: batches.length
+});

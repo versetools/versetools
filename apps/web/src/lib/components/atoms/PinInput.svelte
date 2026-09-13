@@ -40,7 +40,7 @@
 		<input
 			{...input}
 			class={twMerge(
-				"outline-hidden placeholder:text-input-placeholder text-(--input-text) bg-input border-input-border relative w-12 rounded-[6px] border px-1 py-3 text-center text-2xl font-medium"
+				"placeholder:text-input-placeholder bg-input border-input-border relative w-12 rounded-[6px] border px-1 py-3 text-center text-2xl font-medium text-(--input-text) outline-hidden"
 				// (disabled || readonly) && "cursor-not-allowed"
 			)}
 		/>

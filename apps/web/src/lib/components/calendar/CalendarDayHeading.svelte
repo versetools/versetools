@@ -36,7 +36,7 @@
 
 <!-- svelte-ignore a11y_mouse_events_have_key_events -->
 <button
-	class="@container hover:bg-light/10 not-first:border-l border-border flex cursor-pointer select-none flex-col pb-3 pl-2.5 pt-1 text-left"
+	class="hover:bg-light/10 border-border @container flex cursor-pointer flex-col pt-1 pb-3 pl-2.5 text-left select-none not-first:border-l"
 	onmouseover={() => {
 		if (!selecting || !selectedRange) return;
 		selectedRange =
