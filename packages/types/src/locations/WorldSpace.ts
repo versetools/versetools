@@ -4,7 +4,7 @@ import * as z from "zod/v4";
 export enum WorldSpace {
 	Galactic = "galactic",
 	Solar = "solar",
-	Planetary = "planetary"
+	Local = "local"
 }
 
 export const WorldSpaceSchema = z.enum(WorldSpace);
