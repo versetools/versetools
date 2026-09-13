@@ -3,5 +3,8 @@
   "functions": "src/",
   "node": {
     "nodeVersion": "24"
+  },
+  "aiFiles": {
+    "enabled": false
   }
 }
