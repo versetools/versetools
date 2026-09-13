@@ -274,6 +274,12 @@ Do not create speculative OpenSpec artifacts for a routine task merely because t
 - Use the existing command/router/service and dependency-injection structure for related features.
 - Regenerate Convex API files through the Convex CLI; never patch `_generated` files.
 - Consider web consumers whenever generated API types or function signatures change.
+- Design every Convex function within the documented limits at
+  https://docs.convex.dev/production/state/limits. In particular, account for 16 MiB function
+  arguments and transaction reads/writes, one second of query/mutation user-code execution,
+  16,000 document writes, 4,096 index ranges, 1,000 concurrent I/O operations, and 256 log lines
+  per function. Batch or stage large imports, fan-out work, closure-table updates, and high-volume
+  logging; do not assume a complete dataset fits in one mutation.
 
 ### Svelte And UI
 
