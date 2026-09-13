@@ -3,7 +3,7 @@ import { Base64 } from "convex/values";
 const algorithm = "AES-GCM";
 const ivLength = 12;
 
-async function encryptionKey(encodedKey: string) {
+async function importEncryptionKey(encodedKey: string) {
 	const keyBuffer = Base64.toByteArray(encodedKey) as BufferSource;
 
 	return await crypto.subtle.importKey("raw", keyBuffer, algorithm, false, ["encrypt", "decrypt"]);
@@ -23,12 +23,8 @@ export async function generateEncryptionKey() {
 	return Base64.fromByteArray(new Uint8Array(keyBuffer));
 }
 
-export async function encrypt(data: string) {
-	if (!process.env.CONVEX_ENCRYPTION_KEY) {
-		throw new Error("CONVEX_ENCRYPTION_KEY is not set");
-	}
-
-	const key = await encryptionKey(process.env.CONVEX_ENCRYPTION_KEY);
+export async function encrypt(encryptionKey: string, data: string) {
+	const key = await importEncryptionKey(encryptionKey);
 	const iv = crypto.getRandomValues(new Uint8Array(ivLength));
 
 	const encodedData = new TextEncoder().encode(data);
@@ -47,11 +43,7 @@ export async function encrypt(data: string) {
 	);
 }
 
-export async function decrypt(encryptedDataString: string) {
-	if (!process.env.CONVEX_ENCRYPTION_KEY) {
-		throw new Error("CONVEX_ENCRYPTION_KEY is not set");
-	}
-
+export async function decrypt(encryptionKey: string, encryptedDataString: string) {
 	const [encodedIv, ...splitEncryptedData] = new TextDecoder()
 		.decode(Base64.toByteArray(encryptedDataString))
 		.split(":");
@@ -59,7 +51,7 @@ export async function decrypt(encryptedDataString: string) {
 	const iv = Base64.toByteArray(encodedIv) as BufferSource;
 	const encryptedDataBuffer = Base64.toByteArray(splitEncryptedData.join(":")) as BufferSource;
 
-	const key = await encryptionKey(process.env.CONVEX_ENCRYPTION_KEY);
+	const key = await importEncryptionKey(encryptionKey);
 	const dataBuffer = await crypto.subtle.decrypt(
 		{
 			name: algorithm,
