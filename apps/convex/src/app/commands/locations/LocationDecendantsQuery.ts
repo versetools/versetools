@@ -10,7 +10,7 @@ export class LocationDecendantsQuery extends QueryCommand<DataModel> {
 		super();
 	}
 
-	async execute(ctx: QueryableCtx) {
+	async execute(_ctx: QueryableCtx) {
 		const subtree = await this.runner.query(new LocationSubtreeQuery(this.locationId));
 
 		const descendants = subtree.filter((c) => c.depth !== 0);

@@ -13,6 +13,7 @@ VerseTools has a native Star Citizen data reader and a Convex location tree, but
 ## Capabilities
 
 ### New Capabilities
+
 - `location-ingestion`: Extract, validate, normalize, and reconcile the authoritative Star Citizen location tree.
 
 ### Modified Capabilities

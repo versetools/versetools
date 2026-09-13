@@ -1,12 +1,17 @@
 {
-  "name": "@versetools/sc-data-ingester",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "ingest": "tsx src/index.ts"
-  },
-  "packageManager": "pnpm@10.33.2",
-  "devDependencies": {
-    "@versetools/sc-data-extractor": "workspace:*"
-  }
+    "name": "@versetools/sc-data-ingester",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "ingest": "tsx --env-file=.env.local src/index.ts",
+        "test": "vitest run"
+    },
+    "devDependencies": {
+        "@versetools/convex-client": "workspace:*",
+        "@versetools/sc-data-extractor": "workspace:*",
+        "@versetools/types": "workspace:*",
+        "vitest": "catalog:"
+    },
+    "packageManager": "pnpm@10.33.2"
 }

@@ -12,6 +12,7 @@
 		"esModuleInterop": true,
 		"sourceMap": true,
 		"noEmit": true,
+		"types": ["node"],
 
 		"strict": true,
 		"allowJs": true,
