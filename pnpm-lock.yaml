@@ -83,8 +83,8 @@ importers:
         specifier: ^0.2.5
         version: 0.2.5
       '@l3dev/result':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       '@types/eslint':
         specifier: 9.6.1
         version: 9.6.1
@@ -352,10 +352,10 @@ importers:
         version: 1.1.4
       '@l3dev-private/consent':
         specifier: ^0.3.1
-        version: 0.3.1(@l3dev/result@0.6.2)
+        version: 0.3.1(@l3dev/result@0.6.3)
       '@l3dev-private/consent-svelte':
         specifier: ^0.6.2
-        version: 0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.2))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))
+        version: 0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.3))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))
       '@lucide/svelte':
         specifier: ^0.554.0
         version: 0.554.0(svelte@5.55.9(@typescript-eslint/types@8.58.2))
@@ -608,10 +608,10 @@ importers:
     dependencies:
       '@l3dev-private/consent':
         specifier: ^0.3.1
-        version: 0.3.1(@l3dev/result@0.6.2)
+        version: 0.3.1(@l3dev/result@0.6.3)
       '@l3dev-private/consent-svelte':
         specifier: '>=0.6.2 <1.0.0'
-        version: 0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.2))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))
+        version: 0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.3))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))
       '@lucide/svelte':
         specifier: ^0.554.0
         version: 0.554.0(svelte@5.55.9(@typescript-eslint/types@8.58.2))
@@ -2131,6 +2131,9 @@ packages:
 
   '@l3dev/result@0.6.2':
     resolution: {integrity: sha512-LLbaVJLpOTopsgwzJIdS6Kfh3KkvLJ3bavG1DoHAkiwnsi/iqHzeSdwNGK/i77QauL9/fYoCcnqj+RkeaRneEw==}
+
+  '@l3dev/result@0.6.3':
+    resolution: {integrity: sha512-taA4o9XnPUAdtGTE3Jg7PWGxurNQx12ni9rkx4GHVBEB993zOaHmCRmctn6oULXBS4tJ2m8wWFt/LJsxltgpnw==}
 
   '@lucide/svelte@0.554.0':
     resolution: {integrity: sha512-CM6wLEH8uk3WBpC42t8R0hF7SlQrsYEL6qGuXdB99xKZwKglpWmX5XgYu7FIYOCBYOyC1rm4dNhIe6uF9pOXqw==}
@@ -8689,21 +8692,25 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@l3dev-private/consent-svelte@0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.2))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))':
+  '@l3dev-private/consent-svelte@0.6.2(@l3dev-private/consent@0.3.1(@l3dev/result@0.6.3))(@sveltejs/kit@2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))':
     dependencies:
-      '@l3dev-private/consent': 0.3.1(@l3dev/result@0.6.2)
+      '@l3dev-private/consent': 0.3.1(@l3dev/result@0.6.3)
       '@sveltejs/kit': 2.61.0(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.9(@typescript-eslint/types@8.58.2))(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0)))(svelte@5.55.9(@typescript-eslint/types@8.58.2))(typescript@7.0.2)(vite@7.3.2(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.21.0)(yaml@2.9.0))
       svelte: 5.55.9(@typescript-eslint/types@8.58.2)
       zod: 4.3.6
 
-  '@l3dev-private/consent@0.3.1(@l3dev/result@0.6.2)':
+  '@l3dev-private/consent@0.3.1(@l3dev/result@0.6.3)':
     dependencies:
-      '@l3dev/result': 0.6.2
+      '@l3dev/result': 0.6.3
       js-cookie: 3.0.7
 
   '@l3dev/mixins@0.2.5': {}
 
   '@l3dev/result@0.6.2':
+    dependencies:
+      zod: 4.3.6
+
+  '@l3dev/result@0.6.3':
     dependencies:
       zod: 4.3.6
 
