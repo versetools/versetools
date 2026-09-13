@@ -48,6 +48,7 @@ overrides:
   devalue: ^5.8.1
   effect: ^3.18.1
   postcss: ^8.5.18
+  nanoid@5.1.7: ^5.1.16
 
 syncInjectedDepsAfterScripts:
   - build
