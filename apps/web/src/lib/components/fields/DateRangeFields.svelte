@@ -78,8 +78,8 @@
 	class={twMerge(
 		"grid gap-x-2 gap-y-4",
 		allDay
-			? "@xl:grid-cols-[repeat(4,minmax(auto,max-content))] @md:items-center @md:grid-cols-[repeat(3,minmax(auto,max-content))]"
-			: "@3xl:items-center @3xl:grid-cols-[minmax(auto,max-content)_auto_minmax(auto,max-content)]"
+			? "@md:grid-cols-[repeat(3,minmax(auto,max-content))] @md:items-center @xl:grid-cols-[repeat(4,minmax(auto,max-content))]"
+			: "@3xl:grid-cols-[minmax(auto,max-content)_auto_minmax(auto,max-content)] @3xl:items-center"
 	)}
 >
 	<Form.Field form={typedForm} name="startDate">

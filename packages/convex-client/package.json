@@ -14,8 +14,8 @@
         }
     },
     "devDependencies": {
-        "@versetools/core": "workspace:*",
         "@sveltejs/kit": "catalog:",
+        "@versetools/core": "workspace:*",
         "convex-svelte": "catalog:"
     },
     "packageManager": "pnpm@10.33.2"

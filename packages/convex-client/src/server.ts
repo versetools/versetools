@@ -81,7 +81,15 @@ function wrapClient<T extends ConvexClient | ConvexHttpClient, TSecret extends s
 			mutation: Mutation,
 			...[args, options]: ArgsAndOptions<Mutation, HttpMutationOptions>
 		) {
-			return Result.unwrap(await wrapConvexCall(() => raw.mutation(mutation, args, options)));
+			return Result.unwrap(
+				await wrapConvexCall(() =>
+					raw.mutation(
+						mutation,
+						{ ...args, ...(secret ? { secret } : {}) } as FunctionArgs<Mutation>,
+						options
+					)
+				)
+			);
 		},
 		safeAction: async function <Action extends FunctionReference<"action">>(
 			action: Action,

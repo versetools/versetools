@@ -1,6 +1,5 @@
 ///<reference types="@hcaptcha/types"/>
 
-
 declare global {
 	interface Window {
 		consent: {
@@ -9,8 +8,7 @@ declare global {
 	}
 
 	namespace App {
-		interface Locals {
-		}
+		interface Locals {}
 
 		interface Error {
 			type?: string;

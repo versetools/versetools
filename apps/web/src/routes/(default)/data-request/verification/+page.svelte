@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Card } from "@versetools/ui";
 
-	import {Loader} from "$lib/components/atoms";
+	import { Loader } from "$lib/components/atoms";
 	import { Meta } from "$lib/components/meta";
 
 	import type { PageData } from "./$types";

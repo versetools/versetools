@@ -293,7 +293,12 @@ fn load_localization(language: &str) -> Result<Arc<HashMap<String, String>>> {
   let cache = LOCALIZATION_CACHE.get_or_init(|| Mutex::new(HashMap::new()));
   if let Some(localization) = cache
     .lock()
-    .map_err(|_| Error::new(Status::GenericFailure, "localization cache lock was poisoned"))?
+    .map_err(|_| {
+      Error::new(
+        Status::GenericFailure,
+        "localization cache lock was poisoned",
+      )
+    })?
     .get(&language)
     .cloned()
   {
@@ -317,7 +322,12 @@ fn load_localization(language: &str) -> Result<Arc<HashMap<String, String>>> {
   let localization = Arc::new(parse_localization(&data));
   cache
     .lock()
-    .map_err(|_| Error::new(Status::GenericFailure, "localization cache lock was poisoned"))?
+    .map_err(|_| {
+      Error::new(
+        Status::GenericFailure,
+        "localization cache lock was poisoned",
+      )
+    })?
     .insert(language, Arc::clone(&localization));
 
   Ok(localization)
@@ -361,18 +371,20 @@ fn parse_object_container_children(data: &[u8]) -> Result<Vec<serde_json::Value>
         format!("failed to parse SOCpak object-container XML: {error}"),
       )
     })?;
-    return Ok(document
-      .root_element()
-      .children()
-      .find(|node| node.has_tag_name("ChildObjectContainers"))
-      .map(|container| {
-        container
-          .children()
-          .filter(|node| node.has_tag_name("Child"))
-          .map(parse_plain_object_container_child)
-          .collect()
-      })
-      .unwrap_or_default());
+    return Ok(
+      document
+        .root_element()
+        .children()
+        .find(|node| node.has_tag_name("ChildObjectContainers"))
+        .map(|container| {
+          container
+            .children()
+            .filter(|node| node.has_tag_name("Child"))
+            .map(parse_plain_object_container_child)
+            .collect()
+        })
+        .unwrap_or_default(),
+    );
   }
 
   let xml = starbreaker_cryxml::from_bytes(data).map_err(|error| {
@@ -427,14 +439,12 @@ pub fn read_socpak(socpak_path: String) -> Result<serde_json::Value> {
     format!("Data/{normalized_path}")
   }
   .replace('/', "\\");
-  let entry = p4k
-    .entry_case_insensitive(&p4k_path)
-    .ok_or_else(|| {
-      Error::new(
-        Status::GenericFailure,
-        format!("SOCpak file '{socpak_path}' was not found in Data.p4k"),
-      )
-    })?;
+  let entry = p4k.entry_case_insensitive(&p4k_path).ok_or_else(|| {
+    Error::new(
+      Status::GenericFailure,
+      format!("SOCpak file '{socpak_path}' was not found in Data.p4k"),
+    )
+  })?;
   let data = p4k.read(entry).map_err(|error| {
     Error::new(
       Status::GenericFailure,
@@ -460,16 +470,13 @@ pub fn read_socpak(socpak_path: String) -> Result<serde_json::Value> {
     .and_then(|name| name.strip_suffix(".socpak"))
     .ok_or_else(|| Error::new(Status::InvalidArg, "SOCpak path has no .socpak filename"))?;
   let object_container_xml_name = format!("{package_name}.xml");
-  let object_container_xml_entry = socpak
-    .entries()
-    .iter()
-    .find(|entry| {
-      entry
-        .name
-        .rsplit(['\\', '/'])
-        .next()
-        .is_some_and(|name| name.eq_ignore_ascii_case(&object_container_xml_name))
-    });
+  let object_container_xml_entry = socpak.entries().iter().find(|entry| {
+    entry
+      .name
+      .rsplit(['\\', '/'])
+      .next()
+      .is_some_and(|name| name.eq_ignore_ascii_case(&object_container_xml_name))
+  });
   let children = object_container_xml_entry
     .map(|object_container_xml_entry| {
       let object_container_xml = socpak.read(object_container_xml_entry).map_err(|error| {
@@ -593,7 +600,10 @@ mod tests {
       b"\xef\xbb\xbf; comment\r\nStantonStar=Stanton\r\nFormula=value=with=equals\r\n",
     );
 
-    assert_eq!(localization.get("stantonstar").map(String::as_str), Some("Stanton"));
+    assert_eq!(
+      localization.get("stantonstar").map(String::as_str),
+      Some("Stanton")
+    );
     assert_eq!(
       localization.get("formula").map(String::as_str),
       Some("value=with=equals"),

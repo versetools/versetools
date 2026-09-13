@@ -1,5 +1,5 @@
 <div
-	class="font-roboto group/badge z-100 fixed bottom-5 right-0 flex cursor-pointer items-stretch rounded-l-md tracking-wide shadow-md"
+	class="font-roboto group/badge fixed right-0 bottom-5 z-100 flex cursor-pointer items-stretch rounded-l-md tracking-wide shadow-md"
 >
 	<div
 		role="button"
@@ -21,7 +21,7 @@
 		class="w-0 overflow-hidden transition-all duration-300 group-focus-within/badge:w-[185px] group-hover/badge:w-[185px]"
 	>
 		<div
-			class="flex h-full w-full flex-col justify-center gap-2.5 whitespace-nowrap bg-[#33A1B7] px-4 py-3 text-white"
+			class="flex h-full w-full flex-col justify-center gap-2.5 bg-[#33A1B7] px-4 py-3 whitespace-nowrap text-white"
 		>
 			<span class="text-xs">Protected by <strong>hCaptcha</strong></span>
 			<span class="text-xxs">

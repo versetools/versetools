@@ -6,15 +6,15 @@ This document maps useful database data in the Star Citizen client `Data.p4k` an
 
 The paths, record counts, and fields below were verified with the Starbreaker crates against:
 
-| Property | Value |
-| --- | --- |
-| Branch | `sc-alpha-4.10.0-hotfix` |
-| Build date | 2026-09-03 |
-| P4 changelist | `12572603` |
-| Client version | `1.0.191.55227` |
-| DataCore | `Data/Game2.dcb` |
-| P4K entries | 1,365,842 |
-| DataCore records | 116,921 |
+| Property         | Value                    |
+| ---------------- | ------------------------ |
+| Branch           | `sc-alpha-4.10.0-hotfix` |
+| Build date       | 2026-09-03               |
+| P4 changelist    | `12572603`               |
+| Client version   | `1.0.191.55227`          |
+| DataCore         | `Data/Game2.dcb`         |
+| P4K entries      | 1,365,842                |
+| DataCore records | 116,921                  |
 
 Record names, paths, structures, and feature readiness change between builds. Persist the build ID/changelist with every import and treat the fields in this document as versioned input.
 
@@ -23,7 +23,7 @@ Record names, paths, structures, and feature readiness change between builds. Pe
 Use these sources together. None is a complete database by itself.
 
 1. **DataCore (`Data/Game*.dcb`)** is the primary source for definitions and relationships: entities, item components, vehicles, resources, crafting, missions, reputation, law, starmap metadata, and global tuning.
-2. **Object containers (`Data/ObjectContainers/**/*.socpak`)** provide placed instances, transforms, physical shops, transit objects, and the hierarchy needed to put DataCore starmap records in the world.
+2. **Object containers (`Data/ObjectContainers/**/\*.socpak`)\*\* provide placed instances, transforms, physical shops, transit objects, and the hierarchy needed to put DataCore starmap records in the world.
 3. **P4K JSON/XML/CryXmlB** provides data not represented cleanly in DataCore, especially shop inventory defaults, vehicle physics definitions, and loadouts.
 4. **Localization (`Data/Localization/<language>/global.ini`)** resolves all user-facing `@keys`.
 5. **Build metadata (`build_manifest.id`)** identifies the source version.
@@ -34,12 +34,12 @@ Starbreaker's JSON exporter emits top-level records as:
 
 ```json
 {
-  "_RecordId_": "record-guid",
-  "_RecordName_": "StructType.RecordName",
-  "_RecordTag_": "domain-tag",
-  "_RecordValue_": {
-    "_Type_": "StructType"
-  }
+	"_RecordId_": "record-guid",
+	"_RecordName_": "StructType.RecordName",
+	"_RecordTag_": "domain-tag",
+	"_RecordValue_": {
+		"_Type_": "StructType"
+	}
 }
 ```
 
@@ -91,17 +91,17 @@ The common base is `EntityClassDefinition` (29,184 records) under `libs/foundry/
 
 Useful path families include:
 
-| Family | DataCore path prefix |
-| --- | --- |
-| Ships | `libs/foundry/records/entities/spaceships/` |
-| Commodities | `libs/foundry/records/entities/commodities/` |
-| Decorations | `libs/foundry/records/entities/decorations/` |
-| Carryables | `libs/foundry/records/entities/scitem/carryables/` |
-| Consumables | `libs/foundry/records/entities/scitem/consumables/` |
-| Ship components | `libs/foundry/records/entities/scitem/ships/` |
-| FPS weapons | `libs/foundry/records/entities/scitem/weapons/fps_weapons/` |
-| Magazines, mines, melee, throwable, gadgets | sibling directories under `entities/scitem/weapons/` |
-| Armor and clothing | `libs/foundry/records/entities/scitem/characters/` |
+| Family                                      | DataCore path prefix                                        |
+| ------------------------------------------- | ----------------------------------------------------------- |
+| Ships                                       | `libs/foundry/records/entities/spaceships/`                 |
+| Commodities                                 | `libs/foundry/records/entities/commodities/`                |
+| Decorations                                 | `libs/foundry/records/entities/decorations/`                |
+| Carryables                                  | `libs/foundry/records/entities/scitem/carryables/`          |
+| Consumables                                 | `libs/foundry/records/entities/scitem/consumables/`         |
+| Ship components                             | `libs/foundry/records/entities/scitem/ships/`               |
+| FPS weapons                                 | `libs/foundry/records/entities/scitem/weapons/fps_weapons/` |
+| Magazines, mines, melee, throwable, gadgets | sibling directories under `entities/scitem/weapons/`        |
+| Armor and clothing                          | `libs/foundry/records/entities/scitem/characters/`          |
 
 Do not classify solely by directory. Use the entity's `Components[*]._Type_`, `tags`, and attachment definition. Paths contain legacy spellings and occasional misplaced records.
 
@@ -109,26 +109,26 @@ Do not classify solely by directory. Use the entity's `Components[*]._Type_`, `t
 
 Extract these from each `EntityClassDefinition`:
 
-| Field | Use |
-| --- | --- |
-| `_RecordId_`, `_RecordName_`, source path, `tags` | Identity, aliases, classification, provenance |
-| `Invisible`, `Category`, `Icon` | Visibility and broad UI category |
-| `StaticEntityClassData[*].displayName`, `displayDescription` | Preferred localized labels when present |
-| `StaticEntityClassData[*].displayIcon`, `displayImage`, `displayThumbnail` | UI media paths |
-| `AttachDef.Type`, `SubType`, `Size`, `Grade` | Item/component type, subtype, size, and grade |
-| `AttachDef.Manufacturer` | Manufacturer reference |
-| `AttachDef.Localization.Name`, `ShortName`, `Description` | Item localization keys |
-| `AttachDef.inventoryOccupancyVolume.microSCU` | Inventory volume |
-| `AttachDef.inventoryOccupancyDimensions`, bounds, fixed-grid dimensions | Physical inventory footprint |
-| `PhysType.Mass` | Item mass |
-| `Health`, `DamageCap`, `DamageResistances` | Durability and damage behavior |
-| `Geometry.*.Wear`, `loadout.WearRange`, `loadout.DirtRange` | Wear/dirt defaults |
-| `Ports`, `InternalHardpointLinks`, `loadout.entries` | Compatibility, hardpoints, and default attachments |
-| `resourceNetworkPowerPools`, `InternalResourceLinks` | Resource network membership |
-| `temperature.itemResourceParams` | Operating/overheat/cooling limits |
-| `temperature.signatureParams` | Thermal-to-IR behavior |
-| state `signatureParams.EMSignature` / `IRSignature` | Nominal emissions and decay |
-| `misfireLevels`, `misfires`, state modifiers | Degradation and failure behavior |
+| Field                                                                      | Use                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------- |
+| `_RecordId_`, `_RecordName_`, source path, `tags`                          | Identity, aliases, classification, provenance      |
+| `Invisible`, `Category`, `Icon`                                            | Visibility and broad UI category                   |
+| `StaticEntityClassData[*].displayName`, `displayDescription`               | Preferred localized labels when present            |
+| `StaticEntityClassData[*].displayIcon`, `displayImage`, `displayThumbnail` | UI media paths                                     |
+| `AttachDef.Type`, `SubType`, `Size`, `Grade`                               | Item/component type, subtype, size, and grade      |
+| `AttachDef.Manufacturer`                                                   | Manufacturer reference                             |
+| `AttachDef.Localization.Name`, `ShortName`, `Description`                  | Item localization keys                             |
+| `AttachDef.inventoryOccupancyVolume.microSCU`                              | Inventory volume                                   |
+| `AttachDef.inventoryOccupancyDimensions`, bounds, fixed-grid dimensions    | Physical inventory footprint                       |
+| `PhysType.Mass`                                                            | Item mass                                          |
+| `Health`, `DamageCap`, `DamageResistances`                                 | Durability and damage behavior                     |
+| `Geometry.*.Wear`, `loadout.WearRange`, `loadout.DirtRange`                | Wear/dirt defaults                                 |
+| `Ports`, `InternalHardpointLinks`, `loadout.entries`                       | Compatibility, hardpoints, and default attachments |
+| `resourceNetworkPowerPools`, `InternalResourceLinks`                       | Resource network membership                        |
+| `temperature.itemResourceParams`                                           | Operating/overheat/cooling limits                  |
+| `temperature.signatureParams`                                              | Thermal-to-IR behavior                             |
+| state `signatureParams.EMSignature` / `IRSignature`                        | Nominal emissions and decay                        |
+| `misfireLevels`, `misfires`, state modifiers                               | Degradation and failure behavior                   |
 
 Build a component index by discriminator before extraction:
 
@@ -181,14 +181,14 @@ Weapon entities expose:
 
 Useful companion records:
 
-| Record type | Path | Useful fields |
-| --- | --- | --- |
-| `InventoryContainer` (583) | `libs/foundry/records/inventorycontainers/**` | capacity in microSCU, interior dimensions, inventory type, excluded subtypes |
-| `DamageResistanceMacro` (12) | `libs/foundry/records/damage/**` | damage and impact-force resistance presets |
-| `MoveViewRestrictionPenalty` (5) | `libs/foundry/records/moveviewrestrictionpenalties/armor/**` | movement/view penalties by armor class |
-| `ConsumableType` / `ConsumableSubtype` (6/83) | `libs/foundry/records/consumabletypesdatabase/consumabletypes.xml` | name/type, effects per microSCU, affected stat, point/cooldown change, tint |
-| `MedicalItemTierConfig` | `libs/foundry/records/actorstatuscomponent/medicaltieritemconfig.xml` | drug types, efficacy, med-bed tiers, resource consumption |
-| `ActorStatusGlobalParams` | `libs/foundry/records/actorstatuscomponent/globalactorstatusparams.xml` | status effects, buffs, drug type, overdose/revival settings |
+| Record type                                   | Path                                                                    | Useful fields                                                                |
+| --------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `InventoryContainer` (583)                    | `libs/foundry/records/inventorycontainers/**`                           | capacity in microSCU, interior dimensions, inventory type, excluded subtypes |
+| `DamageResistanceMacro` (12)                  | `libs/foundry/records/damage/**`                                        | damage and impact-force resistance presets                                   |
+| `MoveViewRestrictionPenalty` (5)              | `libs/foundry/records/moveviewrestrictionpenalties/armor/**`            | movement/view penalties by armor class                                       |
+| `ConsumableType` / `ConsumableSubtype` (6/83) | `libs/foundry/records/consumabletypesdatabase/consumabletypes.xml`      | name/type, effects per microSCU, affected stat, point/cooldown change, tint  |
+| `MedicalItemTierConfig`                       | `libs/foundry/records/actorstatuscomponent/medicaltieritemconfig.xml`   | drug types, efficacy, med-bed tiers, resource consumption                    |
+| `ActorStatusGlobalParams`                     | `libs/foundry/records/actorstatuscomponent/globalactorstatusparams.xml` | status effects, buffs, drug type, overdose/revival settings                  |
 
 Entity components add physical mass, inventory footprint, temperature limits, resistance, health, consumable capacity/content, and reusable/reclosable behavior.
 
@@ -221,17 +221,17 @@ This supports stock loadout comparison, compatibility queries, component counts,
 
 A representative ship definition contains additional fields not convenient in the entity record:
 
-| Node | Useful attributes |
-| --- | --- |
-| `Vehicle` | `id`, `name`, `displayname`, `size`, `subType`, item-port/required tags, landing offset, debris behavior |
-| `Spaceship` | maximum angular acceleration/velocity, directional/engine/retro thrust, rotation damping, ignition/warmup values |
-| `Physics` / `Simulation` | freefall damping, pushability, max time step, minimum energy |
-| `Part` | part ID/name/class, mass, health (`damageMax`), detach probability/forces, scope context |
-| `ItemPort` | ID, display name, min/max size, required/port tags, default weapon group, grid behavior |
-| `DamageMultiplier` | physical/energy/distortion multipliers by damage type |
-| `Damages` | collision and submerged damage tuning |
-| `DamageBehavior`, `Explosion`, `Burn` | trigger thresholds and damage/effect values |
-| `Helper` | named part positions/directions |
+| Node                                  | Useful attributes                                                                                                |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `Vehicle`                             | `id`, `name`, `displayname`, `size`, `subType`, item-port/required tags, landing offset, debris behavior         |
+| `Spaceship`                           | maximum angular acceleration/velocity, directional/engine/retro thrust, rotation damping, ignition/warmup values |
+| `Physics` / `Simulation`              | freefall damping, pushability, max time step, minimum energy                                                     |
+| `Part`                                | part ID/name/class, mass, health (`damageMax`), detach probability/forces, scope context                         |
+| `ItemPort`                            | ID, display name, min/max size, required/port tags, default weapon group, grid behavior                          |
+| `DamageMultiplier`                    | physical/energy/distortion multipliers by damage type                                                            |
+| `Damages`                             | collision and submerged damage tuning                                                                            |
+| `DamageBehavior`, `Explosion`, `Burn` | trigger thresholds and damage/effect values                                                                      |
+| `Helper`                              | named part positions/directions                                                                                  |
 
 Treat this as a supplemental vehicle-physics table keyed by the vehicle definition/entity linkage. DataCore should remain the source for identity and most references.
 
@@ -243,17 +243,19 @@ Treat this as a supplemental vehicle-physics table keyed by the vehicle definiti
 
 ```json
 {
-  "ShopID": "guid[,guid...]",
-  "Collection": {
-    "Inventory": [{
-      "ID": { "ID": ["item-or-resource-guid"] },
-      "BuyPrice": 0.01,
-      "SellPrice": 11.92,
-      "CurrentInventory": 3817.8,
-      "MaxInventory": 7500.0,
-      "RentalOfferings": []
-    }]
-  }
+	"ShopID": "guid[,guid...]",
+	"Collection": {
+		"Inventory": [
+			{
+				"ID": { "ID": ["item-or-resource-guid"] },
+				"BuyPrice": 0.01,
+				"SellPrice": 11.92,
+				"CurrentInventory": 3817.8,
+				"MaxInventory": 7500.0,
+				"RentalOfferings": []
+			}
+		]
+	}
 }
 ```
 
@@ -282,12 +284,12 @@ The current `readSocpak` addon API only returns child object containers. It must
 
 DataCore records under `libs/foundry/records/globalshopparams/` provide:
 
-| Record | Useful fields |
-| --- | --- |
-| `GlobalShopBuyingParams` | licensed-item modifiers and tutorial limits |
-| `GlobalShopSellingParams` | item-type modifiers, wear curve, match/no-match percentages, inventory curve, mission-item reduction |
-| `GlobalShopCommodityParams` | demand/supply thresholds, autoloading prices, supported resource container types, generic crates |
-| `GlobalShopTerminalParams` | categories, pagination/query type, UI errors |
+| Record                      | Useful fields                                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `GlobalShopBuyingParams`    | licensed-item modifiers and tutorial limits                                                          |
+| `GlobalShopSellingParams`   | item-type modifiers, wear curve, match/no-match percentages, inventory curve, mission-item reduction |
+| `GlobalShopCommodityParams` | demand/supply thresholds, autoloading prices, supported resource container types, generic crates     |
+| `GlobalShopTerminalParams`  | categories, pagination/query type, UI errors                                                         |
 
 Other useful records:
 
@@ -330,22 +332,22 @@ libs/foundry/records/crafting/blueprints/**
 
 The path separates creation/crafting and dismantling records. Extract:
 
-| Field | Use |
-| --- | --- |
-| `blueprint.blueprintName` | Localized blueprint name |
-| `blueprint.category` | Category GUID/reference |
-| `blueprint.processSpecificData._Type_` | Creation vs dismantling process |
-| `processSpecificData.entityClass` | Created item/entity class |
-| `processSpecificData.dismantleTime`, `efficiency` | Dismantling duration/yield |
-| `blueprint.tiers[]` | Tiered recipes and research requirements |
-| `tiers[].recipe.costs.craftTime` | Days/hours/minutes/seconds |
-| `mandatoryCost`, `optionalCosts` | Required and optional ingredient groups |
-| cost `_Type_` | Resource, item, selection, or other polymorphic cost |
-| cost `quantity` | Item count or SCU/cSCU/microSCU volume |
-| cost `minQuality` | Minimum input quality |
-| cost `resource` / `entityClass` | Ingredient reference |
-| `recipe.results` | Explicit result list when populated |
-| tier `research` | Unlock/research requirements when populated |
+| Field                                             | Use                                                  |
+| ------------------------------------------------- | ---------------------------------------------------- |
+| `blueprint.blueprintName`                         | Localized blueprint name                             |
+| `blueprint.category`                              | Category GUID/reference                              |
+| `blueprint.processSpecificData._Type_`            | Creation vs dismantling process                      |
+| `processSpecificData.entityClass`                 | Created item/entity class                            |
+| `processSpecificData.dismantleTime`, `efficiency` | Dismantling duration/yield                           |
+| `blueprint.tiers[]`                               | Tiered recipes and research requirements             |
+| `tiers[].recipe.costs.craftTime`                  | Days/hours/minutes/seconds                           |
+| `mandatoryCost`, `optionalCosts`                  | Required and optional ingredient groups              |
+| cost `_Type_`                                     | Resource, item, selection, or other polymorphic cost |
+| cost `quantity`                                   | Item count or SCU/cSCU/microSCU volume               |
+| cost `minQuality`                                 | Minimum input quality                                |
+| cost `resource` / `entityClass`                   | Ingredient reference                                 |
+| `recipe.results`                                  | Explicit result list when populated                  |
+| tier `research`                                   | Unlock/research requirements when populated          |
 
 Creation output can be implied by `blueprint.processSpecificData.entityClass` even when `recipe.results` is null.
 
@@ -365,23 +367,23 @@ crafting_research_requirement
 
 ### Categories, rewards, and unlocks
 
-| Record type | Path | Useful fields |
-| --- | --- | --- |
+| Record type                                                   | Path                                                         | Useful fields                             |
+| ------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------- |
 | `BlueprintCategoryDatabaseRecord` / `BlueprintCategoryRecord` | `crafting/blueprintcategories/blueprintcategorydatabase.xml` | category tree and embedded category GUIDs |
-| `BlueprintPoolRecord` (154) | `crafting/blueprintrewards/**` | weighted/pooled blueprint rewards |
-| mission contract result `BlueprintRewards` | contract generator/template payloads | reward pool and chance |
+| `BlueprintPoolRecord` (154)                                   | `crafting/blueprintrewards/**`                               | weighted/pooled blueprint rewards         |
+| mission contract result `BlueprintRewards`                    | contract generator/template payloads                         | reward pool and chance                    |
 
 This permits joins from mission -> blueprint pool -> blueprint -> created entity.
 
 ### Crafted properties and quality
 
-| Record type | Useful fields |
-| --- | --- |
-| `CraftingGameplayPropertyDef` (29) | property path/name, localization override, display transformation, unit format |
-| `CraftingQualityDistributionRecord` (10) | source quality distribution |
-| `CraftingQualityLocationOverrideRecord` (12) | location-specific quality overrides |
-| `CraftingQualityQuantizationRecord` (38) | quality band start/end and mapped value |
-| `CraftingGlobalParams` | default selection/quality, dismantle blacklists, refining quality multiplier |
+| Record type                                  | Useful fields                                                                  |
+| -------------------------------------------- | ------------------------------------------------------------------------------ |
+| `CraftingGameplayPropertyDef` (29)           | property path/name, localization override, display transformation, unit format |
+| `CraftingQualityDistributionRecord` (10)     | source quality distribution                                                    |
+| `CraftingQualityLocationOverrideRecord` (12) | location-specific quality overrides                                            |
+| `CraftingQualityQuantizationRecord` (38)     | quality band start/end and mapped value                                        |
+| `CraftingGlobalParams`                       | default selection/quality, dismantle blacklists, refining quality multiplier   |
 
 Quality values should be stored as source integers/floats without assuming a fixed 0-100 or 0-1 scale. The inspected recipe uses values such as `800` and `900` for minimum quality.
 
@@ -402,23 +404,23 @@ Use the resource GUID as the common key across commodities, mining, crafting, ca
 
 ### Mineables
 
-| Record type | Path | Useful fields |
-| --- | --- | --- |
-| `MineableElement` (46) | `mining/mineableelements/**` | resource reference, resistance, instability, optimal-window midpoint/thinness/randomness, explosion multiplier, clustering factor |
-| `MineableComposition` (249) | `mining/rockcompositionpresets/**` | element, probability, min/max percentage, quality scale, curve exponent, minimum distinct elements, deposit name |
-| `MiningGlobalParams` | `mining/miningglobalparams*.xml` | fracture/explosion tuning, optimal window, resistance curve, power capacity, waste resource |
+| Record type                 | Path                               | Useful fields                                                                                                                     |
+| --------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `MineableElement` (46)      | `mining/mineableelements/**`       | resource reference, resistance, instability, optimal-window midpoint/thinness/randomness, explosion multiplier, clustering factor |
+| `MineableComposition` (249) | `mining/rockcompositionpresets/**` | element, probability, min/max percentage, quality scale, curve exponent, minimum distinct elements, deposit name                  |
+| `MiningGlobalParams`        | `mining/miningglobalparams*.xml`   | fracture/explosion tuning, optimal window, resistance curve, power capacity, waste resource                                       |
 
 This supports resource occurrence, rock-composition ranges, extraction difficulty, and expected-yield models. Probabilities and composition ranges are generation inputs, not observed deposits.
 
 ### Harvestables and world distribution
 
-| Record type | Useful fields |
-| --- | --- |
-| `HarvestableProviderPreset` (49) | areas, weighted harvestable groups, entity/setup reference, geometry tag, clustering, relative probability |
-| `HarvestablePreset` (571) | entity class, behavior, respawn time, transform, sub-configuration |
-| `HarvestableClusterPreset` (28) | cluster probability and cluster parameters |
-| `HarvestableSetup` (30) | behavior, respawn, transform and sub-configuration |
-| `SubHarvestableConfigRecord` / `SubHarvestableMultiConfigRecord` (118/103) | nested slot/loot generation configuration |
+| Record type                                                                | Useful fields                                                                                              |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `HarvestableProviderPreset` (49)                                           | areas, weighted harvestable groups, entity/setup reference, geometry tag, clustering, relative probability |
+| `HarvestablePreset` (571)                                                  | entity class, behavior, respawn time, transform, sub-configuration                                         |
+| `HarvestableClusterPreset` (28)                                            | cluster probability and cluster parameters                                                                 |
+| `HarvestableSetup` (30)                                                    | behavior, respawn, transform and sub-configuration                                                         |
+| `SubHarvestableConfigRecord` / `SubHarvestableMultiConfigRecord` (118/103) | nested slot/loot generation configuration                                                                  |
 
 Provider paths include system/body names, for example `harvestable/providerpresets/system/stanton/**`. Join path-derived scope and explicit area/tag references to starmap locations cautiously; path naming is useful provenance, not a durable foreign key.
 
@@ -432,13 +434,13 @@ The client has both legacy and V3 loot records.
 
 ### V3 model
 
-| Record type | Path | Useful fields |
-| --- | --- | --- |
-| `LootArchetypeV3Record` (34) | `lootgeneration/lootarchetypes/v3*` | entries, selector, positive/negative tags, optional data, weight, debug name |
-| `LootTableV3Record` (59) | `lootgeneration/loottables/v3*` | archetype reference, weight, duplicate limit, optional data |
-| `LootV3SecondaryChoicesSingleLayerRecord` (10) | `lootgeneration/secondarychoices/**` | weighted choices such as rarity, faction, manufacturer |
-| `LootV3SecondaryChoicesMultiLayerRecord` (15) | same | layered secondary choices |
-| `PoolFilterRecord` (15) | `lootgeneration/filters/**` | inclusion/exclusion filter |
+| Record type                                    | Path                                 | Useful fields                                                                |
+| ---------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `LootArchetypeV3Record` (34)                   | `lootgeneration/lootarchetypes/v3*`  | entries, selector, positive/negative tags, optional data, weight, debug name |
+| `LootTableV3Record` (59)                       | `lootgeneration/loottables/v3*`      | archetype reference, weight, duplicate limit, optional data                  |
+| `LootV3SecondaryChoicesSingleLayerRecord` (10) | `lootgeneration/secondarychoices/**` | weighted choices such as rarity, faction, manufacturer                       |
+| `LootV3SecondaryChoicesMultiLayerRecord` (15)  | same                                 | layered secondary choices                                                    |
+| `PoolFilterRecord` (15)                        | `lootgeneration/filters/**`          | inclusion/exclusion filter                                                   |
 
 Resolve selectors through entity tags and attachment type/subtype. A useful database needs both the raw selector and a materialized set of matching entity GUIDs per build.
 
@@ -477,28 +479,28 @@ Store release/WIP flags and filter at query time. Do not discard unreleased defi
 
 ### Contract generators and templates
 
-| Record type | Path | Useful fields |
-| --- | --- | --- |
-| `ContractGenerator` (109) | `contracts/contractgenerator/**` | generated contracts, intro contracts, base params, required scenarios, release status |
-| `ContractTemplate` (494) | `contracts/contracttemplates/**` | class, owner, display info, properties, objectives, flow, modifiers, start/end comms, payout behavior |
-| `ContractDifficultyProfile` (7) | `contracts/contractdifficultyprofiles/**` | knowledge, mechanical skill, mental load, and risk weights |
-| `MissionType` (41) | `missiontype/**` | localized type name, icon/SVG, display time |
+| Record type                     | Path                                      | Useful fields                                                                                         |
+| ------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `ContractGenerator` (109)       | `contracts/contractgenerator/**`          | generated contracts, intro contracts, base params, required scenarios, release status                 |
+| `ContractTemplate` (494)        | `contracts/contracttemplates/**`          | class, owner, display info, properties, objectives, flow, modifiers, start/end comms, payout behavior |
+| `ContractDifficultyProfile` (7) | `contracts/contractdifficultyprofiles/**` | knowledge, mechanical skill, mental load, and risk weights                                            |
+| `MissionType` (41)              | `missiontype/**`                          | localized type name, icon/SVG, display time                                                           |
 
 Generator contracts contain parameter overrides for title, description, contractor, legality, and other properties. Apply template/base values first and overrides last, while retaining both source layers for debugging.
 
 ### Mission actors and spatial rules
 
-| Record type | Useful fields |
-| --- | --- |
-| `MissionGiver` (23) | display name/description, entity class, headquarters, reputation, allies/enemies, cooldowns |
-| `MissionOrganization` (69) | faction reputation, tags, weighted/localized variants |
-| `MissionLocality` (20) | available locations |
-| `MissionLocationTemplate` (2,104) | location selection data and constraints |
-| `LocationEntityDeclaration` / `LocationResourceSlot` | required location entities and consumable resource slots |
-| `MissionItem` (225) | entity class, tags, weighted string variants |
-| `MissionModuleHierarchy` / `ModuleDeclaration` | mission module tree, variables, location/spawned entities |
-| `MissionScenario` / `ScenarioProgress` | schedules, cycles, progress and reward tiers |
-| `AIWaveCollection` (184) | weighted/composed AI encounter waves |
+| Record type                                          | Useful fields                                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `MissionGiver` (23)                                  | display name/description, entity class, headquarters, reputation, allies/enemies, cooldowns |
+| `MissionOrganization` (69)                           | faction reputation, tags, weighted/localized variants                                       |
+| `MissionLocality` (20)                               | available locations                                                                         |
+| `MissionLocationTemplate` (2,104)                    | location selection data and constraints                                                     |
+| `LocationEntityDeclaration` / `LocationResourceSlot` | required location entities and consumable resource slots                                    |
+| `MissionItem` (225)                                  | entity class, tags, weighted string variants                                                |
+| `MissionModuleHierarchy` / `ModuleDeclaration`       | mission module tree, variables, location/spawned entities                                   |
+| `MissionScenario` / `ScenarioProgress`               | schedules, cycles, progress and reward tiers                                                |
+| `AIWaveCollection` (184)                             | weighted/composed AI encounter waves                                                        |
 
 ### Rewards
 
@@ -534,14 +536,14 @@ Model rewards as polymorphic rows with their original `_Type_`, not a fixed UEC-
 
 ### Reputation model
 
-| Record type | Useful fields |
-| --- | --- |
-| `FactionReputation` (38) | name/display name, logo, allies/enemies, allied/hostile scope and standing, NPC/visibility flags, perk reward list, sandbox triggers |
-| `SReputationScopeParams` (46) | scope name, localized name/description, icon, standing map |
-| `SReputationStandingParams` (380) | localized tier name/description/perk, minimum reputation, gated flag, drift target/time, icon |
-| `SReputationRewardAmount` (58) | editor label and reputation delta |
-| `SPerkReputationListParams` | perk definitions/references |
-| `SReputationContextUI` (27) | UI scope grouping and order |
+| Record type                       | Useful fields                                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `FactionReputation` (38)          | name/display name, logo, allies/enemies, allied/hostile scope and standing, NPC/visibility flags, perk reward list, sandbox triggers |
+| `SReputationScopeParams` (46)     | scope name, localized name/description, icon, standing map                                                                           |
+| `SReputationStandingParams` (380) | localized tier name/description/perk, minimum reputation, gated flag, drift target/time, icon                                        |
+| `SReputationRewardAmount` (58)    | editor label and reputation delta                                                                                                    |
+| `SPerkReputationListParams`       | perk definitions/references                                                                                                          |
+| `SReputationContextUI` (27)       | UI scope grouping and order                                                                                                          |
 
 The join is broadly:
 
@@ -573,12 +575,12 @@ Do not infer ordering from names such as `Junior` or `Senior`; order by `minRepu
 
 ### Solar systems and starmap records
 
-| Record type | Count | Useful fields |
-| --- | ---: | --- |
-| `SSolarSystem` | 3 | system name, galactic position, default location, starmap record, landing-zone inventory |
-| `StarMapObject` | 2,069 | name/description, parent, type, size, affiliation, jurisdiction, amenities, imagery, visibility, scan/travel/respawn flags |
-| `StarMapObjectType` | 21 | classification, surface flag, selectable, spawn-nav-point and valid-quantum-destination flags, presentation |
-| `StarMapAmenityTypeEntry` | 25 | amenity name, localized display name, icon |
+| Record type               | Count | Useful fields                                                                                                              |
+| ------------------------- | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| `SSolarSystem`            |     3 | system name, galactic position, default location, starmap record, landing-zone inventory                                   |
+| `StarMapObject`           | 2,069 | name/description, parent, type, size, affiliation, jurisdiction, amenities, imagery, visibility, scan/travel/respawn flags |
+| `StarMapObjectType`       |    21 | classification, surface flag, selectable, spawn-nav-point and valid-quantum-destination flags, presentation                |
+| `StarMapAmenityTypeEntry` |    25 | amenity name, localized display name, icon                                                                                 |
 
 Useful `StarMapObject` fields beyond the existing location name/type/parent model:
 
@@ -620,16 +622,16 @@ Store position, quaternion rotation, scale when available, source container, and
 
 Useful location-adjacent records include:
 
-| Record family | Data available |
-| --- | --- |
-| `PlanetDayNightTemperatureTemplate` | body-specific day/night temperatures |
-| `AtmosphereStateTemplate` | atmosphere state per body/system |
-| `AtmosphericCompositionTemplate` | gas composition |
-| `GasParams` | chemical symbol, fog/density data |
-| `AtmosphereBehavior` | humidity, pressure, temperature, weather, vehicle effects |
-| `RadiationStateTemplate` / `RadiationBehavior` | EM/IR/cross-section radiation state and surface behavior |
-| `AsteroidFieldComposition` | asteroid composition and fog properties |
-| `HarvestableProviderPreset` | local resource/harvestable distribution |
+| Record family                                  | Data available                                            |
+| ---------------------------------------------- | --------------------------------------------------------- |
+| `PlanetDayNightTemperatureTemplate`            | body-specific day/night temperatures                      |
+| `AtmosphereStateTemplate`                      | atmosphere state per body/system                          |
+| `AtmosphericCompositionTemplate`               | gas composition                                           |
+| `GasParams`                                    | chemical symbol, fog/density data                         |
+| `AtmosphereBehavior`                           | humidity, pressure, temperature, weather, vehicle effects |
+| `RadiationStateTemplate` / `RadiationBehavior` | EM/IR/cross-section radiation state and surface behavior  |
+| `AsteroidFieldComposition`                     | asteroid composition and fog properties                   |
+| `HarvestableProviderPreset`                    | local resource/harvestable distribution                   |
 
 Relationships are often indirect through room/object-container components or path scope. Keep provenance and confidence on inferred body/location joins.
 
@@ -653,14 +655,14 @@ This requires general SOC entity parsing beyond the current child-container-only
 
 This data can support component/vehicle detection and scan-result databases:
 
-| Record type | Useful fields |
-| --- | --- |
-| `RadarContactTypeEntry` (58) | display name, tag, scan definition, marker, tracker type, detection constraints |
-| `RadarSignatureCategoryEntry` | category display/name |
-| `RadarSystemSharedParams` | radar range/angles, occlusion, ping, scan, tagging, jamming, delta-signature tuning |
-| `ScanInformationDef` (21) | scan layout and procedures |
-| `ScanCustomDataDef` (15) | custom scan information |
-| entity radar/signature components | contact type, EM/IR signatures, tagged signatures, emission modifiers |
+| Record type                       | Useful fields                                                                       |
+| --------------------------------- | ----------------------------------------------------------------------------------- |
+| `RadarContactTypeEntry` (58)      | display name, tag, scan definition, marker, tracker type, detection constraints     |
+| `RadarSignatureCategoryEntry`     | category display/name                                                               |
+| `RadarSystemSharedParams`         | radar range/angles, occlusion, ping, scan, tagging, jamming, delta-signature tuning |
+| `ScanInformationDef` (21)         | scan layout and procedures                                                          |
+| `ScanCustomDataDef` (15)          | custom scan information                                                             |
+| entity radar/signature components | contact type, EM/IR signatures, tagged signatures, emission modifiers               |
 
 Join emitted signature values from entity/component states with sensor/radar parameters. Keep nominal source values; effective detection range requires gameplay formulas and environmental state not represented by a simple direct field.
 
@@ -757,16 +759,16 @@ faction / reputation_scope / reputation_standing / jurisdiction / infraction
 
 Recommended order by value and implementation cost:
 
-| Priority | Dataset | Reason |
-| --- | --- | --- |
-| 1 | Entity/item/component/vehicle specs and loadouts | Broadest reuse; almost entirely DataCore |
-| 1 | Resources, crafting blueprints, and quality | Current, well-linked, and product-visible |
-| 1 | Mission broker entries, rewards, reputation | Rich player-facing data with direct GUID joins |
-| 2 | Shops and static prices | High value but requires P4K JSON plus physical-shop joins |
-| 2 | Loot tables and harvestable distribution | Useful but probabilistic and polymorphic |
-| 2 | Location amenities, law, environment, interiors | Extends the existing location model significantly |
-| 3 | Transit graph and placed shop/loot entities | Requires a general SOC entity parser |
-| 3 | Dialogue, lore, hints, and Subsumption graphs | Large volume and lower core-database value |
+| Priority | Dataset                                          | Reason                                                    |
+| -------- | ------------------------------------------------ | --------------------------------------------------------- |
+| 1        | Entity/item/component/vehicle specs and loadouts | Broadest reuse; almost entirely DataCore                  |
+| 1        | Resources, crafting blueprints, and quality      | Current, well-linked, and product-visible                 |
+| 1        | Mission broker entries, rewards, reputation      | Rich player-facing data with direct GUID joins            |
+| 2        | Shops and static prices                          | High value but requires P4K JSON plus physical-shop joins |
+| 2        | Loot tables and harvestable distribution         | Useful but probabilistic and polymorphic                  |
+| 2        | Location amenities, law, environment, interiors  | Extends the existing location model significantly         |
+| 3        | Transit graph and placed shop/loot entities      | Requires a general SOC entity parser                      |
+| 3        | Dialogue, lore, hints, and Subsumption graphs    | Large volume and lower core-database value                |
 
 ## Known limits
 

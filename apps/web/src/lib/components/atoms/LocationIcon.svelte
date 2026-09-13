@@ -1,19 +1,16 @@
 <script lang="ts" module>
 	export type LocationIconProps = {
 		class?: string;
-		type: GameLocationType | "Galaxy";
+		type: LocationType | "Galaxy";
 	} & Omit<HTMLImgAttributes, "src">;
 </script>
 
 <script lang="ts">
-	import { GameLocationType } from "@versetools/types";
+	import { LocationType } from "@versetools/types";
 	import type { HTMLImgAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
 	import AstroidField from "$lib/assets/location-markers/AstroidField.png";
-	import City from "$lib/assets/location-markers/City.png";
-	import CommArray from "$lib/assets/location-markers/CommArray.png";
-	import JumpPoint from "$lib/assets/location-markers/JumpPoint.png";
 	import Marker from "$lib/assets/location-markers/Marker.png";
 	import Moon from "$lib/assets/location-markers/Moon.png";
 	import Outpost from "$lib/assets/location-markers/Outpost.png";
@@ -25,24 +22,15 @@
 
 	const src = $derived.by(() => {
 		switch (type) {
-			case GameLocationType.AsteroidField:
+			case LocationType.Asteroid:
 				return AstroidField;
-			case GameLocationType.City:
-				return City;
-			case GameLocationType.CommArray:
-				return CommArray;
-			case GameLocationType.JumpPoint:
-				return JumpPoint;
-			case GameLocationType.Moon:
+			case LocationType.Moon:
 				return Moon;
-			case GameLocationType.SecurityPost:
-			case GameLocationType.Outpost:
+			case LocationType.Outpost:
 				return Outpost;
-			case GameLocationType.Planet:
+			case LocationType.Planet:
 				return Planet;
-			case GameLocationType.Station:
-				return Station;
-			case GameLocationType.System:
+			case LocationType.System:
 				return System;
 			default:
 				return Marker;

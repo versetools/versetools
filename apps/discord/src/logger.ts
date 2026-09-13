@@ -21,7 +21,7 @@ export function addLoggerTransports(bot: Bot) {
 	logger.attachTransport(
 		axiomTransport({
 			token: process.env.AXIOM_TOKEN!,
-			dataset: process.env.AXIOM_DATASET!,
+			dataset: process.env.AXIOM_DATASET!
 		})
 	);
 }

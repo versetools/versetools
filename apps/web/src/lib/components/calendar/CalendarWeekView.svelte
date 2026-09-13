@@ -80,7 +80,7 @@
 			.join(' ')};"
 	>
 		<header
-			class="bg-portal-background z-1 sticky left-0 top-0 col-span-full grid grid-cols-subgrid"
+			class="bg-portal-background sticky top-0 left-0 z-1 col-span-full grid grid-cols-subgrid"
 		>
 			<div class="col-span-7 col-start-2 grid grid-cols-subgrid">
 				{#each dates as date (date)}
