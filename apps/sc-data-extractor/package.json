@@ -8,7 +8,7 @@
 		"format": "run-p format:prettier format:rs",
 		"format:prettier": "prettier --write .",
 		"format:rs": "cargo fmt",
-		"lint": "eslint . && prettier --check .",
+		"lint": "eslint . --no-error-on-unmatched-pattern && prettier --check .",
 		"prepublishOnly": "napi prepublish -t npm",
 		"version": "napi version"
 	},

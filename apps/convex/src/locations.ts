@@ -4,6 +4,7 @@ import {
 	AbortLocationImportSchema,
 	BeginLocationImportSchema,
 	CreateLocationSchema,
+	FindLocationsByPropertySchema,
 	FinalizeLocationImportSchema,
 	ReconcileLocationImportBatchSchema,
 	UpdateLocationSchema
@@ -15,14 +16,11 @@ import { ActiveLocationClosureRebuildQuery } from "$convex/app/commands/location
 import { BeginLocationImportMutation } from "$convex/app/commands/locations/BeginLocationImportMutation";
 import { CreateLocationMutation } from "$convex/app/commands/locations/CreateLocationMutation";
 import { FinalizeLocationImportMutation } from "$convex/app/commands/locations/FinalizeLocationImportMutation";
-import {
-	LocationTreeQuery,
-	type LocationWithChildren
-} from "$convex/app/commands/locations/LocationTreeQuery";
+import { LocationsByPropertyQuery } from "$convex/app/commands/locations/LocationsByPropertyQuery";
+import { LocationsListQuery } from "$convex/app/commands/locations/LocationsListQuery";
 import { RebuildLocationClosuresMutation } from "$convex/app/commands/locations/RebuildLocationClosuresMutation";
 import { ReconcileLocationImportBatchMutation } from "$convex/app/commands/locations/ReconcileLocationImportBatchMutation";
 import { RemoveLocationMutation } from "$convex/app/commands/locations/RemoveLocationMutation";
-import { RootLocationsQuery } from "$convex/app/commands/locations/RootLocationsQuery";
 import { UpdateLocationMutation } from "$convex/app/commands/locations/UpdateLocationMutation";
 import { router } from "$convex/app/main";
 import { secretKeyMiddleware } from "$convex/app/middleware/secretKeyMiddleware";
@@ -30,20 +28,17 @@ import { secretKeyMiddleware } from "$convex/app/middleware/secretKeyMiddleware"
 export const list = router
 	.query({ args: { rootIds: v.optional(v.array(v.id("locations"))) } })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
-	.withHandler(async (runner, args): Promise<LocationWithChildren[]> => {
-		if (await runner.query(new ActiveLocationClosureRebuildQuery())) {
-			throw new ResultError("LOCATION_TREE_REBUILDING");
-		}
-		const rootIds =
-			args.rootIds ??
-			(await runner.query(new RootLocationsQuery())).map((location) => location._id);
-		return await runner.mapQuery(rootIds, (rootId) => new LocationTreeQuery(rootId));
-	});
+	.withHandler(async (runner, args) => await runner.query(new LocationsListQuery(args.rootIds)));
 
 export const isRebuilding = router
 	.query({})
 	.withDependencies(({ runnerId }) => [runnerId])
 	.withHandler(async (runner) => !!(await runner.query(new ActiveLocationClosureRebuildQuery())));
+
+export const findByProperty = router
+	.query({ validator: "zod", args: FindLocationsByPropertySchema })
+	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
+	.withHandler(async (runner, args) => await runner.query(new LocationsByPropertyQuery(args)));
 
 export const create = router
 	.internalMutation({ validator: "zod", args: CreateLocationSchema })

@@ -1,4 +1,11 @@
-import { vLocationType, vQuat, vWorldSpace } from "@versetools/types";
+import {
+	vLocationAmenity,
+	vLocationPropertySource,
+	vLocationPropertyType,
+	vLocationType,
+	vQuat,
+	vWorldSpace
+} from "@versetools/types";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -13,7 +20,9 @@ export const locationsSchema = {
 		cigGuid: v.string(),
 
 		name: v.string(),
+		nameTranslationKey: v.optional(v.string()),
 		description: v.nullable(v.string()),
+		descriptionTranslationKey: v.optional(v.string()),
 
 		type: vLocationType,
 		sourceTypeName: v.string(),
@@ -90,10 +99,16 @@ export const locationsSchema = {
 
 	locationProperties: defineTable({
 		locationId: v.id("locations"),
-		key: v.string(),
-		value: v.string()
+		type: vLocationPropertyType,
+		value: vLocationAmenity,
+		name: v.string(),
+		nameTranslationKey: v.optional(v.string()),
+		source: v.optional(vLocationPropertySource),
+		sourceReference: v.optional(v.string()),
+		icon: v.optional(v.string())
 	})
 		.index("by_locationId", ["locationId"])
-		.index("by_key", ["key"])
-		.index("by_locationId_and_key", ["locationId", "key"])
+		.index("by_locationId_and_source", ["locationId", "source"])
+		.index("by_locationId_and_type_and_value", ["locationId", "type", "value"])
+		.index("by_type_and_value", ["type", "value"])
 };

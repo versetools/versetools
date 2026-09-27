@@ -1,10 +1,12 @@
 <script lang="ts" module>
-	export type LocationInputProps = InputProps<Id<"gameLocations"> | null>;
+	import type { LocationResponse } from "@versetools/types";
+	import type { InputProps } from "@versetools/ui";
+
+	export type LocationInputProps = InputProps<LocationResponse["_id"] | null>;
 </script>
 
 <script lang="ts">
-	import type { Id } from "$convex/_generated/dataModel";
-	import { Button, Input, type InputProps } from "@versetools/ui";
+	import { Button, Input } from "@versetools/ui";
 
 	import { useLocations } from "$lib/runes";
 

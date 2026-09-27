@@ -7,7 +7,12 @@ import {
 } from "@versetools/sc-data-extractor";
 import {
 	IngestLocationSchema,
+	LocationAmenity,
+	LocationAmenityNames,
+	LocationPropertySource,
+	LocationPropertyType,
 	LocationType,
+	MAX_LOCATION_TREE_PROPERTIES,
 	QuatSchema,
 	Vec3Schema,
 	WorldSpace
@@ -24,6 +29,36 @@ const ANOMALY_SAMPLE_LIMIT = 10;
 type Vec3 = z.infer<typeof Vec3Schema>;
 type Quat = z.infer<typeof QuatSchema>;
 export type IngestLocation = z.infer<typeof IngestLocationSchema>;
+type IngestLocationProperty = IngestLocation["properties"][number];
+type StarMapAmenity = Exclude<LocationAmenity, LocationAmenity.ExternalFreightElevator>;
+
+export const STAR_MAP_AMENITY_TYPES: Readonly<Record<string, StarMapAmenity>> = {
+	"Special Event": LocationAmenity.SpecialEvent,
+	Docking: LocationAmenity.Docking,
+	Garage: LocationAmenity.Garage,
+	Hospital: LocationAmenity.Hospital,
+	Clinic: LocationAmenity.Clinic,
+	Refinery: LocationAmenity.Refinery,
+	"Buy Weapons": LocationAmenity.BuyWeapons,
+	"Buy Ship Items and Weapons": LocationAmenity.BuyShipItemsAndWeapons,
+	"Buy Armor": LocationAmenity.BuyArmor,
+	"Buy Clothing": LocationAmenity.BuyClothing,
+	"Buy Vehicles": LocationAmenity.BuyVehicles,
+	"Rent Vehicles": LocationAmenity.RentVehicles,
+	"Buy and Rent Vehicles": LocationAmenity.BuyAndRentVehicles,
+	"Food Court": LocationAmenity.FoodCourt,
+	"Hangar S": LocationAmenity.HangarS,
+	"Hangar M": LocationAmenity.HangarM,
+	"Hangar L": LocationAmenity.HangarL,
+	"Hangar XL": LocationAmenity.HangarXl,
+	"Landing Pad S": LocationAmenity.LandingPadS,
+	"Landing Pad M": LocationAmenity.LandingPadM,
+	"Landing Pad L": LocationAmenity.LandingPadL,
+	"Landing Pad XL": LocationAmenity.LandingPadXl,
+	"Vehicle Services": LocationAmenity.VehicleServices,
+	"Commodity Trading - Freight Elevator": LocationAmenity.CargoFreightElevator,
+	"Commodity Trading - Loading Dock": LocationAmenity.CargoLoadingDock
+};
 
 type DataCoreRecord = {
 	_RecordValue_?: Record<string, unknown>;
@@ -55,6 +90,12 @@ export type LocationSnapshotMeasurements = {
 	maximumDepth: number;
 	closureRows: number;
 	closureAmplification: number;
+	propertyCount: number;
+	locationTreePropertyLimit: number;
+	locationTreePropertyHeadroom: number;
+	propertyTranslationKeyCount: number;
+	locationTranslationKeyCount: number;
+	incompleteObjectContainerPropertyCount: number;
 };
 
 export type LocationExtractorDependencies = {
@@ -62,6 +103,10 @@ export type LocationExtractorDependencies = {
 	readDatacoreRecordByGuid: typeof readDatacoreRecordByGuid;
 	readSocpak: typeof readSocpak;
 	logger: Pick<Console, "info">;
+};
+
+export type LocationExtractionOptions = {
+	socpakFilter?: (path: string) => boolean;
 };
 
 const defaultDependencies: LocationExtractorDependencies = {
@@ -122,9 +167,78 @@ function guid(value: unknown): string | null {
 	return null;
 }
 
-function text(value: unknown, localize: typeof lookupLocalization): string | null {
+type LocalizedText = { value: string; translationKey?: string };
+
+function localizedText(
+	value: unknown,
+	localize: typeof lookupLocalization,
+	fallback?: string
+): LocalizedText | null {
 	if (typeof value !== "string") return null;
-	return value.startsWith("@") ? (localize(value) ?? value) : value;
+	if (!value.startsWith("@")) return { value };
+	return { value: localize(value) ?? fallback ?? value, translationKey: value };
+}
+
+function requiredText(value: unknown, description: string): string {
+	if (typeof value !== "string" || !value.trim()) throw new Error(`Missing ${description}`);
+	return value.trim();
+}
+
+function amenityProperties(
+	source: Record<string, unknown>,
+	locationGuid: string,
+	dependencies: LocationExtractorDependencies
+): IngestLocationProperty[] {
+	if (source.amenities === undefined && source.Amenities === undefined) return [];
+	const amenities = source.amenities ?? source.Amenities;
+	if (!Array.isArray(amenities))
+		throw new Error(`StarMapObject ${locationGuid} has malformed amenities`);
+
+	const properties = amenities.map<IngestLocationProperty>((reference, index) => {
+		const amenityGuid = guid(reference);
+		if (!amenityGuid)
+			throw new Error(`StarMapObject ${locationGuid} has malformed amenity reference ${index}`);
+		let amenityRecord;
+		try {
+			amenityRecord = dependencies.readDatacoreRecordByGuid(amenityGuid);
+		} catch (error) {
+			throw new Error(
+				`Unable to resolve amenity ${amenityGuid} for ${locationGuid}: ${String(error)}`
+			);
+		}
+		const amenity = recordValue(amenityRecord);
+		const sourceName = requiredText(
+			amenity.name ?? amenity.Name,
+			`name for amenity ${amenityGuid}`
+		);
+		const value = STAR_MAP_AMENITY_TYPES[sourceName];
+		if (!value) throw new Error(`Unsupported amenity type '${sourceName}' (${amenityGuid})`);
+		const displaySource = amenity.displayName ?? amenity.DisplayName;
+		const localizedName = localizedText(
+			displaySource,
+			dependencies.lookupLocalization,
+			LocationAmenityNames[value]
+		) ?? { value: LocationAmenityNames[value] };
+		const icon = requiredText(amenity.icon ?? amenity.Icon, `icon for amenity ${amenityGuid}`);
+
+		return {
+			type: LocationPropertyType.Amenity,
+			value,
+			source: LocationPropertySource.StarMapAmenity,
+			sourceReference: amenityGuid,
+			name: localizedName.value.trim(),
+			nameTranslationKey: localizedName.translationKey,
+			icon
+		};
+	});
+	properties.sort(compareProperties);
+	return properties.filter(
+		(property, index) =>
+			index === 0 ||
+			property.type !== properties[index - 1].type ||
+			property.value !== properties[index - 1].value ||
+			property.source !== properties[index - 1].source
+	);
 }
 
 function vector(value: unknown): Vec3 {
@@ -183,26 +297,36 @@ function locationFromStarMapObject(
 	const typeCigGuid = guid(source.type);
 	if (!cigGuid || !typeCigGuid) throw new Error("StarMapObject is missing a CIG GUID or type GUID");
 	const typeSource = recordValue(dependencies.readDatacoreRecordByGuid(typeCigGuid));
-	const sourceTypeName = text(typeSource.name ?? typeSource.Name, dependencies.lookupLocalization);
-	const name = text(source.name ?? source.Name, dependencies.lookupLocalization);
-	if (!sourceTypeName || !name)
+	const sourceTypeText = localizedText(
+		typeSource.name ?? typeSource.Name,
+		dependencies.lookupLocalization
+	);
+	const name = localizedText(source.name ?? source.Name, dependencies.lookupLocalization);
+	const description = localizedText(
+		source.description ?? source.Description,
+		dependencies.lookupLocalization
+	);
+	if (!sourceTypeText || !name)
 		throw new Error(`StarMapObject ${cigGuid} is missing a name or type name`);
+	const sourceTypeName = sourceTypeText.value;
 
 	const sourceParent = guid(source.parent ?? source.Parent);
 	return {
 		cigGuid,
 		parentCigGuid: sourceParent ?? parentCigGuid,
-		name: name.trim(),
-		description:
-			text(source.description ?? source.Description, dependencies.lookupLocalization)?.trim() ??
-			null,
+		name: name.value.trim(),
+		nameTranslationKey: name.translationKey,
+		description: description?.value.trim() ?? null,
+		descriptionTranslationKey: description?.translationKey,
 		type: normalizeLocationType(sourceTypeName),
 		sourceTypeName,
 		typeCigGuid,
 		worldSpace: WorldSpace.Solar,
 		surface: typeSource.onParentSurface === true,
 		position,
-		rotation
+		rotation,
+		properties: amenityProperties(source, cigGuid, dependencies),
+		objectContainerPropertiesComplete: true
 	};
 }
 
@@ -246,13 +370,41 @@ function containerPath(child: ObjectContainerChild): string | null {
 			: null;
 }
 
+export function canonicalizeSocpakPath(path: string): string {
+	const normalized = path.replaceAll("\\", "/").replace(/^\/+/, "");
+	return `data/${normalized.replace(/^data\//i, "")}`.toLowerCase();
+}
+
 function shouldLoadSocpak(path: string): boolean {
-	const normalized = path.replaceAll("\\", "/").toLowerCase();
+	return /^data\/objectcontainers\/pu\/.+\.socpak$/.test(canonicalizeSocpakPath(path));
+}
+
+export function isLegacyLocationSocpak(path: string): boolean {
+	const normalized = canonicalizeSocpakPath(path);
 	return (
 		normalized.startsWith("data/objectcontainers/pu/") &&
 		(normalized.includes("/system") ||
 			normalized.includes("/station") ||
 			normalized.includes("/jumppoint"))
+	);
+}
+
+function isExternalFreightElevator(path: string): boolean {
+	return /^data\/objectcontainers\/pu\/loc\/mod\/common\/ext_cargo\/.+\.socpak$/.test(
+		canonicalizeSocpakPath(path)
+	);
+}
+
+function isMissingSocpakError(error: unknown): boolean {
+	return /SOCpak file '.+' was not found in Data\.p4k/i.test(String(error));
+}
+
+function compareProperties(left: IngestLocationProperty, right: IngestLocationProperty): number {
+	return (
+		left.type.localeCompare(right.type) ||
+		left.value.localeCompare(right.value) ||
+		left.source.localeCompare(right.source) ||
+		left.sourceReference.localeCompare(right.sourceReference)
 	);
 }
 
@@ -266,6 +418,7 @@ export function batchLocations(snapshot: LocationSnapshot): {
 	batchHash: string;
 }[] {
 	const batches = [];
+	const invalidCigGuids = [...snapshot.invalidCigGuids].sort();
 	for (let index = 0; index < snapshot.locations.length; index += LOCATION_BATCH_SIZE) {
 		const batch = {
 			locations: snapshot.locations.slice(index, index + LOCATION_BATCH_SIZE),
@@ -273,10 +426,10 @@ export function batchLocations(snapshot: LocationSnapshot): {
 		};
 		batches.push({ ...batch, batchHash: hash(batch) });
 	}
-	for (let index = 0; index < snapshot.invalidCigGuids.length; index += LOCATION_BATCH_SIZE) {
+	for (let index = 0; index < invalidCigGuids.length; index += LOCATION_BATCH_SIZE) {
 		const batch = {
 			locations: [],
-			invalidCigGuids: snapshot.invalidCigGuids.slice(index, index + LOCATION_BATCH_SIZE)
+			invalidCigGuids: invalidCigGuids.slice(index, index + LOCATION_BATCH_SIZE)
 		};
 		batches.push({ ...batch, batchHash: hash(batch) });
 	}
@@ -291,6 +444,11 @@ export function measureLocationSnapshot(snapshot: LocationSnapshot): LocationSna
 	);
 	const closureRows = depths.reduce((total, locationDepth) => total + locationDepth + 1, 0);
 
+	const propertyCount = snapshot.locations.reduce(
+		(total, location) => total + location.properties.length,
+		0
+	);
+
 	return {
 		batchBytes,
 		totalBatchBytes: batchBytes.reduce((total, bytes) => total + bytes, 0),
@@ -298,12 +456,36 @@ export function measureLocationSnapshot(snapshot: LocationSnapshot): LocationSna
 		rootCount: snapshot.locations.filter((location) => location.parentCigGuid === null).length,
 		maximumDepth: Math.max(0, ...depths),
 		closureRows,
-		closureAmplification: snapshot.locations.length ? closureRows / snapshot.locations.length : 0
+		closureAmplification: snapshot.locations.length ? closureRows / snapshot.locations.length : 0,
+		propertyCount,
+		locationTreePropertyLimit: MAX_LOCATION_TREE_PROPERTIES,
+		locationTreePropertyHeadroom: MAX_LOCATION_TREE_PROPERTIES - propertyCount,
+		propertyTranslationKeyCount: snapshot.locations.reduce(
+			(total, location) =>
+				total +
+				location.properties.filter(
+					(property) => "nameTranslationKey" in property && !!property.nameTranslationKey
+				).length,
+			0
+		),
+		locationTranslationKeyCount: snapshot.locations.reduce(
+			(total, location) =>
+				total +
+				(location.nameTranslationKey ? 1 : 0) +
+				(location.descriptionTranslationKey ? 1 : 0),
+			0
+		),
+		incompleteObjectContainerPropertyCount: snapshot.locations.filter(
+			(location) => !location.objectContainerPropertiesComplete
+		).length
 	};
 }
 
 export function snapshotHash(snapshot: LocationSnapshot): string {
-	return hash({ locations: snapshot.locations, invalidCigGuids: snapshot.invalidCigGuids });
+	return hash({
+		locations: snapshot.locations,
+		invalidCigGuids: [...snapshot.invalidCigGuids].sort()
+	});
 }
 
 function hash(value: unknown): string {
@@ -311,17 +493,23 @@ function hash(value: unknown): string {
 }
 
 export function extractLocations(
-	dependencies: LocationExtractorDependencies = defaultDependencies
+	dependencies: LocationExtractorDependencies = defaultDependencies,
+	options: LocationExtractionOptions = {}
 ): LocationSnapshot {
+	const socpakFilter = options.socpakFilter ?? shouldLoadSocpak;
 	const candidates = new Map<string, IngestLocation>();
 	const activeSocpaks = new Set<string>();
+	const externalFreightElevatorPaths = new Map<string, Set<string>>();
+	const incompleteObjectContainerOwners = new Set<string>();
 	const invalid = new Set<string>();
 	const duplicateSamples: string[] = [];
 	const invalidParentSamples: string[] = [];
 	const unresolvedRecordSamples: string[] = [];
+	const missingSocpakSamples: string[] = [];
 	let duplicateCount = 0;
 	let invalidParentCount = 0;
 	let unresolvedRecordCount = 0;
+	let missingSocpakCount = 0;
 
 	function addCandidate(candidate: IngestLocation, sourcePath: string) {
 		if (candidates.has(candidate.cigGuid)) {
@@ -337,7 +525,8 @@ export function extractLocations(
 
 	function visit(container: ObjectContainer, parentCigGuid: string | null) {
 		for (const child of container.children ?? []) {
-			const starMapRecord = guid(child.starMapRecord);
+			const starMapReference = child.starMapRecord ?? child.StarMapRecord;
+			const starMapRecord = guid(starMapReference);
 			let candidate = null;
 			if (starMapRecord) {
 				let record;
@@ -365,16 +554,40 @@ export function extractLocations(
 			visit({ path: container.path, children: child.children }, childParentCigGuid);
 
 			const path = containerPath(child);
-			if (path && shouldLoadSocpak(path)) visitSocpak(path, childParentCigGuid);
+			if (path && childParentCigGuid && isExternalFreightElevator(path)) {
+				const paths = externalFreightElevatorPaths.get(childParentCigGuid) ?? new Set<string>();
+				paths.add(canonicalizeSocpakPath(path));
+				externalFreightElevatorPaths.set(childParentCigGuid, paths);
+			}
+			if (path && socpakFilter(path))
+				visitSocpak(path, childParentCigGuid, false, starMapReference !== undefined);
 		}
 	}
 
-	function visitSocpak(path: string, parentCigGuid: string | null) {
-		const key = path.toLowerCase();
+	function visitSocpak(
+		path: string,
+		parentCigGuid: string | null,
+		root: boolean,
+		locationBearing: boolean
+	) {
+		const key = canonicalizeSocpakPath(path);
 		if (activeSocpaks.has(key)) throw new Error(`Recursive SOCpak reference includes ${path}`);
 		activeSocpaks.add(key);
 		try {
-			visit(dependencies.readSocpak(path) as ObjectContainer, parentCigGuid);
+			let container;
+			try {
+				container = dependencies.readSocpak(path) as ObjectContainer;
+			} catch (error) {
+				if (root || locationBearing || !isMissingSocpakError(error)) throw error;
+				missingSocpakCount++;
+				sample(
+					missingSocpakSamples,
+					`${key} owned by ${parentCigGuid ?? "unknown"}: ${String(error)}`
+				);
+				if (parentCigGuid) incompleteObjectContainerOwners.add(parentCigGuid);
+				return;
+			}
+			visit(container, parentCigGuid);
 		} finally {
 			activeSocpaks.delete(key);
 		}
@@ -397,8 +610,25 @@ export function extractLocations(
 		if (!Array.isArray(paths) || !paths.length || paths.some((path) => typeof path !== "string")) {
 			throw new Error(`Solar system ${system.cigGuid} has no root object container`);
 		}
-		for (const rootPath of paths as string[]) visitSocpak(rootPath, system.cigGuid);
+		for (const rootPath of paths as string[]) visitSocpak(rootPath, system.cigGuid, true, true);
 	}
+
+	for (const [ownerGuid, paths] of externalFreightElevatorPaths) {
+		const owner = candidates.get(ownerGuid);
+		if (!owner) continue;
+		owner.properties.push({
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.ExternalFreightElevator,
+			source: LocationPropertySource.ObjectContainer,
+			sourceReference: Array.from(paths).sort()[0],
+			name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator]
+		});
+	}
+	for (const ownerGuid of incompleteObjectContainerOwners) {
+		const owner = candidates.get(ownerGuid);
+		if (owner) owner.objectContainerPropertiesComplete = false;
+	}
+	for (const candidate of candidates.values()) candidate.properties.sort(compareProperties);
 
 	const valid = new Map(candidates);
 	let changed = true;
@@ -415,7 +645,7 @@ export function extractLocations(
 		}
 	}
 
-	const locations = Array.from(valid.values());
+	const locations = Array.from(valid.values(), (location) => IngestLocationSchema.parse(location));
 	locations.sort((left, right) => {
 		const leftDepth = depth(left, valid);
 		const rightDepth = depth(right, valid);
@@ -427,11 +657,13 @@ export function extractLocations(
 		invalidParentCount,
 		invalidParentSamples,
 		unresolvedRecordCount,
-		unresolvedRecordSamples
+		unresolvedRecordSamples,
+		missingSocpakCount,
+		missingSocpakSamples
 	});
 	return {
 		locations,
-		invalidCigGuids: Array.from(invalid),
+		invalidCigGuids: Array.from(invalid).sort(),
 		duplicateCount,
 		invalidParentCount
 	};

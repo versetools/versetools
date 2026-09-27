@@ -16,6 +16,7 @@ import type * as app_commands_files_MakeFilePermanentMutation from "../app/comma
 import type * as app_commands_files_TagFilesForDeletionMutation from "../app/commands/files/TagFilesForDeletionMutation.js";
 import type * as app_commands_locations_AbortLocationImportMutation from "../app/commands/locations/AbortLocationImportMutation.js";
 import type * as app_commands_locations_ActiveLocationClosureRebuildQuery from "../app/commands/locations/ActiveLocationClosureRebuildQuery.js";
+import type * as app_commands_locations_AllLocationPropertiesQuery from "../app/commands/locations/AllLocationPropertiesQuery.js";
 import type * as app_commands_locations_BeginLocationImportMutation from "../app/commands/locations/BeginLocationImportMutation.js";
 import type * as app_commands_locations_CreateLocationMutation from "../app/commands/locations/CreateLocationMutation.js";
 import type * as app_commands_locations_DeleteLocationBatchMutation from "../app/commands/locations/DeleteLocationBatchMutation.js";
@@ -27,6 +28,8 @@ import type * as app_commands_locations_LocationDecendantsQuery from "../app/com
 import type * as app_commands_locations_LocationInverseSubtreeQuery from "../app/commands/locations/LocationInverseSubtreeQuery.js";
 import type * as app_commands_locations_LocationSubtreeQuery from "../app/commands/locations/LocationSubtreeQuery.js";
 import type * as app_commands_locations_LocationTreeQuery from "../app/commands/locations/LocationTreeQuery.js";
+import type * as app_commands_locations_LocationsByPropertyQuery from "../app/commands/locations/LocationsByPropertyQuery.js";
+import type * as app_commands_locations_LocationsListQuery from "../app/commands/locations/LocationsListQuery.js";
 import type * as app_commands_locations_MoveLocationMutation from "../app/commands/locations/MoveLocationMutation.js";
 import type * as app_commands_locations_RebuildLocationClosuresMutation from "../app/commands/locations/RebuildLocationClosuresMutation.js";
 import type * as app_commands_locations_ReconcileLocationImportBatchMutation from "../app/commands/locations/ReconcileLocationImportBatchMutation.js";
@@ -45,6 +48,7 @@ import type * as app_schema_files_files from "../app/schema/files/files.js";
 import type * as app_schema_index from "../app/schema/index.js";
 import type * as app_schema_locations from "../app/schema/locations.js";
 import type * as app_services_cache_ActionCache from "../app/services/cache/ActionCache.js";
+import type * as app_transformers_LocationTransformer from "../app/transformers/LocationTransformer.js";
 import type * as app_utils_Slugifier from "../app/utils/Slugifier.js";
 import type * as components_posthog from "../components/posthog.js";
 import type * as components_rateLimiter from "../components/rateLimiter.js";
@@ -71,6 +75,7 @@ declare const fullApi: ApiFromModules<{
   "app/commands/files/TagFilesForDeletionMutation": typeof app_commands_files_TagFilesForDeletionMutation;
   "app/commands/locations/AbortLocationImportMutation": typeof app_commands_locations_AbortLocationImportMutation;
   "app/commands/locations/ActiveLocationClosureRebuildQuery": typeof app_commands_locations_ActiveLocationClosureRebuildQuery;
+  "app/commands/locations/AllLocationPropertiesQuery": typeof app_commands_locations_AllLocationPropertiesQuery;
   "app/commands/locations/BeginLocationImportMutation": typeof app_commands_locations_BeginLocationImportMutation;
   "app/commands/locations/CreateLocationMutation": typeof app_commands_locations_CreateLocationMutation;
   "app/commands/locations/DeleteLocationBatchMutation": typeof app_commands_locations_DeleteLocationBatchMutation;
@@ -82,6 +87,8 @@ declare const fullApi: ApiFromModules<{
   "app/commands/locations/LocationInverseSubtreeQuery": typeof app_commands_locations_LocationInverseSubtreeQuery;
   "app/commands/locations/LocationSubtreeQuery": typeof app_commands_locations_LocationSubtreeQuery;
   "app/commands/locations/LocationTreeQuery": typeof app_commands_locations_LocationTreeQuery;
+  "app/commands/locations/LocationsByPropertyQuery": typeof app_commands_locations_LocationsByPropertyQuery;
+  "app/commands/locations/LocationsListQuery": typeof app_commands_locations_LocationsListQuery;
   "app/commands/locations/MoveLocationMutation": typeof app_commands_locations_MoveLocationMutation;
   "app/commands/locations/RebuildLocationClosuresMutation": typeof app_commands_locations_RebuildLocationClosuresMutation;
   "app/commands/locations/ReconcileLocationImportBatchMutation": typeof app_commands_locations_ReconcileLocationImportBatchMutation;
@@ -100,6 +107,7 @@ declare const fullApi: ApiFromModules<{
   "app/schema/index": typeof app_schema_index;
   "app/schema/locations": typeof app_schema_locations;
   "app/services/cache/ActionCache": typeof app_services_cache_ActionCache;
+  "app/transformers/LocationTransformer": typeof app_transformers_LocationTransformer;
   "app/utils/Slugifier": typeof app_utils_Slugifier;
   "components/posthog": typeof components_posthog;
   "components/rateLimiter": typeof components_rateLimiter;

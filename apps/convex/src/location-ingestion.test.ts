@@ -1,7 +1,23 @@
-import type { MutationCommand, MutationValue } from "@versetools/core/commands";
+import type {
+	MutationCommand,
+	MutationValue,
+	QueryCommand,
+	QueryValue
+} from "@versetools/core/commands";
 import { RunnerService } from "@versetools/core/services/commands/RunnerService";
 import { SubscriptionRegistry } from "@versetools/core/services/commands/subscriptions/SubscriptionRegistry";
-import { LocationType, WorldSpace } from "@versetools/types";
+import {
+	LocationAmenity,
+	LocationAmenityNames,
+	LocationPropertySource,
+	LocationPropertyType,
+	LocationType,
+	MAX_LOCATION_IMPORT_BATCH_SIZE,
+	MAX_LOCATION_PROPERTY_METADATA_LENGTH,
+	MAX_LOCATION_PROPERTIES,
+	ReconcileLocationImportBatchSchema,
+	WorldSpace
+} from "@versetools/types";
 import { convexTest, type TestConvexForDataModel } from "convex-test";
 import { expect, test } from "vitest";
 
@@ -9,6 +25,8 @@ import type { DataModel, Id } from "$convex/_generated/dataModel";
 import { AbortLocationImportMutation } from "$convex/app/commands/locations/AbortLocationImportMutation";
 import { BeginLocationImportMutation } from "$convex/app/commands/locations/BeginLocationImportMutation";
 import { FinalizeLocationImportMutation } from "$convex/app/commands/locations/FinalizeLocationImportMutation";
+import { LocationsByPropertyQuery } from "$convex/app/commands/locations/LocationsByPropertyQuery";
+import { LocationsListQuery } from "$convex/app/commands/locations/LocationsListQuery";
 import { RebuildLocationClosuresMutation } from "$convex/app/commands/locations/RebuildLocationClosuresMutation";
 import { ReconcileLocationImportBatchMutation } from "$convex/app/commands/locations/ReconcileLocationImportBatchMutation";
 
@@ -34,7 +52,9 @@ type TestConvex = TestConvexForDataModel<DataModel>;
 const locationInput = (cigGuid: string, name: string, parentCigGuid: string | null = null) => ({
 	cigGuid,
 	name,
+	nameTranslationKey: undefined,
 	description: null,
+	descriptionTranslationKey: undefined,
 	type: LocationType.PointOfInterest,
 	sourceTypeName: "TestLocation",
 	typeCigGuid: null,
@@ -42,7 +62,9 @@ const locationInput = (cigGuid: string, name: string, parentCigGuid: string | nu
 	surface: false,
 	position: { x: 1, y: 2, z: 3 },
 	rotation: null,
-	parentCigGuid
+	parentCigGuid,
+	properties: [],
+	objectContainerPropertiesComplete: true
 });
 
 const runMutation = async <Command extends MutationCommand<DataModel>>(
@@ -54,13 +76,27 @@ const runMutation = async <Command extends MutationCommand<DataModel>>(
 		return await runner.mutation(command);
 	});
 
+const runQuery = async <Command extends QueryCommand<DataModel>>(
+	t: TestConvex,
+	command: Command
+): Promise<QueryValue<Command>> =>
+	await t.query(async (ctx) => {
+		const runner = new RunnerService(ctx, new SubscriptionRegistry<DataModel>());
+		return await runner.query(command);
+	});
+
 const insertLocation = async (
 	t: TestConvex,
 	cigGuid: string,
 	name: string,
 	parentId: Id<"locations"> | null = null
 ) => {
-	const { parentCigGuid: _parentCigGuid, ...input } = locationInput(cigGuid, name);
+	const {
+		parentCigGuid: _parentCigGuid,
+		properties: _properties,
+		objectContainerPropertiesComplete: _objectContainerPropertiesComplete,
+		...input
+	} = locationInput(cigGuid, name);
 	return await t.run(
 		async (ctx) =>
 			await ctx.db.insert("locations", {
@@ -73,6 +109,17 @@ const insertLocation = async (
 
 const beginImport = async (t: TestConvex, expectedBatchCount = 1, snapshotHash = HASH_A) =>
 	await runMutation(t, new BeginLocationImportMutation({ snapshotHash, expectedBatchCount }));
+
+const clinicProperty = (name = "Clinic") =>
+	({
+		type: LocationPropertyType.Amenity,
+		value: LocationAmenity.Clinic,
+		source: LocationPropertySource.StarMapAmenity,
+		sourceReference: GUIDS.created,
+		name,
+		nameTranslationKey: "@clinic",
+		icon: "UI/clinic.svg"
+	}) as const;
 
 test("reconciles creates and updates while preserving IDs across reparenting", async () => {
 	const t = convexTest(schema, modules);
@@ -136,13 +183,13 @@ test("aborts an import before its first batch", async () => {
 test("rejects abort after a batch and resumes idempotently", async () => {
 	const t = convexTest(schema, modules);
 	const generationId = await beginImport(t);
-	const batch = {
+	const batch = ReconcileLocationImportBatchSchema.parse({
 		generationId,
 		batchNumber: 0,
 		batchHash: HASH_B,
 		locations: [locationInput(GUIDS.root, "Root")],
 		invalidCigGuids: []
-	};
+	});
 	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
 
 	await expect(
@@ -155,6 +202,368 @@ test("rejects abort after a batch and resumes idempotently", async () => {
 		async (ctx) => await ctx.db.get("locationImportGenerations", generationId)
 	);
 	expect(generation?.completedBatchCount).toBe(1);
+});
+
+test("reconciles property creates and committed retries idempotently", async () => {
+	const t = convexTest(schema, modules);
+	const generationId = await beginImport(t);
+	const batch = ReconcileLocationImportBatchSchema.parse({
+		generationId,
+		batchNumber: 0,
+		batchHash: HASH_B,
+		locations: [
+			{
+				...locationInput(GUIDS.root, "Root"),
+				properties: [
+					clinicProperty(),
+					{
+						type: LocationPropertyType.Amenity,
+						value: LocationAmenity.ExternalFreightElevator,
+						source: LocationPropertySource.ObjectContainer,
+						sourceReference: "data/objectcontainers/pu/loc/mod/common/ext_cargo/elevator.socpak",
+						name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator]
+					}
+				]
+			}
+		],
+		invalidCigGuids: []
+	});
+
+	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
+	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
+
+	const state = await t.run(async (ctx) => ({
+		properties: await ctx.db.query("locationProperties").collect(),
+		generation: await ctx.db.get("locationImportGenerations", generationId)
+	}));
+	expect(state.properties).toHaveLength(2);
+	expect(state.generation?.completedBatchCount).toBe(1);
+});
+
+test("flows localized properties through reconciliation and transformed reads", async () => {
+	const t = convexTest(schema, modules);
+	const generationId = await beginImport(t, 2);
+	const externalElevator = {
+		type: LocationPropertyType.Amenity,
+		value: LocationAmenity.ExternalFreightElevator,
+		source: LocationPropertySource.ObjectContainer,
+		sourceReference: "data/objectcontainers/pu/loc/mod/common/ext_cargo/elevator.socpak",
+		name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator]
+	} as const;
+	const docking = {
+		type: LocationPropertyType.Amenity,
+		value: LocationAmenity.Docking,
+		source: LocationPropertySource.StarMapAmenity,
+		sourceReference: GUIDS.child,
+		name: "Docking",
+		nameTranslationKey: "@docking",
+		icon: "UI/docking.svg"
+	} as const;
+	const initialBatch = ReconcileLocationImportBatchSchema.parse({
+		generationId,
+		batchNumber: 0,
+		batchHash: HASH_A,
+		locations: [
+			{
+				...locationInput(GUIDS.root, "Localized root"),
+				nameTranslationKey: "@root",
+				description: "Localized description",
+				descriptionTranslationKey: "@root_description",
+				properties: [clinicProperty("Old clinic"), docking, externalElevator],
+				objectContainerPropertiesComplete: false
+			}
+		],
+		invalidCigGuids: []
+	});
+	await runMutation(t, new ReconcileLocationImportBatchMutation(initialBatch));
+	await runMutation(t, new ReconcileLocationImportBatchMutation(initialBatch));
+
+	const updatedClinic = {
+		...clinicProperty("Updated clinic"),
+		nameTranslationKey: "@updated_clinic",
+		icon: "UI/updated-clinic.svg"
+	};
+	const updateBatch = ReconcileLocationImportBatchSchema.parse({
+		generationId,
+		batchNumber: 1,
+		batchHash: HASH_B,
+		locations: [
+			{
+				...locationInput(GUIDS.root, "Localized root"),
+				nameTranslationKey: "@root",
+				description: "Localized description",
+				descriptionTranslationKey: "@root_description",
+				properties: [updatedClinic, docking],
+				objectContainerPropertiesComplete: false
+			}
+		],
+		invalidCigGuids: []
+	});
+	await runMutation(t, new ReconcileLocationImportBatchMutation(updateBatch));
+	await runMutation(t, new ReconcileLocationImportBatchMutation(updateBatch));
+
+	const persisted = await t.run(async (ctx) => {
+		const location = (await ctx.db
+			.query("locations")
+			.withIndex("by_cigGuid", (q) => q.eq("cigGuid", GUIDS.root))
+			.unique())!;
+		await ctx.db.insert("locationClosures", {
+			ancestorId: location._id,
+			descendantId: location._id,
+			depth: 0
+		});
+		const rebuild = await ctx.db
+			.query("locationClosureRebuilds")
+			.withIndex("by_active", (q) => q.eq("active", true))
+			.unique();
+		if (rebuild) await ctx.db.patch("locationClosureRebuilds", rebuild._id, { active: false });
+		return {
+			location,
+			properties: await ctx.db
+				.query("locationProperties")
+				.withIndex("by_locationId", (q) => q.eq("locationId", location._id))
+				.collect()
+		};
+	});
+	const tree = await runQuery(t, new LocationsListQuery());
+	const search = await runQuery(
+		t,
+		new LocationsByPropertyQuery({
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.Clinic,
+			paginationOpts: { cursor: null }
+		})
+	);
+
+	expect(persisted.location).toMatchObject({
+		nameTranslationKey: "@root",
+		descriptionTranslationKey: "@root_description"
+	});
+	expect(persisted.properties).toHaveLength(3);
+	expect(persisted.properties).toEqual(
+		expect.arrayContaining([
+			expect.objectContaining({
+				value: LocationAmenity.Clinic,
+				name: "Updated clinic",
+				nameTranslationKey: "@updated_clinic",
+				icon: "UI/updated-clinic.svg"
+			}),
+			expect.objectContaining({
+				value: LocationAmenity.ExternalFreightElevator,
+				name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator]
+			})
+		])
+	);
+	expect(tree[0].properties).toEqual(search.page[0].properties);
+	expect(tree[0].properties).toEqual([
+		{ type: LocationPropertyType.Amenity, name: "Updated clinic", value: LocationAmenity.Clinic },
+		{ type: LocationPropertyType.Amenity, name: "Docking", value: LocationAmenity.Docking },
+		{
+			type: LocationPropertyType.Amenity,
+			name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator],
+			value: LocationAmenity.ExternalFreightElevator
+		}
+	]);
+	expect(tree[0]).not.toHaveProperty("nameTranslationKey");
+	expect(tree[0].properties[0]).not.toHaveProperty("sourceReference");
+});
+
+test("patches source metadata, removes stale declared facts, and preserves partial physical facts", async () => {
+	const t = convexTest(schema, modules);
+	const locationId = await insertLocation(t, GUIDS.root, "Root");
+	const existingIds = await t.run(async (ctx) => ({
+		manual: await ctx.db.insert("locationProperties", {
+			locationId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.SpecialEvent,
+			name: "Manual special event"
+		}),
+		clinic: await ctx.db.insert("locationProperties", {
+			locationId,
+			...clinicProperty("Old clinic"),
+			nameTranslationKey: "@old_clinic",
+			sourceReference: GUIDS.child,
+			icon: "UI/old-clinic.svg"
+		}),
+		staleDeclared: await ctx.db.insert("locationProperties", {
+			locationId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.Docking,
+			name: "Docking",
+			source: LocationPropertySource.StarMapAmenity,
+			sourceReference: GUIDS.child,
+			icon: "UI/docking.svg"
+		}),
+		physical: await ctx.db.insert("locationProperties", {
+			locationId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.ExternalFreightElevator,
+			name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator],
+			source: LocationPropertySource.ObjectContainer,
+			sourceReference: "data/objectcontainers/old.socpak"
+		})
+	}));
+	const generationId = await beginImport(t);
+	const batch = ReconcileLocationImportBatchSchema.parse({
+		generationId,
+		batchNumber: 0,
+		batchHash: HASH_B,
+		locations: [
+			{
+				...locationInput(GUIDS.root, "Root"),
+				properties: [
+					clinicProperty("Updated clinic"),
+					{
+						type: LocationPropertyType.Amenity,
+						value: LocationAmenity.Hospital,
+						source: LocationPropertySource.StarMapAmenity,
+						sourceReference: GUIDS.newParent,
+						name: "Hospital",
+						nameTranslationKey: "@hospital",
+						icon: "UI/hospital.svg"
+					}
+				],
+				objectContainerPropertiesComplete: false
+			}
+		],
+		invalidCigGuids: []
+	});
+
+	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
+	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
+
+	const properties = await t.run(async (ctx) => await ctx.db.query("locationProperties").collect());
+	expect(properties).toEqual(
+		expect.arrayContaining([
+			expect.objectContaining({
+				_id: existingIds.manual,
+				type: LocationPropertyType.Amenity,
+				value: LocationAmenity.SpecialEvent
+			}),
+			expect.objectContaining({
+				_id: existingIds.clinic,
+				name: "Updated clinic",
+				nameTranslationKey: "@clinic",
+				sourceReference: GUIDS.created,
+				icon: "UI/clinic.svg"
+			}),
+			expect.objectContaining({ value: LocationAmenity.Hospital }),
+			expect.objectContaining({ _id: existingIds.physical })
+		])
+	);
+	expect(properties).toHaveLength(4);
+	expect(properties.some(({ _id }) => _id === existingIds.staleDeclared)).toBe(false);
+});
+
+test("removes absent physical facts after a complete scan", async () => {
+	const t = convexTest(schema, modules);
+	const locationId = await insertLocation(t, GUIDS.root, "Root");
+	await t.run(
+		async (ctx) =>
+			await ctx.db.insert("locationProperties", {
+				locationId,
+				type: LocationPropertyType.Amenity,
+				value: LocationAmenity.ExternalFreightElevator,
+				name: LocationAmenityNames[LocationAmenity.ExternalFreightElevator],
+				source: LocationPropertySource.ObjectContainer,
+				sourceReference: "data/objectcontainers/old.socpak"
+			})
+	);
+	const generationId = await beginImport(t);
+
+	await runMutation(
+		t,
+		new ReconcileLocationImportBatchMutation({
+			generationId,
+			batchNumber: 0,
+			batchHash: HASH_B,
+			locations: [locationInput(GUIDS.root, "Root")],
+			invalidCigGuids: []
+		})
+	);
+
+	expect(await t.run(async (ctx) => await ctx.db.query("locationProperties").collect())).toEqual(
+		[]
+	);
+});
+
+test("rejects duplicate persisted semantic identities regardless of ownership", async () => {
+	const t = convexTest(schema, modules);
+	const locationId = await insertLocation(t, GUIDS.root, "Root");
+	await t.run(async (ctx) => {
+		await ctx.db.insert("locationProperties", { locationId, ...clinicProperty() });
+		await ctx.db.insert("locationProperties", {
+			locationId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.Clinic,
+			name: "Manual duplicate"
+		});
+	});
+	const generationId = await beginImport(t);
+
+	await expect(
+		runMutation(
+			t,
+			new ReconcileLocationImportBatchMutation({
+				generationId,
+				batchNumber: 0,
+				batchHash: HASH_B,
+				locations: [{ ...locationInput(GUIDS.root, "Root"), properties: [clinicProperty()] }],
+				invalidCigGuids: []
+			})
+		)
+	).rejects.toMatchObject({ data: { type: "DUPLICATE_LOCATION_PROPERTY" } });
+});
+
+test("keeps a maximum property batch within transaction and argument limits", async () => {
+	const t = convexTest({ schema, modules, transactionLimits: true });
+	const maximumMetadata = "x".repeat(MAX_LOCATION_PROPERTY_METADATA_LENGTH);
+	const amenities = Object.values(LocationAmenity);
+	const properties = amenities.map((value, index) =>
+		value === LocationAmenity.ExternalFreightElevator
+			? {
+					type: LocationPropertyType.Amenity,
+					value,
+					source: LocationPropertySource.ObjectContainer,
+					sourceReference: maximumMetadata,
+					name: maximumMetadata
+				}
+			: {
+					type: LocationPropertyType.Amenity,
+					value,
+					source: LocationPropertySource.StarMapAmenity,
+					sourceReference: `00000000-0000-4000-8000-${String(index + 100).padStart(12, "0")}`,
+					name: maximumMetadata,
+					nameTranslationKey: maximumMetadata,
+					icon: maximumMetadata
+				}
+	);
+	const generationId = await beginImport(t);
+	const batch = ReconcileLocationImportBatchSchema.parse({
+		generationId,
+		batchNumber: 0,
+		batchHash: HASH_B,
+		locations: Array.from({ length: MAX_LOCATION_IMPORT_BATCH_SIZE }, (_, index) => ({
+			...locationInput(
+				`00000000-0000-4000-8000-${String(index + 1000).padStart(12, "0")}`,
+				`Location ${index}`
+			),
+			properties
+		})),
+		invalidCigGuids: []
+	});
+
+	expect(properties).toHaveLength(MAX_LOCATION_PROPERTIES);
+	const argumentBytes = new TextEncoder().encode(JSON.stringify(batch)).byteLength;
+	const maximumDocumentWrites = MAX_LOCATION_IMPORT_BATCH_SIZE * (MAX_LOCATION_PROPERTIES + 2) + 2;
+	const maximumIndexRanges = MAX_LOCATION_IMPORT_BATCH_SIZE * 3 + 1;
+	expect(argumentBytes).toBeLessThan(4 * 1024 * 1024);
+	expect(maximumDocumentWrites).toBeLessThan(1_000);
+	expect(maximumIndexRanges).toBeLessThan(100);
+	await runMutation(t, new ReconcileLocationImportBatchMutation(batch));
+	expect(
+		await t.run(async (ctx) => await ctx.db.query("locationProperties").collect())
+	).toHaveLength(MAX_LOCATION_IMPORT_BATCH_SIZE * MAX_LOCATION_PROPERTIES);
 });
 
 test("does not finalize an incomplete import or start cleanup", async () => {
@@ -206,9 +615,16 @@ test("deletes stale and invalid subtrees with their closure and property rows in
 			for (let index = 0; index < 30; index++)
 				await ctx.db.insert("locationProperties", {
 					locationId,
-					key: `key-${index}`,
-					value: `value-${index}`
+					type: LocationPropertyType.Amenity,
+					value: Object.values(LocationAmenity)[index % Object.values(LocationAmenity).length],
+					name: `Property ${index}`
 				});
+		await ctx.db.insert("locationProperties", {
+			locationId: rootId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.SpecialEvent,
+			name: "Manual special event"
+		});
 	});
 	const generationId = await beginImport(t);
 	await runMutation(
@@ -240,7 +656,13 @@ test("deletes stale and invalid subtrees with their closure and property rows in
 	}));
 	expect(state.locations).toHaveLength(1);
 	expect(state.locations[0]).toMatchObject({ _id: rootId, name: "Updated root" });
-	expect(state.properties).toEqual([]);
+	expect(state.properties).toEqual([
+		expect.objectContaining({
+			locationId: rootId,
+			type: LocationPropertyType.Amenity,
+			value: LocationAmenity.SpecialEvent
+		})
+	]);
 	expect(
 		state.closures.some(
 			(closure) =>
