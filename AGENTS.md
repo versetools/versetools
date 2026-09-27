@@ -70,8 +70,7 @@ private package resolution fails, and report authentication failures without exp
 
 ### Other Areas
 
-- `.pulumi`: authoritative deployment and infrastructure definitions. Treat app-local Dockerfiles
-  as stale unless a task explicitly targets them.
+- `.pulumi`: authoritative deployment and infrastructure definitions.
 - `openspec`: spec-driven change artifacts and configuration.
 - `.github/workflows`: the CI workflow.
 
