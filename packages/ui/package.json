@@ -66,7 +66,7 @@
     },
     "devDependencies": {
         "@floating-ui/dom": "^1.6.13",
-        "@sveltejs/package": "^2.5.0",
+        "@sveltejs/package": "^2.5.8",
         "@sveltejs/vite-plugin-svelte": "catalog:vite",
         "@tailwindcss/vite": "catalog:vite",
         "@types/mdast": "catalog:md",

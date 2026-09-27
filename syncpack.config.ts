@@ -14,7 +14,9 @@ export default {
 		"bin",
 		"main",
 		"types",
+		"svelte",
 		"exports",
+		"files",
 		"scripts"
 	],
 	sortAz: [

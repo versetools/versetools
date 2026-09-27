@@ -4,7 +4,6 @@ import convex from "@convex-dev/eslint-plugin";
 import js from "@eslint/js";
 import { defineConfig, globalIgnores } from "eslint/config";
 import prettier from "eslint-config-prettier";
-import importPlugin from "eslint-plugin-import";
 import svelte from "eslint-plugin-svelte";
 import zod from "eslint-plugin-zod";
 import globals from "globals";
@@ -114,7 +113,6 @@ export default defineConfig(
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	zod.configs.recommended,
-	importPlugin.flatConfigs.recommended,
 	...convex.configs.recommended,
 	prettier,
 	{

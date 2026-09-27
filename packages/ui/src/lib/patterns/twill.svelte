@@ -21,7 +21,6 @@
 		size?: "thin" | "thick";
 		class?: string;
 		stroke?: string;
-		strokeWidth?: string;
 		offsetX?: string | number;
 		offsetY?: string | number;
 	} = $props();
