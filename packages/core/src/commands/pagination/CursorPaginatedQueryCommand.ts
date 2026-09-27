@@ -71,11 +71,11 @@ export function vCursorPaginationOptions() {
 
 export function zCursorPaginationOptions() {
 	return {
-		query: z.string().nullish(),
+		query: z.string().trim().nullish(),
 		paginationOpts: z.object({
 			numItems: z.number(),
-			cursor: z.string().nullable(),
-			endCursor: z.string().nullish(),
+			cursor: z.string().trim().nullable(),
+			endCursor: z.string().trim().nullish(),
 			id: z.number().optional(),
 			maximumRowsRead: z.number().optional(),
 			maximumBytesRead: z.number().optional()

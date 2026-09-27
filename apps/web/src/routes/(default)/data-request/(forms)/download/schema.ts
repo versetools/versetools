@@ -1,8 +1,9 @@
-import { z } from "zod";
+import * as z from "zod";
+
+import { DataRequestSchema } from "../schema";
 
 import { config } from "$lib/config";
 
-import { DataRequestSchema } from "../schema";
 
 export const ServiceSchema = z.enum(Object.keys(config.services) as [keyof typeof config.services]);
 

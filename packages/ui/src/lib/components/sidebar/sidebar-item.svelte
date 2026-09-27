@@ -33,10 +33,10 @@
 	import { slide } from "svelte/transition";
 	import { twMerge } from "tailwind-merge";
 
-	import { page } from "$app/state";
-
 	import Self from "./sidebar-item.svelte";
 	import Button from "../ui/button.svelte";
+
+	import { page } from "$app/state";
 
 	let {
 		class: className,

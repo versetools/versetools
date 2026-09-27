@@ -36,10 +36,11 @@
 	import type { HTMLAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
-	import { page } from "$app/state";
 	import { smoothScrolling } from "$lib/helpers";
 
 	import NavExpandableItemGroup from "./nav-expandable-item-group.svelte";
+
+	import { page } from "$app/state";
 
 	let { items, more = true, class: className }: NavListProps = $props();
 

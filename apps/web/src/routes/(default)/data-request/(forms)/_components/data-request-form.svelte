@@ -20,9 +20,10 @@
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import type { z } from "zod";
 
+	import type { DataRequestSchema } from "../schema";
+
 	import { createUploader } from "$lib/uploadthing";
 
-	import type { DataRequestSchema } from "../schema";
 
 	let {
 		name,

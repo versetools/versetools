@@ -2,13 +2,14 @@
 	import { Card } from "@versetools/ui";
 	import { ArrowLeftIcon } from "lucide-svelte";
 
-	import { config } from "$lib/config";
-	import Meta from "$lib/seo/meta.svelte";
 
 	import type { PageData } from "./$types";
 	import ExtraFields from "./extra-fields.svelte";
 	import { DownloadRequestSchema } from "./schema";
 	import DataRequestForm from "../_components/data-request-form.svelte";
+
+	import { config } from "$lib/config";
+	import Meta from "$lib/seo/meta.svelte";
 
 	let { data }: { data: PageData } = $props();
 </script>

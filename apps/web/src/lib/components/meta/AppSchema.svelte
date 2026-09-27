@@ -1,12 +1,14 @@
 <script lang="ts">
 	import config from "@versetools/config";
 
-	import { PUBLIC_SITE_URL } from "$env/static/public";
 
-	import Schema from "./Schema.svelte";
 
 	import { metaConfig } from "$config/meta";
 	import { schemaConfig } from "$config/schema";
+
+	import Schema from "./Schema.svelte";
+
+	import { PUBLIC_SITE_URL } from "$env/static/public";
 </script>
 
 <Schema

@@ -1,7 +1,8 @@
-import { PUBLIC_SITE_URL } from "$env/static/public";
 import { createETag } from "$server/etag";
 
 import type { RequestHandler } from "./$types";
+
+import { PUBLIC_SITE_URL } from "$env/static/public";
 
 export const prerender = true;
 

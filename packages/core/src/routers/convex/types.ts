@@ -8,13 +8,14 @@ import type {
 	ArgsArrayToObject,
 	FunctionType
 } from "convex/server";
-import type { ArgsId, CtxId } from "./ids";
 import type { Infer, ObjectType, PropertyValidators } from "convex/values";
 import type { Validator } from "convex/values";
+import type { HaywireId } from "haywire";
 import * as zCore from "zod/v4/core";
+
+import type { ArgsId, CtxId } from "./ids";
 import type { GenericHaywireFactory } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
-import type { HaywireId } from "haywire";
 import type { RunnerService } from "../../services/commands/RunnerService";
 
 // Function types //
@@ -49,9 +50,12 @@ type ZodArgOptions = {
 };
 
 export type RouteBuilderOptions<ExtraConfig extends Record<string, any>> = {
-	[key in keyof ExtraConfig as key extends "validator" | "args" | "skipConvexValidation" | "returns"
-		? never
-		: key]: ExtraConfig[key];
+	[
+		key in keyof ExtraConfig as key extends
+			"validator" | "args" | "skipConvexValidation" | "returns"
+			? never
+			: key
+	]: ExtraConfig[key];
 } & (ConvexArgOptions | ZodArgOptions);
 
 // Arg arrays //

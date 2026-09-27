@@ -22,6 +22,7 @@ export class LocationInverseSubtreeQuery extends QueryCommand<DataModel> {
 			const ancestorsAboveRoot = await ctx.db
 				.query("locationClosures")
 				.withIndex("by_descendantId", (q) => q.eq("descendantId", closure.descendantId))
+				// eslint-disable-next-line @convex-dev/no-filter-in-query
 				.filter((q) => xf(q, (q) => q.not(q.in(q.field("ancestorId"), subtreeIds))))
 				.collect();
 

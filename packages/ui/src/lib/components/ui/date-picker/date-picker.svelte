@@ -65,7 +65,6 @@
 	import { twMerge } from "tailwind-merge";
 	import { tv } from "tailwind-variants";
 
-	import { browser } from "$app/environment";
 	import { keyboard } from "$lib/builders/utils/keyboard";
 	import { Twill } from "$lib/patterns";
 
@@ -73,6 +72,8 @@
 	import StyledRect from "../styled-rect.svelte";
 	import DateSegment from "./date-segment.svelte";
 	import Button from "../button.svelte";
+
+	import { browser } from "$app/environment";
 
 	let {
 		id,

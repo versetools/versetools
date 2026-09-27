@@ -17,10 +17,7 @@ export type SubscriptionListener<
 	value?: any
 ) => MaybePromise<void>;
 
-export type AnySubscriptionListener<
-	DataModel extends GenericDataModel,
-	CommandType extends Class
-> =
+export type AnySubscriptionListener<DataModel extends GenericDataModel, CommandType extends Class> =
 	| SubscriptionListener<DataModel, GenericQueryableCtx<DataModel>, CommandType>
 	| SubscriptionListener<DataModel, GenericMutationCtx<DataModel>, CommandType>;
 

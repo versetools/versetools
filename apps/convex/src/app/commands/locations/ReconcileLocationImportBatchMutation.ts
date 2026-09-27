@@ -118,7 +118,7 @@ export class ReconcileLocationImportBatchMutation extends MutationCommand<DataMo
 	) {
 		const existingProperties = await ctx.db
 			.query("locationProperties")
-			.withIndex("by_locationId", (q) => q.eq("locationId", locationId))
+			.withIndex("by_locationId_and_type_and_value", (q) => q.eq("locationId", locationId))
 			.collect();
 		const allExistingByIdentity = new Map<string, LocationProperty>();
 		for (const property of existingProperties) {

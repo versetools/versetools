@@ -184,7 +184,10 @@ export const IngestLocationSchema = CreateLocationSchema.omit({ parentId: true }
 	});
 
 export const BeginLocationImportSchema = z.object({
-	snapshotHash: z.string().regex(/^[a-f0-9]{64}$/),
+	snapshotHash: z
+		.string()
+		.trim()
+		.regex(/^[a-f0-9]{64}$/),
 	expectedBatchCount: z.int().positive().max(10_000)
 });
 
@@ -192,7 +195,10 @@ export const ReconcileLocationImportBatchSchema = z
 	.object({
 		generationId: zid("locationImportGenerations"),
 		batchNumber: z.int().nonnegative(),
-		batchHash: z.string().regex(/^[a-f0-9]{64}$/),
+		batchHash: z
+			.string()
+			.trim()
+			.regex(/^[a-f0-9]{64}$/),
 		locations: z.array(IngestLocationSchema).max(MAX_LOCATION_IMPORT_BATCH_SIZE),
 		invalidCigGuids: z.array(z.guid()).max(250)
 	})
@@ -209,7 +215,7 @@ export const AbortLocationImportSchema = z.object({
 });
 
 const LocationPropertyPaginationSchema = z.object({
-	cursor: z.string().nullable(),
+	cursor: z.string().trim().nullable(),
 	numItems: z.int().positive().max(MAX_LOCATION_PROPERTY_PAGE_SIZE).optional()
 });
 

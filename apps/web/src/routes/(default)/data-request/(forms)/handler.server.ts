@@ -1,6 +1,8 @@
 import { logger } from "@l3dev/logger";
 import { fail, type SuperValidated } from "sveltekit-superforms";
-import type { z } from "zod";
+import type * as z from "zod";
+
+import type { DataRequestSchema } from "./schema";
 
 import {
 	hasActiveDataRequest,
@@ -8,7 +10,6 @@ import {
 	type DataRequestType
 } from "$server/data-requests";
 
-import type { DataRequestSchema } from "./schema";
 
 export async function handleDataRequestForm<
 	TType extends DataRequestType,

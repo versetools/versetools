@@ -73,7 +73,7 @@ export function zOffsetPaginationOptions<TableName extends string, Take extends 
 	takeOptions?: Take[]
 ) {
 	return {
-		query: z.string().nullish(),
+		query: z.string().trim().nullish(),
 		cursor: zid(tableName).nullish(),
 		end: z.boolean().nullish(),
 		take: (takeOptions

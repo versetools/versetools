@@ -21,13 +21,10 @@ import { asyncMap } from "convex-helpers";
 import type { NonUnion, UnionToIntersection } from "../utility-types";
 
 export type GenericQueryableCtx<DataModel extends GenericDataModel> =
-	| GenericQueryCtx<DataModel>
-	| GenericMutationCtx<DataModel>;
+	GenericQueryCtx<DataModel> | GenericMutationCtx<DataModel>;
 
 export type GenericCtx<DataModel extends GenericDataModel> =
-	| GenericQueryCtx<DataModel>
-	| GenericMutationCtx<DataModel>
-	| GenericActionCtx<DataModel>;
+	GenericQueryCtx<DataModel> | GenericMutationCtx<DataModel> | GenericActionCtx<DataModel>;
 
 export type RunQueryCtx = {
 	runQuery: <Query extends FunctionReference<"query", FunctionVisibility>>(

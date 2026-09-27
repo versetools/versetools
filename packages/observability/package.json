@@ -16,6 +16,9 @@
             "import": "./build/transports/index.js"
         }
     },
+    "files": [
+        "build"
+    ],
     "scripts": {
         "build": "rm -rf build && tsc -p tsconfig.json",
         "check": "tsc --noEmit",
@@ -32,8 +35,5 @@
         "@opentelemetry/api": "^1.9.0",
         "tslog": "catalog:"
     },
-    "files": [
-        "build"
-    ],
     "packageManager": "pnpm@10.33.2"
 }

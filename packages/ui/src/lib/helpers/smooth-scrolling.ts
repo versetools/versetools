@@ -31,7 +31,6 @@ export function smoothScrolling(href?: string | null) {
 			}
 
 			e.preventDefault();
-			// eslint-disable-next-line svelte/no-navigation-without-resolve
 			pushState(href, page.state);
 			smoothScrollToHash(url);
 		}

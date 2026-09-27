@@ -70,9 +70,7 @@ export const locationsSchema = {
 		generationId: v.id("locationImportGenerations"),
 		cigGuid: v.string(),
 		status: v.union(v.literal("valid"), v.literal("invalid"))
-	})
-		.index("by_generationId", ["generationId"])
-		.index("by_generationId_and_cigGuid", ["generationId", "cigGuid"]),
+	}).index("by_generationId_and_cigGuid", ["generationId", "cigGuid"]),
 
 	locationImportBatches: defineTable({
 		generationId: v.id("locationImportGenerations"),
@@ -93,7 +91,6 @@ export const locationsSchema = {
 		descendantId: v.id("locations"),
 		depth: v.number()
 	})
-		.index("by_ancestorId", ["ancestorId"])
 		.index("by_descendantId", ["descendantId"])
 		.index("by_ancestorId_and_descendantId", ["ancestorId", "descendantId"]),
 
@@ -107,8 +104,6 @@ export const locationsSchema = {
 		sourceReference: v.optional(v.string()),
 		icon: v.optional(v.string())
 	})
-		.index("by_locationId", ["locationId"])
-		.index("by_locationId_and_source", ["locationId", "source"])
 		.index("by_locationId_and_type_and_value", ["locationId", "type", "value"])
 		.index("by_type_and_value", ["type", "value"])
 };

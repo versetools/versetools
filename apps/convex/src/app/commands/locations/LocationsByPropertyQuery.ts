@@ -39,7 +39,7 @@ export class LocationsByPropertyQuery extends QueryCommand<DataModel> {
 						});
 					const locationProperties = await ctx.db
 						.query("locationProperties")
-						.withIndex("by_locationId", (q) => q.eq("locationId", location._id))
+						.withIndex("by_locationId_and_type_and_value", (q) => q.eq("locationId", location._id))
 						.collect();
 					return LocationTransformer.transform(
 						location,

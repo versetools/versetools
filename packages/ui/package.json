@@ -7,6 +7,7 @@
     "license": "UNLICENSED",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "svelte": "./dist/index.js",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -37,6 +38,10 @@
             "svelte": "./dist/transitions/index.js"
         }
     },
+    "files": [
+        "dist",
+        "!dist/**/*.test.*"
+    ],
     "scripts": {
         "dev": "vite dev",
         "sync": "svelte-kit sync",
@@ -82,16 +87,11 @@
         "unified": "catalog:md",
         "vite": "catalog:vite"
     },
-    "files": [
-        "dist",
-        "!dist/**/*.test.*"
-    ],
     "peerDependencies": {
         "@l3dev/mixins": "^0.2.5",
         "@sveltejs/kit": "catalog:",
         "svelte": "^5.0.0",
         "sveltekit-superforms": "catalog:",
         "tailwindcss": "^4.0.0"
-    },
-    "svelte": "./dist/index.js"
+    }
 }

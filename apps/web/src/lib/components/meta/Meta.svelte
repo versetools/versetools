@@ -17,9 +17,10 @@
 	import config from "@versetools/config";
 	import type { Snippet } from "svelte";
 
+	import { metaConfig } from "$config/meta";
+
 	import { dev } from "$app/environment";
 
-	import { metaConfig } from "$config/meta";
 
 	const emblem =
 		metaConfig.emblem && dev ? `http://localhost:5173${metaConfig.emblem}` : metaConfig.emblem;

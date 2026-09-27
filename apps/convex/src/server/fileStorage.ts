@@ -1,7 +1,7 @@
+import FileStorageService from "@versetools/core/services/files/FileStorageService";
 import { v } from "convex/values";
 
 import { router } from "$convex/app/main";
-import FileStorageService from "@versetools/core/services/files/FileStorageService";
 
 export const deleteFiles = router
 	.internalAction({

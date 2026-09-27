@@ -24,8 +24,9 @@
 	import { ScrollArea } from "@versetools/ui";
 	import { twMerge } from "tailwind-merge";
 
-	import { browser } from "$app/environment";
 	import { useInterval } from "$lib/runes";
+
+	import { browser } from "$app/environment";
 
 	const locale = browser ? navigator.language : "en";
 	const timeOptions = Intl.DateTimeFormat(locale, { timeStyle: "short" }).resolvedOptions();

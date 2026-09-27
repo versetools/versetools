@@ -57,9 +57,10 @@ type UseFormOptions<
 				successMessage?: string | MessageData;
 				errorMessage?: string;
 				errorMessages?: {
-					[type in
-						| (R extends Err<infer TType, any> ? TType : string & {})
-						| keyof typeof defaultMessages]?: Partial<MessageData>;
+					[
+						type in
+							(R extends Err<infer TType, any> ? TType : string & {}) | keyof typeof defaultMessages
+					]?: Partial<MessageData>;
 				};
 				action: (event: FormActionEvent<T, M, In>) => MaybePromise<R | undefined>;
 				onAction?: (event: {

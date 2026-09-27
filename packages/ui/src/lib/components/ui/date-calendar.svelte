@@ -26,9 +26,9 @@
 	import type { HTMLAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
-	import { browser } from "$app/environment";
-
 	import Button from "./button.svelte";
+
+	import { browser } from "$app/environment";
 
 	let {
 		class: className,

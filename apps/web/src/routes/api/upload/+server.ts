@@ -2,10 +2,11 @@ import { Effect } from "effect";
 import { makeAdapterHandler } from "uploadthing/server";
 import type { FileRouter, RouteHandlerOptions } from "uploadthing/types";
 
+import { uploadsRouter } from "$server/uploads";
+
 import { building } from "$app/environment";
 import { env } from "$env/dynamic/private";
 import { PUBLIC_SITE_URL } from "$env/static/public";
-import { uploadsRouter } from "$server/uploads";
 
 const UPLOADTHING_TOKEN = building ? process.env.UPLOADTHING_TOKEN : env.UPLOADTHING_TOKEN;
 

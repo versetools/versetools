@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Button, Card } from "@versetools/ui";
 
-	import { page } from "$app/state";
 	import { Meta } from "$lib/components/meta";
+
+	import { page } from "$app/state";
 </script>
 
 {#if page.status === 404}

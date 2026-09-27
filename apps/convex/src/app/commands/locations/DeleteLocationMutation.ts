@@ -22,7 +22,7 @@ export class DeleteLocationMutation extends MutationCommand<DataModel> {
 				"locationProperties",
 				await ctx.db
 					.query("locationProperties")
-					.withIndex("by_locationId", (q) => q.eq("locationId", locationId))
+					.withIndex("by_locationId_and_type_and_value", (q) => q.eq("locationId", locationId))
 					.collect()
 			);
 			await ctx.db.delete("locations", locationId);
@@ -30,7 +30,7 @@ export class DeleteLocationMutation extends MutationCommand<DataModel> {
 			const allRelations = [
 				...(await ctx.db
 					.query("locationClosures")
-					.withIndex("by_ancestorId", (q) => q.eq("ancestorId", locationId))
+					.withIndex("by_ancestorId_and_descendantId", (q) => q.eq("ancestorId", locationId))
 					.collect()),
 				...(await ctx.db
 					.query("locationClosures")

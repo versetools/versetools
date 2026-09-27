@@ -177,8 +177,8 @@
 
 	function isMultiple(
 		multiple: boolean | undefined,
-		val: SvelteSet<T> | T | undefined
-	): val is SvelteSet<T> {
+		_val: SvelteSet<T> | T | undefined
+	): _val is SvelteSet<T> {
 		return !!multiple;
 	}
 

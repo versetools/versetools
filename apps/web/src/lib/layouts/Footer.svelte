@@ -67,9 +67,10 @@
 	import type { Component } from "svelte";
 	import { twMerge } from "tailwind-merge";
 
+	import madeByTheCommunity from "$lib/assets/made-by-the-community.png";
+
 	import backgroundEmblem from "$lib/assets/emblem-large-dark.png";
 	import logo from "$lib/assets/logo-dark.png";
-	import madeByTheCommunity from "$lib/assets/made-by-the-community.png";
 </script>
 
 <footer

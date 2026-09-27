@@ -13,10 +13,10 @@
 <script lang="ts">
 	import { Time } from "@internationalized/date";
 
-	import { browser } from "$app/environment";
-
 	import Combobox, { type ComboboxProps } from "./combobox.svelte";
 	import TimeInput from "./time-input/time-input.svelte";
+
+	import { browser } from "$app/environment";
 
 	let {
 		locale,

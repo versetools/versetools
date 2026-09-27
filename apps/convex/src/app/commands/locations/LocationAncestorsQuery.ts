@@ -13,6 +13,7 @@ export class LocationAncestorsQuery extends QueryCommand<DataModel> {
 		const ancestors = await ctx.db
 			.query("locationClosures")
 			.withIndex("by_descendantId", (q) => q.eq("descendantId", this.locationId))
+			// eslint-disable-next-line @convex-dev/no-filter-in-query
 			.filter((q) => q.not(q.eq(q.field("depth"), 0)))
 			.collect();
 

@@ -1,7 +1,7 @@
+import type { DefaultFunctionArgs } from "convex/server";
 import { identifier, type HaywireId } from "haywire";
 
 import type { GenericCtx } from "../../helpers";
-import type { DefaultFunctionArgs } from "convex/server";
 
 export type CtxId<Ctx extends GenericCtx<any>> = HaywireId<
 	Ctx,

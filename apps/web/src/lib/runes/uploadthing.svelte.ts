@@ -10,10 +10,11 @@ import type {
 	inferErrorShape
 } from "uploadthing/types";
 
-import { PUBLIC_SITE_URL } from "$env/static/public";
+import { AnimationFrames } from "$lib/helpers/animation-frames.svelte";
 import type { UploadsRouter } from "$server/uploads";
 
-import { AnimationFrames } from "$lib/helpers/animation-frames.svelte";
+import { PUBLIC_SITE_URL } from "$env/static/public";
+
 
 const { createUploadThing } = generateSvelteHelpers<UploadsRouter>({
 	url: new URL("/api/upload", PUBLIC_SITE_URL).toString()

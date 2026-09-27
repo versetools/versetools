@@ -20,21 +20,26 @@ export const defaultMessages: Record<string, MessageData | ((err: Err<any, any>)
 			description: "The provided token has expired, please generate a new one."
 		},
 		MISSING_PERMISSION: (err: Err<"FORBIDDEN", ForbiddenErrorContext>) => {
-			let description = "";
+			const title = "You do not have permission to do that";
+
 			if ("missingPermissions" in err.context && err.context.missingPermissions) {
-				description =
-					"Requires the following permissions: " + err.context.missingPermissions.join(", ");
+				return {
+					title,
+					description:
+						"Requires the following permissions: " + err.context.missingPermissions.join(", ")
+				};
 			} else if ("missingOneOfPermissions" in err.context && err.context.missingOneOfPermissions) {
-				description =
-					"Requires one of the following permissions: " +
-					err.context.missingOneOfPermissions.join(", ");
-			} else {
-				description = "Requires permission: " + err.context.missingPermission;
+				return {
+					title,
+					description:
+						"Requires one of the following permissions: " +
+						err.context.missingOneOfPermissions.join(", ")
+				};
 			}
 
 			return {
-				title: "You do not have permission to do that",
-				description
+				title,
+				description: "Requires permission: " + err.context.missingPermission
 			};
 		},
 		EXCEEDED_RATE_LIMIT: (err: Err<"EXCEEDED_RATE_LIMIT", RateLimitErrorContext>) => {

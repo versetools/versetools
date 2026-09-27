@@ -7,21 +7,13 @@ import prettier from "eslint-config-prettier";
 import svelte from "eslint-plugin-svelte";
 import zod from "eslint-plugin-zod";
 import globals from "globals";
-import tseslint from "typescript-eslint";
+import ts from "typescript-eslint";
+import importX from "eslint-plugin-import-x";
 
 import webSvelteConfigJs from "./apps/web/svelte.config.js";
 import docsSvelteConfigJs from "./apps/docs/svelte.config.js";
 
-const convexApp = defineConfig({
-	name: "convex/rules",
-	files: ["./apps/convex/**/*.ts"],
-	rules: {
-		// Disabled due to performance issues, only uncomment to check for cycles
-		// "import/no-cycle": "error"
-	}
-});
-
-const svelteApp = defineConfig({
+const svelteConfig = defineConfig({
 	languageOptions: {
 		globals: {
 			...globals.browser,
@@ -30,68 +22,7 @@ const svelteApp = defineConfig({
 		},
 		parserOptions: {
 			extraFileExtensions: [".svelte"],
-			parser: tseslint.parser
-		}
-	},
-	rules: {
-		"import/no-unresolved": [
-			"error",
-			{
-				ignore: ["^\\$app/.+", "^\\$env/.+", "^virtual:.+"]
-			}
-		]
-	}
-});
-
-const svelteApps = defineConfig(
-	{
-		extends: svelteApp,
-		name: "web-app",
-		files: ["./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
-		languageOptions: {
-			parserOptions: {
-				svelteConfig: webSvelteConfigJs
-			}
-		}
-	},
-	{
-		extends: svelteApp,
-		name: "docs-app",
-		files: ["./apps/docs/**/*.{js,ts,svelte,svelte.ts}"],
-		languageOptions: {
-			parserOptions: {
-				svelteConfig: docsSvelteConfigJs
-			}
-		}
-	}
-);
-
-const nodePackages = defineConfig({
-	name: "node-packages",
-	files: ["./packages/observability/**/*.{js,ts}"],
-	languageOptions: {
-		globals: {
-			...globals.node
-		}
-	}
-});
-
-const sveltePackages = defineConfig({
-	name: "svelte-packages",
-	files: [
-		"./packages/convex-client/src/svelte/**/*.{ts,svelte,svelte.ts}",
-		"./packages/ui/src/**/*.{ts,svelte,svelte.ts}",
-		"./packages/ui-consent/src/**/*.{ts,svelte,svelte.ts}"
-	],
-	languageOptions: {
-		globals: {
-			...globals.browser,
-			...globals.node,
-			App: "readonly"
-		},
-		parserOptions: {
-			extraFileExtensions: [".svelte"],
-			parser: tseslint.parser
+			parser: ts.parser
 		}
 	}
 });
@@ -111,10 +42,13 @@ export default defineConfig(
 		"apps/sc-data-extractor/index.js"
 	]),
 	js.configs.recommended,
-	...tseslint.configs.recommended,
+	ts.configs.recommended,
+	importX.flatConfigs.recommended,
+	importX.flatConfigs.typescript,
 	zod.configs.recommended,
-	...convex.configs.recommended,
+	convex.configs.recommended,
 	prettier,
+
 	{
 		name: "ts",
 		languageOptions: {
@@ -124,10 +58,7 @@ export default defineConfig(
 			}
 		},
 		settings: {
-			"import/parsers": {
-				"@typescript-eslint/parser": [".ts"]
-			},
-			"import/resolver": {
+			"import-x/resolver": {
 				typescript: {
 					projectService: true,
 					tsconfigRootDir: import.meta.dirname
@@ -135,19 +66,29 @@ export default defineConfig(
 			}
 		}
 	},
+
 	{
 		name: "globals",
 		languageOptions: {
 			globals: {
-				...globals.browser
+				...globals.browser,
+				...globals.node
 			}
 		}
 	},
+
 	{
 		name: "global/rules",
 		rules: {
-			"import/no-duplicates": "off",
-			"import/order": [
+			"no-useless-assignment": "off",
+			"import-x/no-duplicates": "off",
+			"import-x/no-unresolved": [
+				"error",
+				{
+					ignore: ["^\\$app/.+", "^\\$env/.+", "^virtual:.+"]
+				}
+			],
+			"import-x/order": [
 				"warn",
 				{
 					groups: ["builtin", "external", "internal", ["sibling", "parent"], "index"],
@@ -177,10 +118,17 @@ export default defineConfig(
 			"@typescript-eslint/no-empty-object-type": "off"
 		}
 	},
+
 	{
 		name: "svelte/rules",
 		files: ["**/*.{svelte,svelte.ts}"],
-		extends: [...svelte.configs.recommended, ...svelte.configs.prettier],
+		extends: [...svelte.configs.recommended, ...svelte.configs.prettier, svelteConfig],
+		languageOptions: {
+			parserOptions: {
+				// Extremely slow linting when set to true, see: https://github.com/sveltejs/eslint-plugin-svelte/issues/1084
+				projectService: false
+			}
+		},
 		rules: {
 			"no-undef": "off",
 			"svelte/no-navigation-without-resolve": [
@@ -193,8 +141,33 @@ export default defineConfig(
 		}
 	},
 
-	sveltePackages,
-	convexApp,
-	nodePackages,
-	svelteApps
+	{
+		name: "convex/rules",
+		files: ["./apps/convex/**/*.ts"],
+		rules: {
+			// Disabled due to performance issues, only uncomment to check for cycles
+			// "import-x/no-cycle": "error"
+		}
+	},
+
+	{
+		extends: svelteConfig,
+		name: "web-app",
+		files: ["./apps/web/**/*.{js,ts,svelte,svelte.ts}"],
+		languageOptions: {
+			parserOptions: {
+				svelteConfig: webSvelteConfigJs
+			}
+		}
+	},
+	{
+		extends: svelteConfig,
+		name: "docs-app",
+		files: ["./apps/docs/**/*.{js,ts,svelte,svelte.ts}"],
+		languageOptions: {
+			parserOptions: {
+				svelteConfig: docsSvelteConfigJs
+			}
+		}
+	}
 );

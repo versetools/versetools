@@ -14,11 +14,12 @@
 	import type { HTMLButtonAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
-	import { page } from "$app/state";
 	import { smoothScrolling } from "$lib/helpers";
 
 	import Self from "./nav-expandable-item-group.svelte";
 	import type { NavItem, NavItemGroup } from "./nav-list.svelte";
+
+	import { page } from "$app/state";
 
 	let { items, children, floatingConfig, ...rest }: NavExpandableItemGroupProps = $props();
 

@@ -11,7 +11,7 @@ export class LocationSubtreeQuery extends QueryCommand<DataModel> {
 	async execute(ctx: QueryableCtx) {
 		const subtree = await ctx.db
 			.query("locationClosures")
-			.withIndex("by_ancestorId", (q) => q.eq("ancestorId", this.locationId))
+			.withIndex("by_ancestorId_and_descendantId", (q) => q.eq("ancestorId", this.locationId))
 			.collect();
 
 		subtree.sort((a, b) => a.depth - b.depth);

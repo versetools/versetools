@@ -9,15 +9,15 @@ import { type GenericHaywireId, type IsClass } from "haywire";
 
 import type { ConvexRouter } from "./ConvexRouter";
 import { genericArgsId, genericCtxId } from "./ids";
-import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
+import { createRegistration } from "./registration";
 import type {
 	ArgsArrayFromOptionsOptionalValidator,
 	ContextForFunctionType,
 	DependencyIdsObject,
 	RouteBuilderOptions
 } from "./types";
-import { createRegistration } from "./registration";
 import { genericRunnerServiceId } from "../../config/ids/commands";
+import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
 
 export type { RouteBuilderOptions } from "./types";
 

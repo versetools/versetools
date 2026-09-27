@@ -1,9 +1,10 @@
 import { logger } from "@l3dev/logger";
 import { err } from "@l3dev/result";
 
+import type { PageServerLoad } from "./$types";
+
 import { verifyEmailVerificationToken } from "$server/data-requests";
 
-import type { PageServerLoad } from "./$types";
 
 async function verifyToken(token: string) {
 	const result = await verifyEmailVerificationToken(token);

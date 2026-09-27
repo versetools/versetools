@@ -63,6 +63,5 @@
 		{...rest}
 		class={twMerge(variants({ size }), textareaClass)}
 		bind:this={textareaEl}
-		bind:value
-	></textarea>
+		bind:value></textarea>
 </div>

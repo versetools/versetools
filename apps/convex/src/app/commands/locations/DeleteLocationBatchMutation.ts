@@ -16,7 +16,7 @@ export class DeleteLocationBatchMutation extends MutationCommand<DataModel> {
 			if (!(await ctx.db.get("locations", locationId))) continue;
 			const properties = await ctx.db
 				.query("locationProperties")
-				.withIndex("by_locationId", (q) => q.eq("locationId", locationId))
+				.withIndex("by_locationId_and_type_and_value", (q) => q.eq("locationId", locationId))
 				.take(DELETE_BATCH_SIZE);
 			if (properties.length > 0) {
 				await deleteAll(ctx.db, "locationProperties", properties);
@@ -24,7 +24,7 @@ export class DeleteLocationBatchMutation extends MutationCommand<DataModel> {
 			}
 			const ancestorClosures = await ctx.db
 				.query("locationClosures")
-				.withIndex("by_ancestorId", (q) => q.eq("ancestorId", locationId))
+				.withIndex("by_ancestorId_and_descendantId", (q) => q.eq("ancestorId", locationId))
 				.take(DELETE_BATCH_SIZE);
 			if (ancestorClosures.length > 0) {
 				await deleteAll(ctx.db, "locationClosures", ancestorClosures);

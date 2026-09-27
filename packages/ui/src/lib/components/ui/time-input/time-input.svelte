@@ -48,10 +48,11 @@
 	import type { HTMLFieldsetAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
-	import { browser } from "$app/environment";
 	import { keyboard } from "$lib/builders/utils/keyboard";
 
 	import TimeSegment from "./time-segment.svelte";
+
+	import { browser } from "$app/environment";
 
 	let {
 		id,

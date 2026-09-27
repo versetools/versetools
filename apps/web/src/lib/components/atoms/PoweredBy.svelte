@@ -9,9 +9,10 @@
 	import type { HTMLAnchorAttributes } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
+	import logo from "$lib/assets/logo.png";
+
 	import { PUBLIC_SITE_URL } from "$env/static/public";
 
-	import logo from "$lib/assets/logo.png";
 
 	let { class: className, ...rest }: PoweredByProps = $props();
 </script>

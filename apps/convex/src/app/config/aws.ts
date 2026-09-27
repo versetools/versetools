@@ -1,8 +1,8 @@
 import { SESv2Client } from "@aws-sdk/client-sesv2";
+import { sesClientId } from "@versetools/core/config/ids/aws";
 import { bind } from "haywire";
 
 import { env } from "$convex/_generated/server";
-import { sesClientId } from "@versetools/core/config/ids/aws";
 
 export const sesClientBinding = bind(sesClientId).withGenerator(
 	() =>

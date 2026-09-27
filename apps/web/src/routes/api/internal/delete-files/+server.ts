@@ -7,7 +7,7 @@ import { uploadAPI } from "$server/uploads";
 import type { RequestHandler } from "./$types";
 
 const InputSchema = z.object({
-	keys: z.array(z.string())
+	keys: z.array(z.string().trim())
 });
 
 export const POST: RequestHandler = async (event) => {

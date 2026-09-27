@@ -1,7 +1,7 @@
-import { z } from "zod";
+import * as z from "zod";
 
 import { DataRequestSchema } from "../schema";
 
 export const CorrectInaccuraciesRequestSchema = DataRequestSchema.extend({
-	inaccuracies: z.string().min(1, "Description of inaccuracies is required")
+	inaccuracies: z.string().trim().min(1, "Description of inaccuracies is required")
 });

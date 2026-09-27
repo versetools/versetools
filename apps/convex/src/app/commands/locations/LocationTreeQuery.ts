@@ -64,8 +64,7 @@ export class LocationTreeQuery extends QueryCommand<DataModel> {
 
 			for (const location of locationsAtDepth) {
 				const parent = parents.find((p) => p._id === location.parentId) as
-					| LocationWithChildren
-					| undefined;
+					LocationWithChildren | undefined;
 				if (!parent) {
 					throw new ResultError("LOCATION_MISSING_PARENT", {
 						locationId: location._id,

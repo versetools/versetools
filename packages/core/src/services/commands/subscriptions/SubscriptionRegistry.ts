@@ -19,11 +19,10 @@ export class SubscriptionRegistry<DataModel extends GenericDataModel> {
 	}: {
 		holders: (
 			| {
-					[key in
-						| "subscription"
-						| "createSubscription"
-						| "updateSubscription"
-						| "deleteSubscription"]?: Pick<BaseSubscriptionBuilder<any, any, Context>, "build">;
+					[
+						key in
+							"subscription" | "createSubscription" | "updateSubscription" | "deleteSubscription"
+					]?: Pick<BaseSubscriptionBuilder<any, any, Context>, "build">;
 			  }
 			| {}
 		)[];

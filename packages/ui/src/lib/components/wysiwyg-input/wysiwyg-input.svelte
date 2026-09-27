@@ -374,8 +374,7 @@
 			class={twMerge(variants({ size }), textareaClass)}
 			bind:this={textareaEl}
 			bind:value
-			{onkeydown}
-		></textarea>
+			{onkeydown}></textarea>
 		<div {...modeTabs.getContent("preview")} class="relative min-h-46 px-4 py-3 text-sm">
 			{#if !!value && !!value?.trim()}
 				<Markdown {...markdown} {value} />

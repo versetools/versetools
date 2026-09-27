@@ -1,8 +1,9 @@
 import * as sitemap from "super-sitemap";
 
+import type { RequestHandler } from "./$types";
+
 import { PUBLIC_SITE_URL } from "$env/static/public";
 
-import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async () => {
 	return await sitemap.response({

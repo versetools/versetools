@@ -147,7 +147,7 @@ test("reconciles creates and updates while preserving IDs across reparenting", a
 		locations: await ctx.db.query("locations").collect(),
 		members: await ctx.db
 			.query("locationImportMembers")
-			.withIndex("by_generationId", (q) => q.eq("generationId", generationId))
+			.withIndex("by_generationId_and_cigGuid", (q) => q.eq("generationId", generationId))
 			.collect()
 	}));
 	const child = state.locations.find((location) => location.cigGuid === GUIDS.child);
@@ -321,7 +321,7 @@ test("flows localized properties through reconciliation and transformed reads", 
 			location,
 			properties: await ctx.db
 				.query("locationProperties")
-				.withIndex("by_locationId", (q) => q.eq("locationId", location._id))
+				.withIndex("by_locationId_and_type_and_value", (q) => q.eq("locationId", location._id))
 				.collect()
 		};
 	});

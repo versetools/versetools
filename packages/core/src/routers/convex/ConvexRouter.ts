@@ -2,8 +2,8 @@ import type { FunctionType, FunctionVisibility, GenericDataModel } from "convex/
 import type { PropertyValidators } from "convex/values";
 
 import { RouteBuilder, type RouteBuilderOptions } from "./RouteBuilder";
-import type { GenericHaywireFactory } from "../../haywire-types";
 import type { Middleware } from "./types";
+import type { GenericHaywireFactory } from "../../haywire-types";
 
 export class ConvexRouter<
 	DataModel extends GenericDataModel,

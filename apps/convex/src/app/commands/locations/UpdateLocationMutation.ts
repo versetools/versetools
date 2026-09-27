@@ -27,7 +27,7 @@ export class UpdateLocationMutation extends MutationCommand<DataModel> {
 			const parentId = this.input.parentId ?? null;
 			const subtree = await ctx.db
 				.query("locationClosures")
-				.withIndex("by_ancestorId", (q) => q.eq("ancestorId", location._id))
+				.withIndex("by_ancestorId_and_descendantId", (q) => q.eq("ancestorId", location._id))
 				.take(101);
 			const ancestors = parentId
 				? await ctx.db
@@ -39,6 +39,7 @@ export class UpdateLocationMutation extends MutationCommand<DataModel> {
 				? await ctx.db
 						.query("locationClosures")
 						.withIndex("by_descendantId", (q) => q.eq("descendantId", location._id))
+						// eslint-disable-next-line @convex-dev/no-filter-in-query
 						.filter((q) => q.neq(q.field("depth"), 0))
 						.take(101)
 				: [];

@@ -12,6 +12,9 @@
             "import": "./build/index.js"
         }
     },
+    "files": [
+        "build"
+    ],
     "scripts": {
         "build": "rm -rf build && tsc -p tsconfig.json",
         "check": "tsc --noEmit",
@@ -21,8 +24,5 @@
         "package": "pnpm build",
         "prepublishOnly": "pnpm package"
     },
-    "files": [
-        "build"
-    ],
     "packageManager": "pnpm@10.33.2"
 }

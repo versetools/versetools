@@ -1,11 +1,12 @@
 import type { Id } from "$convex/_generated/dataModel";
-import type { FeatureFlagName } from "$convex/app/apis";
 import posthogjs from "posthog-js";
 
+import { consent } from "./consent.svelte";
+
 import { browser } from "$app/environment";
+import type { FeatureFlagName } from "$convex/app/apis";
 import { PUBLIC_POSTHOG_PROXY, PUBLIC_POSTHOG_KEY } from "$env/static/public";
 
-import { consent } from "./consent.svelte";
 
 function isHTMLElement(element: any): element is HTMLElement {
 	return element instanceof HTMLElement;

@@ -2,12 +2,13 @@
 	import config from "@versetools/config";
 	import { openConsentOptions } from "@versetools/ui-consent";
 
-	import type { LayoutProps } from "./$types";
 
 	import background from "$lib/assets/background.png";
 	import logo from "$lib/assets/logo.png";
 	import madeByTheCommunity from "$lib/assets/made-by-the-community.png";
 	import gridTile from "$lib/assets/patterns/star-tile.png";
+
+	import type { LayoutProps } from "./$types";
 
 	let { children }: LayoutProps = $props();
 </script>

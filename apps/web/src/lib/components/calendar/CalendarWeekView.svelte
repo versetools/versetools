@@ -20,12 +20,13 @@
 	} from "@internationalized/date";
 	import { ScrollArea } from "@versetools/ui";
 
-	import { browser } from "$app/environment";
 	import { useInterval } from "$lib/runes";
 
 	import CalendarDayColumn from "./CalendarDayColumn.svelte";
 	import CalendarDayHeading from "./CalendarDayHeading.svelte";
 	import CalendarTimeTape from "./CalendarTimeTape.svelte";
+
+	import { browser } from "$app/environment";
 
 	const locale = browser ? navigator.language : "en";
 	const timeOptions = Intl.DateTimeFormat(locale, { timeStyle: "short" }).resolvedOptions();

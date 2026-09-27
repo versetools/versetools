@@ -6,15 +6,17 @@
 	import { ConsentManager } from "@versetools/ui-consent";
 	import { onMount } from "svelte";
 
-	import { PUBLIC_CONVEX_URL } from "$env/static/public";
 
-	import type { LayoutProps } from "./$types";
 
 	import emblem from "$lib/assets/emblem.png";
 	import logo from "$lib/assets/logo.png";
 	import { AppSchema } from "$lib/components/meta";
 	import { useUnsavedChanges } from "$lib/runes";
 	import { consent, posthog } from "$lib/states";
+
+	import type { LayoutProps } from "./$types";
+
+	import { PUBLIC_CONVEX_URL } from "$env/static/public";
 
 	let { children }: LayoutProps = $props();
 

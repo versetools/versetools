@@ -3,9 +3,10 @@
 	import type { SuperForm } from "sveltekit-superforms";
 	import type { z } from "zod";
 
+	import type { DownloadRequestSchema } from "./schema";
+
 	import { config } from "$lib/config";
 
-	import type { DownloadRequestSchema } from "./schema";
 
 	const serviceOptions = Object.entries(config.services).map(([name, service]) => ({
 		name: service.name,
