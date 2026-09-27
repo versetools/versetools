@@ -13,6 +13,10 @@
             "svelte": "./src/svelte/index.ts"
         }
     },
+    "files": [
+        "src",
+        "!src/**/*.test.*"
+    ],
     "devDependencies": {
         "@sveltejs/kit": "catalog:",
         "@versetools/core": "workspace:*",
