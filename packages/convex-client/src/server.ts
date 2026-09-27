@@ -11,10 +11,17 @@ import type {
 	OptionalRestArgs
 } from "convex/server";
 
-declare const _onUpdate: ConvexClient["onUpdate"];
-export type Subscription<Query extends FunctionReference<"query">> = ReturnType<
-	typeof _onUpdate<Query>
->;
+/**
+ * Copy of `Unsubscribe<T>` from `convex/browser/simple_client.ts`
+ */
+export type Subscription<Query extends FunctionReference<"query">> = {
+	/** Stop calling callback when query results changes. If this is the last listener on this query, stop received updates. */
+	(): void;
+	/** Stop calling callback when query results changes. If this is the last listener on this query, stop received updates. */
+	unsubscribe(): void;
+	/** Get the last known value, possibly with local optimistic updates applied. */
+	getCurrentValue(): Query["_returnType"] | undefined;
+};
 
 export type HttpMutationOptions = {
 	/**
@@ -74,7 +81,15 @@ function wrapClient<T extends ConvexClient | ConvexHttpClient, TSecret extends s
 			mutation: Mutation,
 			...[args, options]: ArgsAndOptions<Mutation, HttpMutationOptions>
 		) {
-			return Result.unwrap(await wrapConvexCall(() => raw.mutation(mutation, args, options)));
+			return Result.unwrap(
+				await wrapConvexCall(() =>
+					raw.mutation(
+						mutation,
+						{ ...args, ...(secret ? { secret } : {}) } as FunctionArgs<Mutation>,
+						options
+					)
+				)
+			);
 		},
 		safeAction: async function <Action extends FunctionReference<"action">>(
 			action: Action,

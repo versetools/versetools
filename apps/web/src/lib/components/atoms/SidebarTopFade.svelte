@@ -1,5 +1,5 @@
 <div
-	class="nav-top-fade from-background z-1 bg-linear-to-b sticky left-0 top-0 h-6 w-full to-transparent"
+	class="nav-top-fade from-background sticky top-0 left-0 z-1 h-6 w-full bg-linear-to-b to-transparent"
 ></div>
 
 <style>

@@ -17,9 +17,12 @@ export class CreateLocationMutation extends MutationCommand<DataModel> {
 			cigGuid: this.input.cigGuid,
 
 			name: this.input.name,
+			nameTranslationKey: this.input.nameTranslationKey,
 			description: this.input.description,
+			descriptionTranslationKey: this.input.descriptionTranslationKey,
 
 			type: this.input.type,
+			sourceTypeName: this.input.sourceTypeName,
 			typeCigGuid: this.input.typeCigGuid,
 
 			worldSpace: this.input.worldSpace,

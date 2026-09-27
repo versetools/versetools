@@ -87,10 +87,10 @@
 		style="grid-template-rows: auto repeat({weeksInMonth}, 1fr);"
 	>
 		<header
-			class="bg-portal-background z-1 sticky left-0 top-0 col-span-full grid grid-cols-subgrid"
+			class="bg-portal-background sticky top-0 left-0 z-1 col-span-full grid grid-cols-subgrid"
 		>
 			{#each dates.slice(0, 7) as date (date)}
-				<div class="@container not-first:border-l border-border select-none pb-1 pl-2.5 text-left">
+				<div class="border-border @container pb-1 pl-2.5 text-left select-none not-first:border-l">
 					<span class="text-text-60 @4xs:hidden text-xs font-medium">
 						{Intl.DateTimeFormat(locale, { weekday: "short" }).format(
 							date.toDate(timeOptions.timeZone)

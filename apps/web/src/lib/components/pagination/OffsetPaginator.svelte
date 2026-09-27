@@ -170,7 +170,7 @@
 	{#if pagination.page > 1}
 		{@render pageButton(1, "start")}
 		{#if !pagination.prev || pagination.page - 1 > 2}
-			<li class="min-w-5 select-none text-center text-sm">...</li>
+			<li class="min-w-5 text-center text-sm select-none">...</li>
 		{/if}
 	{/if}
 	{#if pagination.prev && pagination.page - 1 > 1}
@@ -182,7 +182,7 @@
 	{/if}
 	{#if pagination.page < lastPage}
 		{#if !pagination.next || pagination.page + 1 < lastPage - 1}
-			<li class="min-w-5 select-none text-center text-sm">...</li>
+			<li class="min-w-5 text-center text-sm select-none">...</li>
 		{/if}
 		{@render pageButton(lastPage, "end")}
 	{/if}

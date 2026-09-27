@@ -6,11 +6,12 @@
     "exports": {
         ".": {
             "types": "./src/index.ts",
-            "import": "./src/index.ts"
+            "import": "./src/index.ts",
+            "default": "./src/index.ts"
         }
     },
     "scripts": {
-        "check": "tsgo --noEmit",
+        "check": "tsc --noEmit",
         "format": "prettier --write .",
         "lint": "eslint . && prettier --check .",
         "lint-fix": "eslint . --fix && prettier --check --write ."

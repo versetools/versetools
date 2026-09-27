@@ -19,6 +19,8 @@ static DATACORE_CACHE: OnceLock<Mutex<Option<Arc<DataCoreCache>>>> = OnceLock::n
 static P4K_CACHE: OnceLock<Mutex<Option<Arc<starbreaker_p4k::MappedP4k>>>> = OnceLock::new();
 static LOCALIZATION_CACHE: OnceLock<Mutex<HashMap<String, Arc<HashMap<String, String>>>>> =
   OnceLock::new();
+type SocpakChildrenCache = Mutex<HashMap<String, Arc<Vec<serde_json::Value>>>>;
+static SOCPAK_CACHE: OnceLock<SocpakChildrenCache> = OnceLock::new();
 
 fn load_p4k() -> Result<Arc<starbreaker_p4k::MappedP4k>> {
   let cache = P4K_CACHE.get_or_init(|| Mutex::new(None));
@@ -293,7 +295,12 @@ fn load_localization(language: &str) -> Result<Arc<HashMap<String, String>>> {
   let cache = LOCALIZATION_CACHE.get_or_init(|| Mutex::new(HashMap::new()));
   if let Some(localization) = cache
     .lock()
-    .map_err(|_| Error::new(Status::GenericFailure, "localization cache lock was poisoned"))?
+    .map_err(|_| {
+      Error::new(
+        Status::GenericFailure,
+        "localization cache lock was poisoned",
+      )
+    })?
     .get(&language)
     .cloned()
   {
@@ -317,7 +324,12 @@ fn load_localization(language: &str) -> Result<Arc<HashMap<String, String>>> {
   let localization = Arc::new(parse_localization(&data));
   cache
     .lock()
-    .map_err(|_| Error::new(Status::GenericFailure, "localization cache lock was poisoned"))?
+    .map_err(|_| {
+      Error::new(
+        Status::GenericFailure,
+        "localization cache lock was poisoned",
+      )
+    })?
     .insert(language, Arc::clone(&localization));
 
   Ok(localization)
@@ -361,18 +373,20 @@ fn parse_object_container_children(data: &[u8]) -> Result<Vec<serde_json::Value>
         format!("failed to parse SOCpak object-container XML: {error}"),
       )
     })?;
-    return Ok(document
-      .root_element()
-      .children()
-      .find(|node| node.has_tag_name("ChildObjectContainers"))
-      .map(|container| {
-        container
-          .children()
-          .filter(|node| node.has_tag_name("Child"))
-          .map(parse_plain_object_container_child)
-          .collect()
-      })
-      .unwrap_or_default());
+    return Ok(
+      document
+        .root_element()
+        .children()
+        .find(|node| node.has_tag_name("ChildObjectContainers"))
+        .map(|container| {
+          container
+            .children()
+            .filter(|node| node.has_tag_name("Child"))
+            .map(parse_plain_object_container_child)
+            .collect()
+        })
+        .unwrap_or_default(),
+    );
   }
 
   let xml = starbreaker_cryxml::from_bytes(data).map_err(|error| {
@@ -417,79 +431,106 @@ fn parse_plain_object_container_child(node: roxmltree::Node<'_, '_>) -> serde_js
   serde_json::Value::Object(child)
 }
 
-#[napi]
-pub fn read_socpak(socpak_path: String) -> Result<serde_json::Value> {
-  let p4k = load_p4k()?;
-  let normalized_path = socpak_path.replace('\\', "/");
-  let p4k_path = if normalized_path.to_ascii_lowercase().starts_with("data/") {
-    normalized_path
-  } else {
-    format!("Data/{normalized_path}")
-  }
-  .replace('/', "\\");
-  let entry = p4k
-    .entry_case_insensitive(&p4k_path)
-    .ok_or_else(|| {
-      Error::new(
-        Status::GenericFailure,
-        format!("SOCpak file '{socpak_path}' was not found in Data.p4k"),
-      )
-    })?;
-  let data = p4k.read(entry).map_err(|error| {
-    Error::new(
-      Status::GenericFailure,
-      format!(
-        "failed to read SOCpak file '{}' from Data.p4k: {error}",
-        entry.name
-      ),
-    )
-  })?;
-  let socpak = starbreaker_p4k::P4kArchive::from_bytes(&data).map_err(|error| {
+fn canonical_socpak_path(path: &str) -> String {
+  let path = path.replace('\\', "/");
+  let path = path
+    .split_once('/')
+    .filter(|(component, _)| component.eq_ignore_ascii_case("data"))
+    .map_or(path.as_str(), |(_, path)| path);
+  format!("Data/{path}")
+    .replace('/', "\\")
+    .to_ascii_lowercase()
+}
+
+fn parse_socpak_children(data: &[u8], socpak_path: &str) -> Result<Vec<serde_json::Value>> {
+  let socpak = starbreaker_p4k::P4kArchive::from_bytes(data).map_err(|error| {
     Error::new(
       Status::InvalidArg,
-      format!(
-        "failed to parse SOCpak file '{}' from Data.p4k: {error}",
-        entry.name
-      ),
+      format!("failed to parse SOCpak file '{socpak_path}' from Data.p4k: {error}"),
     )
   })?;
-  let package_name = entry
-    .name
+  let package_name = socpak_path
     .rsplit(['\\', '/'])
     .next()
     .and_then(|name| name.strip_suffix(".socpak"))
     .ok_or_else(|| Error::new(Status::InvalidArg, "SOCpak path has no .socpak filename"))?;
   let object_container_xml_name = format!("{package_name}.xml");
-  let object_container_xml_entry = socpak
-    .entries()
-    .iter()
-    .find(|entry| {
-      entry
-        .name
-        .rsplit(['\\', '/'])
-        .next()
-        .is_some_and(|name| name.eq_ignore_ascii_case(&object_container_xml_name))
-    });
-  let children = object_container_xml_entry
+  let object_container_xml_entry = socpak.entries().iter().find(|entry| {
+    entry
+      .name
+      .rsplit(['\\', '/'])
+      .next()
+      .is_some_and(|name| name.eq_ignore_ascii_case(&object_container_xml_name))
+  });
+
+  object_container_xml_entry
     .map(|object_container_xml_entry| {
       let object_container_xml = socpak.read(object_container_xml_entry).map_err(|error| {
         Error::new(
           Status::GenericFailure,
           format!(
             "failed to read '{}' from SOCpak '{}': {error}",
-            object_container_xml_entry.name, entry.name
+            object_container_xml_entry.name, socpak_path
           ),
         )
       })?;
       parse_object_container_children(&object_container_xml)
     })
-    .transpose()?
-    .unwrap_or_default();
+    .transpose()
+    .map(|children| children.unwrap_or_default())
+}
+
+fn read_socpak_with_loader<F>(
+  socpak_path: &str,
+  cache: &SocpakChildrenCache,
+  loader: F,
+) -> Result<serde_json::Value>
+where
+  F: FnOnce(&str) -> Result<Vec<u8>>,
+{
+  let canonical_path = canonical_socpak_path(socpak_path);
+  let mut cache = cache.lock().map_err(|_| {
+    Error::new(
+      Status::GenericFailure,
+      "SOCpak cache lock was poisoned".to_string(),
+    )
+  })?;
+  let children = if let Some(children) = cache.get(&canonical_path) {
+    Arc::clone(children)
+  } else {
+    let data = loader(&canonical_path)?;
+    let children = Arc::new(parse_socpak_children(&data, &canonical_path)?);
+    cache.insert(canonical_path, Arc::clone(&children));
+    children
+  };
 
   Ok(serde_json::json!({
     "path": socpak_path,
-    "children": children,
+    "children": children.as_ref(),
   }))
+}
+
+#[napi]
+pub fn read_socpak(socpak_path: String) -> Result<serde_json::Value> {
+  let cache = SOCPAK_CACHE.get_or_init(|| Mutex::new(HashMap::new()));
+  read_socpak_with_loader(&socpak_path, cache, |canonical_path| {
+    let p4k = load_p4k()?;
+    let entry = p4k.entry_case_insensitive(canonical_path).ok_or_else(|| {
+      Error::new(
+        Status::GenericFailure,
+        format!("SOCpak file '{socpak_path}' was not found in Data.p4k"),
+      )
+    })?;
+    p4k.read(entry).map_err(|error| {
+      Error::new(
+        Status::GenericFailure,
+        format!(
+          "failed to read SOCpak file '{}' from Data.p4k: {error}",
+          entry.name
+        ),
+      )
+    })
+  })
 }
 
 #[napi]
@@ -582,10 +623,41 @@ pub fn read_datacore_record_by_path(record_path: String) -> Result<serde_json::V
 
 #[cfg(test)]
 mod tests {
-  use super::{
-    datacore_record_path_key, parse_localization, record_virtual_path_key, resolve_file_url,
-    virtual_path_key,
+  use std::sync::{
+    atomic::{AtomicUsize, Ordering},
+    Arc, Barrier, Mutex,
   };
+
+  use napi::{Error, Status};
+
+  use super::{
+    canonical_socpak_path, datacore_record_path_key, parse_localization, read_socpak_with_loader,
+    record_virtual_path_key, resolve_file_url, virtual_path_key, SocpakChildrenCache,
+  };
+
+  const SOCPAK_XML: &[u8] = br#"<ObjectContainer><ChildObjectContainers><Child name="root"><ChildObjectContainers><Child name="nested" /></ChildObjectContainers></Child></ChildObjectContainers></ObjectContainer>"#;
+
+  fn stored_zip_entry(name: &str, payload: &[u8]) -> Vec<u8> {
+    let mut data = Vec::new();
+    data.extend_from_slice(&0x04034b50u32.to_le_bytes());
+    data.extend_from_slice(&20u16.to_le_bytes());
+    data.extend_from_slice(&0u16.to_le_bytes());
+    data.extend_from_slice(&0u16.to_le_bytes());
+    data.extend_from_slice(&0u16.to_le_bytes());
+    data.extend_from_slice(&0u16.to_le_bytes());
+    data.extend_from_slice(&0u32.to_le_bytes());
+    data.extend_from_slice(&(payload.len() as u32).to_le_bytes());
+    data.extend_from_slice(&(payload.len() as u32).to_le_bytes());
+    data.extend_from_slice(&(name.len() as u16).to_le_bytes());
+    data.extend_from_slice(&0u16.to_le_bytes());
+    data.extend_from_slice(name.as_bytes());
+    data.extend_from_slice(payload);
+    data
+  }
+
+  fn socpak_fixture(package_name: &str) -> Vec<u8> {
+    stored_zip_entry(&format!("{package_name}.xml"), SOCPAK_XML)
+  }
 
   #[test]
   fn parses_localization_entries_case_insensitively() {
@@ -593,7 +665,10 @@ mod tests {
       b"\xef\xbb\xbf; comment\r\nStantonStar=Stanton\r\nFormula=value=with=equals\r\n",
     );
 
-    assert_eq!(localization.get("stantonstar").map(String::as_str), Some("Stanton"));
+    assert_eq!(
+      localization.get("stantonstar").map(String::as_str),
+      Some("Stanton")
+    );
     assert_eq!(
       localization.get("formula").map(String::as_str),
       Some("value=with=equals"),
@@ -641,5 +716,135 @@ mod tests {
       record_virtual_path_key("SSolarSystem.Stanton"),
       virtual_path_key("file:///libs/foundry/records/ssolarsystem/stanton.json"),
     );
+  }
+
+  #[test]
+  fn normalizes_only_existing_socpak_path_equivalences() {
+    assert_eq!(
+      canonical_socpak_path("DATA/ObjectContainers\\PU/Test.SocPak"),
+      "data\\objectcontainers\\pu\\test.socpak",
+    );
+    assert_eq!(
+      canonical_socpak_path("objectcontainers/pu/test.socpak"),
+      "data\\objectcontainers\\pu\\test.socpak",
+    );
+    assert_ne!(
+      canonical_socpak_path("objectcontainers/pu/./test.socpak"),
+      canonical_socpak_path("objectcontainers/pu/test.socpak"),
+    );
+    assert_ne!(
+      canonical_socpak_path("/objectcontainers/pu/test.socpak"),
+      canonical_socpak_path("objectcontainers/pu/test.socpak"),
+    );
+  }
+
+  #[test]
+  fn caches_equivalent_socpak_paths_and_preserves_caller_paths() {
+    let cache = Mutex::new(Default::default());
+    let loads = AtomicUsize::new(0);
+    let first_path = "Data/ObjectContainers/PU/Test.socpak";
+    let second_path = "objectcontainers\\pu\\TEST.SOCPAK";
+    let first = read_socpak_with_loader(first_path, &cache, |_| {
+      loads.fetch_add(1, Ordering::SeqCst);
+      Ok(socpak_fixture("test"))
+    })
+    .expect("first read should succeed");
+    let second = read_socpak_with_loader(second_path, &cache, |_| {
+      loads.fetch_add(1, Ordering::SeqCst);
+      Ok(socpak_fixture("test"))
+    })
+    .expect("equivalent read should use the cache");
+
+    assert_eq!(loads.load(Ordering::SeqCst), 1);
+    assert_eq!(first["path"], first_path);
+    assert_eq!(second["path"], second_path);
+    assert_eq!(first["children"], second["children"]);
+  }
+
+  #[test]
+  fn cached_socpak_reads_return_independent_json() {
+    let cache = Mutex::new(Default::default());
+    let mut first = read_socpak_with_loader("test.socpak", &cache, |_| Ok(socpak_fixture("test")))
+      .expect("first read should succeed");
+    first["children"][0]["name"] = serde_json::json!("changed");
+
+    let second = read_socpak_with_loader("DATA\\TEST.SOCPAK", &cache, |_| {
+      panic!("cached read must not invoke the loader")
+    })
+    .expect("cached read should succeed");
+
+    assert_eq!(second["children"][0]["name"], "root");
+  }
+
+  #[test]
+  fn distinct_socpak_paths_are_cached_separately() {
+    let cache = Mutex::new(Default::default());
+    let loads = AtomicUsize::new(0);
+    for path in ["first.socpak", "second.socpak", "FIRST.SOCPAK"] {
+      read_socpak_with_loader(path, &cache, |canonical_path| {
+        loads.fetch_add(1, Ordering::SeqCst);
+        let package_name = canonical_path
+          .rsplit('\\')
+          .next()
+          .expect("canonical path has a filename")
+          .strip_suffix(".socpak")
+          .expect("fixture path ends in .socpak");
+        Ok(socpak_fixture(package_name))
+      })
+      .expect("read should succeed");
+    }
+
+    assert_eq!(loads.load(Ordering::SeqCst), 2);
+  }
+
+  #[test]
+  fn failed_socpak_loads_are_retried() {
+    let cache = Mutex::new(Default::default());
+    let loads = AtomicUsize::new(0);
+    let first = read_socpak_with_loader("retry.socpak", &cache, |_| {
+      loads.fetch_add(1, Ordering::SeqCst);
+      Err(Error::new(Status::GenericFailure, "fixture failure"))
+    });
+    assert!(first.is_err());
+
+    let second = read_socpak_with_loader("DATA/RETRY.SOCPAK", &cache, |_| {
+      loads.fetch_add(1, Ordering::SeqCst);
+      Ok(socpak_fixture("retry"))
+    });
+
+    assert!(second.is_ok());
+    assert_eq!(loads.load(Ordering::SeqCst), 2);
+  }
+
+  #[test]
+  fn equivalent_concurrent_socpak_reads_are_coordinated() {
+    let cache: Arc<SocpakChildrenCache> = Arc::new(Mutex::new(Default::default()));
+    let loads = Arc::new(AtomicUsize::new(0));
+    let barrier = Arc::new(Barrier::new(3));
+    let handles = [
+      "Data/ObjectContainers/PU/Test.socpak",
+      "objectcontainers\\pu\\TEST.SOCPAK",
+    ]
+    .into_iter()
+    .map(|path| {
+      let cache = Arc::clone(&cache);
+      let loads = Arc::clone(&loads);
+      let barrier = Arc::clone(&barrier);
+      std::thread::spawn(move || {
+        barrier.wait();
+        read_socpak_with_loader(path, &cache, |_| {
+          loads.fetch_add(1, Ordering::SeqCst);
+          Ok(socpak_fixture("test"))
+        })
+        .expect("read should succeed")
+      })
+    })
+    .collect::<Vec<_>>();
+    barrier.wait();
+    for handle in handles {
+      handle.join().expect("reader thread should not panic");
+    }
+
+    assert_eq!(loads.load(Ordering::SeqCst), 1);
   }
 }

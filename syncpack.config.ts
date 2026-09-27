@@ -42,6 +42,18 @@ export default {
 	],
 	versionGroups: [
 		{
+			label: "Keep published @l3dev-private/consent-svelte peer compatibility range",
+			dependencies: ["@l3dev-private/consent-svelte"],
+			dependencyTypes: ["peer"],
+			isIgnored: true
+		},
+		{
+			label: "Keep published @versetools/ui peer compatibility range",
+			dependencies: ["@versetools/ui", "svelte", "tailwindcss"],
+			dependencyTypes: ["peer"],
+			isIgnored: true
+		},
+		{
 			label: "Use workspace protocol when developing local packages",
 			dependencies: ["$LOCAL"],
 			dependencyTypes: ["dev"],

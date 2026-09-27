@@ -1,12 +1,13 @@
 <script lang="ts" module>
+	import type { LocationResponse } from "@versetools/types";
+
 	export type LocationSelectorProps = {
 		open?: boolean;
-		value?: LocationWithChildren | null;
+		value?: LocationResponse | null;
 	};
 </script>
 
 <script lang="ts">
-	import type { LocationWithChildren } from "$convex/app/commands/locations/LocationTreeQuery";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import SearchIcon from "@lucide/svelte/icons/search";
 	import { Button, Card, Dialog, Input, Link, ScrollArea } from "@versetools/ui";

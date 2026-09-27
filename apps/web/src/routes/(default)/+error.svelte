@@ -2,7 +2,7 @@
 	import { Button, Card } from "@versetools/ui";
 
 	import { page } from "$app/state";
-	import {Meta} from "$lib/components/meta";
+	import { Meta } from "$lib/components/meta";
 </script>
 
 {#if page.status === 404}

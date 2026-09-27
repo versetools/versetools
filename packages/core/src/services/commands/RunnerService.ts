@@ -41,7 +41,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	}
 
 	async mapQuery<T, Query extends QueryCommand<DataModel>>(
-		arr: T[] | IteratorObject<T>,
+		arr: T[],
 		callback: (value: T, index: number) => Query
 	): Promise<QueryValue<Query>[]> {
 		const queries = arr.map(callback);
@@ -98,7 +98,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	}
 
 	async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
-		arr: T[] | IteratorObject<T>,
+		arr: T[],
 		callback: (value: T, index: number) => Mutation
 	): Promise<MutationValue<Mutation>[]> {
 		const mutations = arr.map(callback);

@@ -1,13 +1,15 @@
 import { api } from "$convex/_generated/api";
-import type { LocationWithChildren } from "$convex/app/commands/locations/LocationTreeQuery";
+import type { LocationResponse } from "@versetools/types";
 import { useQuery, type UseQueryReturn } from "convex-svelte";
 
 export type LocationsQuery = UseQueryReturn<typeof api.locations.list>;
 
-type WithParents<T> = Omit<T, "children"> & { parents?: T[]; children?: WithParents<T>[] };
-export type LocationWithParentsAndChildren = WithParents<LocationWithChildren>;
+export type LocationWithParentsAndChildren = Omit<LocationResponse, "children"> & {
+	parents?: LocationWithParentsAndChildren[];
+	children?: LocationWithParentsAndChildren[];
+};
 
-function flattenAndBacklink(nodes: LocationWithChildren[]) {
+function flattenAndBacklink(nodes: LocationResponse[]) {
 	const result: LocationWithParentsAndChildren[] = [];
 	const queue: LocationWithParentsAndChildren[] = [...nodes];
 	while (queue.length) {
@@ -31,7 +33,7 @@ let locationsQuery: LocationsQuery | null = null;
 
 export function useLocations() {
 	locationsQuery ??= useQuery(
-		api.gamedata.location.list,
+		api.locations.list,
 		{},
 		{
 			keepPreviousData: true

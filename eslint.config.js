@@ -103,10 +103,13 @@ export default defineConfig(
 		"eslint.config.js",
 		"**/svelte.config.js",
 		"**/vite.config.ts",
+		"**/vitest.config.ts",
 		"**/.svelte-kit/",
 		"**/build/",
 		"**/dist/",
-		"**/_generated/"
+		"**/_generated/",
+		"apps/sc-data-extractor/index.d.ts",
+		"apps/sc-data-extractor/index.js"
 	]),
 	js.configs.recommended,
 	...tseslint.configs.recommended,

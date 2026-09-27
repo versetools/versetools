@@ -19,9 +19,19 @@ export class UpdateLocationDataMutation extends MutationCommand<DataModel> {
 			cigGuid: this.input.cigGuid ?? this.location.cigGuid,
 
 			name: this.input.name ?? this.location.name,
-			description: this.input.description ?? this.location.description,
+			nameTranslationKey:
+				this.input.nameTranslationKey !== undefined
+					? (this.input.nameTranslationKey ?? undefined)
+					: this.location.nameTranslationKey,
+			description:
+				this.input.description !== undefined ? this.input.description : this.location.description,
+			descriptionTranslationKey:
+				this.input.descriptionTranslationKey !== undefined
+					? (this.input.descriptionTranslationKey ?? undefined)
+					: this.location.descriptionTranslationKey,
 
 			type: this.input.type ?? this.location.type,
+			sourceTypeName: this.input.sourceTypeName ?? this.location.sourceTypeName,
 			typeCigGuid:
 				this.input.typeCigGuid !== undefined ? this.input.typeCigGuid : this.location.typeCigGuid,
 

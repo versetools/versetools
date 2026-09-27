@@ -7,7 +7,10 @@ import DeleteFilesRequest from "../../../requests/files/uploadthing/DeleteFilesR
 export default class UploadthingFileStorageAdapter implements FileStorageAdapterInterface {
 	private readonly api: FetchClient;
 
-	constructor(apiKey: string) {
+	constructor(
+		apiKey: string,
+		private readonly appId: string
+	) {
 		this.api = new FetchClient("https://api.uploadthing.com", {
 			"x-uploadthing-version": "7.7.4",
 			"x-uploadthing-be-adapter": "custom-convex",
@@ -16,7 +19,7 @@ export default class UploadthingFileStorageAdapter implements FileStorageAdapter
 	}
 
 	urlFromKey(key: string) {
-		return `https://${process.env.UPLOADTHING_APP_ID}.ufs.sh/f/${key}`;
+		return `https://${this.appId}.ufs.sh/f/${key}`;
 	}
 
 	async deleteFiles(keys: string[]) {
