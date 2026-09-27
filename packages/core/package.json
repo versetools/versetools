@@ -36,6 +36,10 @@
             "types": "./src/utility-types.ts"
         }
     },
+    "files": [
+        "src",
+        "!src/**/*.test.*"
+    ],
     "scripts": {
         "check": "tsc --noEmit",
         "format": "prettier --write .",
