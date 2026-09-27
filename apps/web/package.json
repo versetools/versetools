@@ -27,7 +27,7 @@
         "@sveltejs/kit": "catalog:",
         "@sveltejs/vite-plugin-svelte": "catalog:vite",
         "@tailwindcss/vite": "catalog:vite",
-        "@typescript/native": "catalog:",
+        "@typescript/native-preview": "catalog:",
         "@uploadthing/shared": "^7.1.10",
         "@uploadthing/svelte": "^7.3.3",
         "@versetools/config": "workspace:*",

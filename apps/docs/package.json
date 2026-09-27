@@ -16,7 +16,7 @@
         "@sveltepress/docsearch": "^0.1.2",
         "@sveltepress/twoslash": "^1.3.23",
         "@sveltepress/vite": "catalog:vite",
-        "@typescript/native": "catalog:",
+        "@typescript/native-preview": "catalog:",
         "@unocss/extractor-svelte": "^66.10.2",
         "@versetools/config": "workspace:*",
         "@versetools/core": "workspace:*",

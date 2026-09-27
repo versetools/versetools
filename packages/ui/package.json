@@ -75,7 +75,7 @@
         "@sveltejs/vite-plugin-svelte": "catalog:vite",
         "@tailwindcss/vite": "catalog:vite",
         "@types/mdast": "catalog:md",
-        "@typescript/native": "catalog:",
+        "@typescript/native-preview": "catalog:",
         "dequal": "^2.0.3",
         "mdast-util-from-markdown": "catalog:md",
         "mdast-util-to-markdown": "catalog:md",

@@ -3,11 +3,12 @@ packages:
   - packages/*
 
 catalog:
-  "@melt-ui/svelte": ^0.86.6
-  "@sveltejs/kit": ^2.70.3
   convex: ^1.45.0
+  convex-helpers: ^0.1.124
   convex-svelte: ^0.14.0
   effect: ^3.18.1
+  "@melt-ui/svelte": ^0.86.6
+  "@sveltejs/kit": ^2.70.3
   svelte: ^5.57.0
   svelte-check: ^4.7.6
   sveltekit-superforms: 2.30.1
@@ -15,8 +16,8 @@ catalog:
   tailwind-variants: ^3.3.1
   tailwindcss: ^4.3.0
   tslog: ^4.10.2
+  "@typescript/native-preview": npm:typescript@^7.0.2
   typescript: ~6.0.3
-  "@typescript/native": npm:typescript@^7.0.2
   vitest: ^5.0.0
 
 catalogs:

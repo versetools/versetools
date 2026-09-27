@@ -39,7 +39,7 @@
         "@sveltejs/package": "^2.5.8",
         "@sveltejs/vite-plugin-svelte": "catalog:vite",
         "@tailwindcss/vite": "catalog:vite",
-        "@typescript/native": "catalog:",
+        "@typescript/native-preview": "catalog:",
         "svelte": "catalog:",
         "svelte-check": "catalog:",
         "svelte-exmarkdown": "^5.0.2",
