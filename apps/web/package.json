@@ -23,7 +23,7 @@
         "@lucide/svelte": "^0.554.0",
         "@melt-ui/svelte": "catalog:",
         "@rodrigodagostino/svelte-sortable-list": "^2.1.9",
-        "@sveltejs/adapter-node": "^5.3.1",
+        "@sveltejs/adapter-node": "catalog:",
         "@sveltejs/kit": "catalog:",
         "@sveltejs/vite-plugin-svelte": "catalog:vite",
         "@tailwindcss/vite": "catalog:vite",
