@@ -1,5 +1,3 @@
-import "eslint-import-resolver-typescript";
-
 import convex from "@convex-dev/eslint-plugin";
 import js from "@eslint/js";
 import { defineConfig, globalIgnores } from "eslint/config";
@@ -9,6 +7,7 @@ import zod from "eslint-plugin-zod";
 import globals from "globals";
 import ts from "typescript-eslint";
 import importX from "eslint-plugin-import-x";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 
 import webSvelteConfigJs from "./apps/web/svelte.config.js";
 import docsSvelteConfigJs from "./apps/docs/svelte.config.js";
@@ -58,12 +57,11 @@ export default defineConfig(
 			}
 		},
 		settings: {
-			"import-x/resolver": {
-				typescript: {
-					projectService: true,
-					tsconfigRootDir: import.meta.dirname
-				}
-			}
+			"import-x/resolver-next": [
+				createTypeScriptImportResolver({
+					project: ["apps/*/tsconfig.json", "packages/*/tsconfig.json"]
+				})
+			]
 		}
 	},
 
