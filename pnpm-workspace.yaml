@@ -1,4 +1,5 @@
 packages:
+  - .pulumi
   - apps/*
   - packages/*
 
