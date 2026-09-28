@@ -5,7 +5,6 @@ githubCopilot:
 # Project context
 # This is shown to AI when creating artifacts.
 # Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
 context: |
   Tech stack:
     - TypeScript
