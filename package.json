@@ -5,6 +5,7 @@
     "type": "module",
     "license": "MPL-2.0",
     "scripts": {
+        "pnpm:devPreinstall": "pnpm co:login",
         "co:login": "bash auth.sh || true",
         "check": "pnpm -r check",
         "convex": "pnpm --filter=convex exec convex",
@@ -17,7 +18,6 @@
         "ingest": "pnpm --filter=sc-data-ingester ingest",
         "lint": "syncpack lint && pnpm -r lint",
         "lint-fix": "pnpm -r lint-fix",
-        "prepare": "pnpm co:login",
         "syncpack": "syncpack"
     },
     "devDependencies": {
