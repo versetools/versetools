@@ -14,7 +14,7 @@ catalog:
   "@sveltejs/kit": ^2.70.3
   svelte: ^5.57.0
   svelte-check: ^4.7.6
-  sveltekit-superforms: 2.30.1
+  sveltekit-superforms: 3.0.0
   tailwind-merge: ^3.7.0
   tailwind-variants: ^3.3.1
   tailwindcss: ^4.3.0
@@ -63,10 +63,15 @@ catalogs:
     "@vite-pwa/sveltekit": ^1.1.0
 
 overrides:
-  devalue: ^5.8.1
+  devalue: ^5.9.3
   effect: ^3.18.1
   postcss: ^8.5.18
   nanoid@5.1.7: ^5.1.16
+
+peerDependencyRules:
+  allowedVersions:
+    "formsnap@^2>sveltekit-superforms": "^3.0.0"
+    "eslint-plugin-import>eslint": "^10"
 
 syncInjectedDepsAfterScripts:
   - build

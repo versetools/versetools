@@ -1,7 +1,7 @@
 {
     "name": "@versetools/ui",
     "description": "Svelte UI components for VerseTools",
-    "version": "0.33.6",
+    "version": "0.33.7",
     "type": "module",
     "author": "l3dotdev",
     "license": "UNLICENSED",

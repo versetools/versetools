@@ -1,7 +1,7 @@
 {
     "name": "@versetools/ui-consent",
     "description": "Consent svelte component",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "type": "module",
     "author": "l3dotdev",
     "license": "UNLICENSED",
@@ -51,7 +51,7 @@
         "@l3dev-private/consent": "^0.3.1",
         "@l3dev-private/consent-svelte": ">=0.6.2 <1.0.0",
         "@sveltejs/kit": "catalog:",
-        "@versetools/ui": ">=0.22.0 <1.0.0",
+        "@versetools/ui": "workspace:^",
         "svelte": "^5.0.0",
         "tailwindcss": "^4.0.0"
     }

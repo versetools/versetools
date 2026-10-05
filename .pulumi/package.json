@@ -4,7 +4,7 @@
     "private": true,
     "type": "module",
     "devDependencies": {
-        "@l3dev-private/pulumi-toolkit": "^0.6.2",
+        "@l3dev-private/pulumi-toolkit": "^0.8.1",
         "@pulumi/aws": "^7.32.0",
         "@pulumi/cloudflare": "^6.17.0",
         "@pulumi/docker": "^5.0.0",
