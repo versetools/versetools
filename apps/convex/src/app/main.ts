@@ -1,3 +1,5 @@
+import type { Subscription } from "@versetools/core/commands";
+import { subscriptionTag } from "@versetools/core/config/ids/commands";
 import { createCoreModule } from "@versetools/core/config/module";
 import { convexRouter, genericArgsId, genericCtxId } from "@versetools/core/routers";
 import { rsiModule } from "@versetools/rsi/config/module";
@@ -7,9 +9,8 @@ import type { DataModel } from "$convex/_generated/dataModel";
 
 import { sesClientBinding } from "./config/aws";
 import { envModule } from "./config/env";
-import { subscriptionRegistryBinding } from "./config/subscriptions";
 
-const appModule = createModule(subscriptionRegistryBinding).addBinding(sesClientBinding);
+const appModule = createModule(sesClientBinding);
 
 const bundle = appModule
 	.mergeModule(
@@ -32,6 +33,7 @@ if (import.meta.env.DEV) {
 	containerFactory
 		.bindInstance(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
 		.bindInstance(genericArgsId, {})
+		.bindInstance(subscriptionTag, {} as Subscription<any, any>)
 		.toContainer();
 }
 

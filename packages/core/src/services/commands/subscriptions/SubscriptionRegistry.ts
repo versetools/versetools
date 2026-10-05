@@ -1,10 +1,6 @@
 import type { GenericDataModel } from "convex/server";
 
-import {
-	BaseSubscriptionBuilder,
-	type Subscription,
-	type SubscriptionPhase
-} from "../../../commands";
+import { type Subscription, type SubscriptionPhase } from "../../../commands";
 import type { Class, RestOrArray } from "../../../utility-types";
 
 export class SubscriptionRegistry<DataModel extends GenericDataModel> {
@@ -13,31 +9,9 @@ export class SubscriptionRegistry<DataModel extends GenericDataModel> {
 		Record<SubscriptionPhase, Subscription<DataModel>[]>
 	>();
 
-	tryRegisterFrom<Context extends object>({
-		holders,
-		context
-	}: {
-		holders: (
-			| {
-					[
-						key in
-							"subscription" | "createSubscription" | "updateSubscription" | "deleteSubscription"
-					]?: Pick<BaseSubscriptionBuilder<any, any, Context>, "build">;
-			  }
-			| {}
-		)[];
-		context: NoInfer<Context>;
-	}) {
-		this.register(
-			...holders.flatMap((holder) =>
-				Object.values(holder)
-					.filter((value) => value instanceof BaseSubscriptionBuilder)
-					.map((builder) => builder.build(context))
-			)
-		);
-	}
-
-	register(...subscriptions: RestOrArray<Subscription<DataModel>>) {
+	register(
+		...subscriptions: RestOrArray<Subscription<DataModel>>
+	): SubscriptionRegistry<DataModel> {
 		for (const subscription of subscriptions.flat()) {
 			let subscriptionsByPhase = this.subscriptionsByType.get(subscription.commandType);
 
@@ -51,17 +25,19 @@ export class SubscriptionRegistry<DataModel extends GenericDataModel> {
 
 			subscriptionsByPhase[subscription.phase].push(subscription);
 		}
+
+		return this;
 	}
 
-	remove(subscription: Subscription<DataModel>) {
+	unregister(subscription: Subscription<DataModel>): SubscriptionRegistry<DataModel> {
 		const subscriptions = this.subscriptionsByType.get(subscription.commandType);
-		if (!subscriptions) {
-			return;
+		if (subscriptions) {
+			subscriptions[subscription.phase] = subscriptions[subscription.phase].filter(
+				(s) => s !== subscription
+			);
 		}
 
-		subscriptions[subscription.phase] = subscriptions[subscription.phase].filter(
-			(s) => s !== subscription
-		);
+		return this;
 	}
 
 	getSubscriptions(commandType: Class, phase: SubscriptionPhase) {

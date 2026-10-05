@@ -1,6 +1,6 @@
 import { createModule } from "haywire";
 
-import { runnerServiceBinding } from "./bindings/commands";
+import { runnerServiceBinding, subscriptionRegistryBinding } from "./bindings/commands";
 import {
 	emailServiceBinding,
 	noOpEmailSenderAdapterBinding,
@@ -20,6 +20,7 @@ export type CoreModuleConfig = {
 
 export function createCoreModule(config: CoreModuleConfig) {
 	return createModule(runnerServiceBinding)
+		.addBinding(subscriptionRegistryBinding)
 		.addBinding(emailServiceBinding)
 		.addBinding(
 			config.email.providers.send === "ses"
