@@ -143,7 +143,7 @@ export function createRegistration<
 
 			let containerFactory = params.containerFactory;
 			for (const middleware of params.middlewarePipeline) {
-				containerFactory = middleware.handler(
+				containerFactory = await middleware.handler(
 					containerFactory,
 					ctx,
 					pick(allArgs, Object.keys(middleware.args ?? {})),

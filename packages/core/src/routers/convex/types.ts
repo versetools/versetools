@@ -17,6 +17,7 @@ import type { ArgsId, CtxId } from "./ids";
 import type { HaywireGenericContainerFactory } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { RunnerService } from "../../services/commands/RunnerService";
+import type { MaybePromise } from "../../utility-types";
 import type { RequestMetadata } from "../types";
 
 // Function types //
@@ -120,5 +121,5 @@ export type Middleware<
 		ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
 		args: ArgsArrayToObject<ArgsArrayFromConvexValidator<ArgsValidator>>,
 		config: MiddlewareConfig
-	) => OutputFactory;
+	) => MaybePromise<OutputFactory>;
 };
