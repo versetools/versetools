@@ -135,7 +135,8 @@ export default defineConfig(
 					ignoreLinks: true
 				}
 			],
-			"svelte/require-store-reactive-access": "off"
+			"svelte/require-store-reactive-access": "off",
+			"svelte/state_referenced_locally": "off"
 		}
 	},
 

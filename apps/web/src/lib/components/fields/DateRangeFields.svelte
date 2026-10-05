@@ -69,7 +69,6 @@
 		);
 	}
 
-	// svelte-ignore state_referenced_locally
 	let timesBeforeAllDay = $state({ startTime, endTime, addedDay: false });
 	let allDay = $state(isAllDay());
 </script>

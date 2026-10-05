@@ -44,7 +44,6 @@
 		nested = false
 	}: SidebarGroupProps = $props();
 
-	// svelte-ignore state_referenced_locally
 	let collapsedToggle = $state(collapsible);
 	const forcedOpen = $derived(collapsible && collapsedToggle && isChildActive(items, routeId));
 

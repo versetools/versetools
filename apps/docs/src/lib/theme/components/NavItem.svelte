@@ -15,12 +15,12 @@
 	import type { Snippet } from "svelte";
 	import type { LinkItem } from "virtual:sveltepress/theme";
 
-	import { page } from "$app/state";
-
 	import External from "./icons/External.svelte";
 	import NavArrowDown from "./icons/NavArrowDown.svelte";
 	import Self from "./NavItem.svelte";
 	import { getPathFromBase } from "./utils";
+
+	import { page } from "$app/state";
 
 	const {
 		title = "",
@@ -33,7 +33,6 @@
 		children
 	}: NavItemProps = $props();
 
-	// svelte-ignore state_referenced_locally
 	const normalizedTo = to.endsWith("/") ? to.slice(0, -1) : to;
 	const isExactMatch = (p: string) => p === to;
 	const isChildMatch = (p: string) => p.startsWith(`${normalizedTo}/`);

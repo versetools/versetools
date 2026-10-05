@@ -31,7 +31,6 @@
 		>
 	>(itemsKey);
 
-	// svelte-ignore state_referenced_locally
 	$items.push({
 		name,
 		activeIcon,

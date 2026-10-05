@@ -89,7 +89,7 @@
 			variants: {
 				variant: {
 					ghost: `opacity-0 transition-opacity group-hover/clickable-card:opacity-5 group-disabled/clickable-card:opacity-0`
-				} as typeof variants.variants.variant
+				} as Record<NonNullable<Variant["variant"]>, string>
 			}
 		})
 	);

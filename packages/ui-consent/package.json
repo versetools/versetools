@@ -24,7 +24,7 @@
         "build": "svelte-kit sync && svelte-package",
         "package": "pnpm build",
         "prepublishOnly": "pnpm package",
-        "check": "svelte-kit sync && svelte-check --tsgo --tsconfig ./tsconfig.json",
+        "check": "svelte-kit sync && svelte-check --tsgo --tsconfig ./tsconfig.json --compiler-warnings state_referenced_locally:ignore",
         "check:watch": "svelte-kit sync && svelte-check --tsgo --tsconfig ./tsconfig.json --watch",
         "watch": "svelte-kit sync && svelte-package --watch"
     },

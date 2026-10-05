@@ -28,7 +28,6 @@
 	// The frontmatter info. This would be injected by sveltepress
 	const { fm, children, heroImage }: PageLayoutProps = $props();
 
-	// svelte-ignore state_referenced_locally
 	const {
 		pageType,
 		lastUpdate,

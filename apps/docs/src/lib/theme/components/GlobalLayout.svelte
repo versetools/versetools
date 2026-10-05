@@ -32,7 +32,7 @@
 	import "virtual:uno.css";
 	import "../style.css";
 
-	const { children, ...rest }: GlobalLayoutProps = $props();
+	const { children, ..._rest }: GlobalLayoutProps = $props();
 
 	setContext(SVELTEPRESS_CONTEXT_KEY, {
 		isDark
@@ -57,9 +57,6 @@
 	onMount(async () => {
 		if (themeOptions.pwa) pwaComponent = (await import("./pwa/Pwa.svelte")).default;
 	});
-
-	// svelte-ignore state_referenced_locally
-	void rest;
 </script>
 
 <svelte:window onscroll={() => ($oldScrollY = $scrollY)} bind:scrollY={$scrollY} />

@@ -128,7 +128,7 @@
 					"opacity-0 transition-opacity group-hover/button:opacity-10 group-disabled/button:opacity-0",
 				"ghost-destructive":
 					"opacity-0 transition-opacity group-hover/button:opacity-10 group-disabled/button:opacity-0"
-			} as typeof variants.variants.variant
+			} as Record<NonNullable<Variant["variant"]>, string>
 		}
 	});
 
@@ -141,7 +141,7 @@
 				lg: "size-7",
 				icon: "size-5",
 				"icon-sm": "size-4"
-			} satisfies typeof variants.variants.size
+			} satisfies Record<NonNullable<Variant["size"]>, string>
 		}
 	});
 

@@ -42,7 +42,6 @@
 	/** @type {Props} */
 	const { activeName, bodyPadding = true, children }: TabsProps = $props();
 
-	// svelte-ignore state_referenced_locally
 	const current = writable(activeName);
 
 	setContext(activeNameContextKey, current);

@@ -1,16 +1,13 @@
 <script lang="ts" module>
-  export type IconifyIconProps = {
-    collection: string,
-    name: string,
-    [key: string]: any
-  }
+	export type IconifyIconProps = {
+		collection: string;
+		name: string;
+		[key: string]: any;
+	};
 </script>
 
 <script lang="ts">
-  const { collection, name, ...rest }: IconifyIconProps = $props()
-   
-  // svelte-ignore state_referenced_locally
-  void rest;
+	const { collection, name, ..._rest }: IconifyIconProps = $props();
 </script>
 
 <div class="i-{collection}-{name}"></div>
