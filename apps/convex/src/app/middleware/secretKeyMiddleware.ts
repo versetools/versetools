@@ -11,22 +11,20 @@ declare module "@versetools/core/routers" {
 	}
 }
 
-export function secretKeyMiddleware({ required = true } = {}) {
-	return router.createMiddleware({
-		args: {
-			secret: v.string()
-		},
-		handler(factory, ctx, args) {
-			const valid = args.secret === env.CONVEX_SECRET && !!env.CONVEX_SECRET;
-			if (required && !valid) {
-				throw new ResultError("INVALID_SECRET", {
-					message: "Invalid secret"
-				});
-			}
-
-			ctx.customMetadata.validSecret = valid;
-
-			return factory;
+export const secretKeyMiddleware = router.createMiddleware({
+	args: {
+		secret: v.string()
+	},
+	handler(factory, ctx, args, { secretRequired = true }: { secretRequired?: boolean }) {
+		const valid = args.secret === env.CONVEX_SECRET && !!env.CONVEX_SECRET;
+		if (secretRequired && !valid) {
+			throw new ResultError("INVALID_SECRET", {
+				message: "Invalid secret"
+			});
 		}
-	});
-}
+
+		ctx.customMetadata.validSecret = valid;
+
+		return factory;
+	}
+});

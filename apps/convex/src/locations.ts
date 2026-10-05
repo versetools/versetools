@@ -69,7 +69,7 @@ export const remove = router
 	});
 
 export const beginImport = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({ validator: "zod", args: BeginLocationImportSchema })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(
@@ -77,7 +77,7 @@ export const beginImport = router
 	);
 
 export const reconcileImportBatch = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({ validator: "zod", args: ReconcileLocationImportBatchSchema })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => {
@@ -86,7 +86,7 @@ export const reconcileImportBatch = router
 	});
 
 export const abortImport = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({ validator: "zod", args: AbortLocationImportSchema })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => {
@@ -95,7 +95,7 @@ export const abortImport = router
 	});
 
 export const rebuildImportClosures = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({ args: { generationId: v.id("locationImportGenerations") } })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => ({
@@ -110,7 +110,7 @@ export const rebuildClosures = router
 	}));
 
 export const finalizeImport = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({ validator: "zod", args: FinalizeLocationImportSchema })
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => ({

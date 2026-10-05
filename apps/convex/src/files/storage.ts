@@ -8,7 +8,7 @@ import { router } from "$convex/app/main";
 import { secretKeyMiddleware } from "$convex/app/middleware/secretKeyMiddleware";
 
 export const secretCreateTemporaryFile = router
-	.withMiddleware(secretKeyMiddleware())
+	.withMiddleware(secretKeyMiddleware)
 	.mutation({
 		args: {
 			key: v.string(),
