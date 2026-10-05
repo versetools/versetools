@@ -39,6 +39,7 @@ export class Subscription<DataModel extends GenericDataModel, CommandType extend
 		this.once = options?.once ?? false;
 	}
 
+	/** @internal */
 	runBefore(
 		runner: RunnerService<DataModel>,
 		ctx: GenericCtx<DataModel>,
@@ -50,6 +51,7 @@ export class Subscription<DataModel extends GenericDataModel, CommandType extend
 		return this.listener(runner, ctx as any, command);
 	}
 
+	/** @internal */
 	runAfter(
 		runner: RunnerService<DataModel>,
 		ctx: GenericCtx<DataModel>,
