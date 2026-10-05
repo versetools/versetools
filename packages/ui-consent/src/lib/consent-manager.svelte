@@ -19,6 +19,7 @@
 
 	import OptionsDialog from "./options-dialog.svelte";
 	import PopupDialog from "./popup-dialog.svelte";
+
 	import { browser } from "$app/environment";
 
 	let { consent, "privacy-policy": privacyPolicy, style }: ConsentManagerProps = $props();
