@@ -1,12 +1,12 @@
 import type {
 	ClassToConstructable,
-	Factory,
+	ContainerFactory,
 	GenericHaywireId,
 	HaywireIdType,
 	IsClass
 } from "haywire";
 
-export type GenericHaywireFactory = Factory<any, any, any, any>;
+export type HaywireGenericContainerFactory = ContainerFactory<any, any, any, any>;
 
 export type IdOrClassToHaywireIds<Dependencies extends readonly (GenericHaywireId | IsClass)[]> = {
 	[Index in keyof Dependencies]: Dependencies[Index] extends IsClass

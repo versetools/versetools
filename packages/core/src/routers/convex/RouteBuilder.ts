@@ -71,7 +71,7 @@ export class RouteBuilder<
 			middlewarePipeline: this.router._middlewarePipeline,
 			handler,
 			options: this.options,
-			factory: this.router._factory
+			containerFactory: this.router._containerFactory
 		});
 	}
 }
@@ -106,7 +106,7 @@ class DepsRouteBuilder<
 			middlewarePipeline: this.router._middlewarePipeline,
 			handler,
 			options: this.options,
-			factory: this.router._factory
+			containerFactory: this.router._containerFactory
 		});
 	}
 }

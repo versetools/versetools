@@ -41,7 +41,7 @@
         "eslint-plugin-svelte": "catalog:eslint",
         "eslint-plugin-zod": "catalog:eslint",
         "globals": "^16.0.0",
-        "haywire": "^0.1.8",
+        "haywire": "catalog:",
         "prettier": "catalog:prettier",
         "prettier-plugin-svelte": "catalog:prettier",
         "prettier-plugin-tailwindcss": "catalog:prettier",

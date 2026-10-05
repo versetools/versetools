@@ -1,6 +1,6 @@
 import { genericSubscriptionRegistryId } from "@versetools/core/config/ids/commands";
 import { SubscriptionRegistry } from "@versetools/core/services/commands/subscriptions/SubscriptionRegistry";
-import { bind, optimisticSingletonScope } from "haywire";
+import { bind, eagerSingletonScope } from "haywire";
 
 import type { DataModel } from "$convex/_generated/dataModel";
 
@@ -12,4 +12,4 @@ export const subscriptionRegistryBinding = bind(genericSubscriptionRegistryId)
 
 		return registry;
 	})
-	.scoped(optimisticSingletonScope);
+	.scoped(eagerSingletonScope);

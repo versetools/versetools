@@ -46,6 +46,9 @@
         "lint": "eslint . && prettier --check .",
         "lint-fix": "eslint . --fix && prettier --check --write ."
     },
+    "peerDependencies": {
+        "haywire": "catalog:"
+    },
     "devDependencies": {
         "@aws-sdk/client-sesv2": "catalog:aws-sdk",
         "@aws-sdk/client-sqs": "catalog:aws-sdk",

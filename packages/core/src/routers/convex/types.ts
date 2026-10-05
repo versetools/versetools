@@ -14,7 +14,7 @@ import type { HaywireId } from "haywire";
 import * as zCore from "zod/v4/core";
 
 import type { ArgsId, CtxId } from "./ids";
-import type { GenericHaywireFactory } from "../../haywire-types";
+import type { HaywireGenericContainerFactory } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { RunnerService } from "../../services/commands/RunnerService";
 
@@ -92,7 +92,7 @@ export type DependencyIdsObject<
 	Type extends FunctionType,
 	Options extends RouteBuilderOptions<any>
 > = {
-	runnerId: HaywireId<RunnerService<DataModel>, null, null, false, false, false, false>;
+	runnerId: HaywireId<RunnerService<DataModel>, null, null, false, false, false, false, false>;
 	ctxId: CtxId<ContextForFunctionType<Type, DataModel>>;
 } & (ArgsArrayFromOptionsOptionalValidator<Options> extends [
 	infer ArgsObject extends DefaultFunctionArgs
@@ -108,9 +108,9 @@ export type DependencyIdsObject<
 
 export type Middleware<
 	DataModel extends GenericDataModel,
-	InputFactory extends GenericHaywireFactory,
+	InputFactory extends HaywireGenericContainerFactory,
 	ArgsValidator extends PropertyValidators | void,
-	OutputFactory extends GenericHaywireFactory,
+	OutputFactory extends HaywireGenericContainerFactory,
 	MiddlewareConfig extends Record<string, any> = Record<string, any>
 > = {
 	args?: ArgsValidator;

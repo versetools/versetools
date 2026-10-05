@@ -6,7 +6,7 @@ import EmailService from "../../services/email/EmailService";
 import { sesClientId } from "../ids/aws";
 import { emailSenderAdapterId } from "../ids/email";
 
-export const noOpEmailSenderAdapterBinding = bind(emailSenderAdapterId).withGenerator(
+export const noOpEmailSenderAdapterBinding = bind(emailSenderAdapterId).withFactory(
 	() => new NoOpEmailSenderAdapter()
 );
 

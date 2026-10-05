@@ -27,7 +27,7 @@ import * as zCore from "zod/v4/core";
 import { genericArgsId, genericCtxId } from "./ids";
 import type { Middleware, RouteBuilderOptions, ZodFields } from "./types";
 import { ServerConfigurationError } from "../../errors";
-import type { GenericHaywireFactory } from "../../haywire-types";
+import type { HaywireGenericContainerFactory } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { Class } from "../../utility-types";
 
@@ -49,7 +49,7 @@ type RegistrationParams = {
 	middlewarePipeline: Middleware<any, any, any, any, any>[];
 	handler: (...args: any) => any;
 	options: RouteBuilderOptions<any>;
-	factory: GenericHaywireFactory;
+	containerFactory: HaywireGenericContainerFactory;
 };
 
 export function createRegistration<
@@ -137,10 +137,10 @@ export function createRegistration<
 		args: fullArgsValidator,
 		returns: returnsValidator,
 		handler: async (ctx: any, allArgs: any) => {
-			let factory = params.factory;
+			let containerFactory = params.containerFactory;
 			for (const middleware of params.middlewarePipeline) {
-				factory = middleware.handler(
-					factory,
+				containerFactory = middleware.handler(
+					containerFactory,
 					ctx,
 					pick(allArgs, Object.keys(middleware.args ?? {})),
 					extra
@@ -166,11 +166,13 @@ export function createRegistration<
 				}
 			}
 
-			factory = factory.register(genericCtxId, ctx).register(genericArgsId, parsedArgs);
+			containerFactory = containerFactory
+				.bindInstance(genericCtxId, ctx)
+				.bindInstance(genericArgsId, parsedArgs);
 
 			let container;
 			try {
-				container = factory.toContainer();
+				container = containerFactory.toContainer();
 			} catch (e) {
 				throw new ServerConfigurationError({
 					message: "Failed to create container",

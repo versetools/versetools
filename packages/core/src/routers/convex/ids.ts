@@ -10,6 +10,7 @@ export type CtxId<Ctx extends GenericCtx<any>> = HaywireId<
 	false,
 	false,
 	false,
+	false,
 	false
 >;
 
@@ -17,6 +18,7 @@ export type ArgsId<ArgsObject extends DefaultFunctionArgs = DefaultFunctionArgs>
 	ArgsObject,
 	null,
 	null,
+	false,
 	false,
 	false,
 	false,

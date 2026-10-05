@@ -4,7 +4,7 @@ import { bind } from "haywire";
 
 import { env } from "$convex/_generated/server";
 
-export const sesClientBinding = bind(sesClientId).withGenerator(
+export const sesClientBinding = bind(sesClientId).withFactory(
 	() =>
 		new SESv2Client({
 			region: "eu-central-1",

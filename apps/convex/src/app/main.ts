@@ -1,7 +1,7 @@
 import { createCoreModule } from "@versetools/core/config/module";
 import { convexRouter, genericArgsId, genericCtxId } from "@versetools/core/routers";
 import { rsiModule } from "@versetools/rsi/config/module";
-import { createContainer, createFactory, createModule, type HaywireIdType } from "haywire";
+import { createContainerFactory, createModule, type HaywireIdType } from "haywire";
 
 import type { DataModel } from "$convex/_generated/dataModel";
 
@@ -26,14 +26,13 @@ const bundle = appModule
 	.mergeModule(envModule)
 	.mergeModule(rsiModule);
 
-export const factory = createFactory(bundle);
+export const containerFactory = createContainerFactory(bundle);
 
 if (import.meta.env.DEV) {
-	createContainer(
-		factory
-			.register(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
-			.register(genericArgsId, {})
-	);
+	containerFactory
+		.bindInstance(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
+		.bindInstance(genericArgsId, {})
+		.toContainer();
 }
 
-export const router = convexRouter<DataModel>(factory);
+export const router = convexRouter<DataModel>(containerFactory);

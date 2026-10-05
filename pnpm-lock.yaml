@@ -34,6 +34,9 @@ catalogs:
     convex-svelte:
       specifier: ^0.14.0
       version: 0.14.0
+    haywire:
+      specifier: ^1.0.0
+      version: 1.0.0
     svelte:
       specifier: ^5.57.0
       version: 5.57.0
@@ -222,8 +225,8 @@ importers:
         specifier: ^16.0.0
         version: 16.5.0
       haywire:
-        specifier: ^0.1.8
-        version: 0.1.8
+        specifier: 'catalog:'
+        version: 1.0.0
       prettier:
         specifier: catalog:prettier
         version: 3.9.9
@@ -619,6 +622,10 @@ importers:
         version: 0.14.0(@sveltejs/kit@2.70.3(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.0(@typescript-eslint/types@8.70.1))(vite@7.3.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(svelte@5.57.0(@typescript-eslint/types@8.70.1))(typescript@6.0.3)(vite@7.3.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(convex@1.45.0)(svelte@5.57.0(@typescript-eslint/types@8.70.1))(zod@4.6.4)
 
   packages/core:
+    dependencies:
+      haywire:
+        specifier: 'catalog:'
+        version: 1.0.0
     devDependencies:
       '@aws-sdk/client-sesv2':
         specifier: catalog:aws-sdk
@@ -5430,9 +5437,9 @@ packages:
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
 
-  haywire@0.1.8:
-    resolution: {integrity: sha512-6Vhb/EytmMXZg/G9Yph75hFsaQDVMCSDsZbLcMTCRLzZZlNNCWlrLr0JOnuKusAt3938NwcpP9kEbzQIzc4PjA==}
-    engines: {node: '>=20'}
+  haywire@1.0.0:
+    resolution: {integrity: sha512-ZaMrNfLU+Aik/XX0FyZcgEuikGU6UDMYe3NpjdNUgZQGGYz4EVfI/4Z64HwxdKS5NICdj5sSW9h33q1m5FpCRQ==}
+    engines: {node: '>=24'}
 
   hookified@1.15.1:
     resolution: {integrity: sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==}
@@ -12725,7 +12732,7 @@ snapshots:
       property-information: 7.1.0
       space-separated-tokens: 2.0.2
 
-  haywire@0.1.8:
+  haywire@1.0.0:
     dependencies:
       p-defer: 4.0.1
 
