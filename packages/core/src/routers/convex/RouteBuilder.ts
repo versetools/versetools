@@ -18,6 +18,7 @@ import type {
 } from "./types";
 import { genericRunnerServiceId } from "../../config/ids/commands";
 import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
+import type { RequestMetadata } from "../types";
 
 export type { RouteBuilderOptions } from "./types";
 
@@ -55,7 +56,7 @@ export class RouteBuilder<
 
 	withHandler<ReturnValue>(
 		handler: (
-			ctx: ContextForFunctionType<Type, DataModel>,
+			ctx: ContextForFunctionType<Type, DataModel> & { customMetadata: RequestMetadata },
 			...args: ArgsArrayFromOptionsOptionalValidator<Options>
 		) => ReturnValue
 	): Registration<

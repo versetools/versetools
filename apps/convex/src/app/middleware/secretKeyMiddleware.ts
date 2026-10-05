@@ -5,6 +5,12 @@ import { env } from "$convex/_generated/server";
 
 import { router } from "../main";
 
+declare module "@versetools/core/routers" {
+	interface RequestMetadata {
+		validSecret?: boolean;
+	}
+}
+
 export function secretKeyMiddleware({ required = true } = {}) {
 	return router.createMiddleware({
 		args: {
@@ -17,6 +23,8 @@ export function secretKeyMiddleware({ required = true } = {}) {
 					message: "Invalid secret"
 				});
 			}
+
+			ctx.customMetadata.validSecret = valid;
 
 			return factory;
 		}
