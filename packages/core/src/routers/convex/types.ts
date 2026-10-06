@@ -1,16 +1,15 @@
 import type {
-	ArgsArray,
 	DefaultFunctionArgs,
 	GenericQueryCtx,
 	GenericMutationCtx,
 	GenericActionCtx,
 	GenericDataModel,
-	ArgsArrayToObject,
 	FunctionType
 } from "convex/server";
 import type { Infer, ObjectType, PropertyValidators } from "convex/values";
 import type { Validator } from "convex/values";
-import type { HaywireId } from "haywire";
+import type { EmptyObject } from "convex-helpers";
+import type { GenericHaywireId, HaywireId } from "haywire";
 import * as zCore from "zod/v4/core";
 
 import type { ArgsId, CtxId } from "./ids";
@@ -35,7 +34,101 @@ export type ContextForFunctionType<
 
 export type ZodFields = Record<string, zCore.$ZodType>;
 
-// Options //
+// Args //
+
+export type ArgsFromConvexValidator<
+	ArgsValidator extends PropertyValidators | Validator<any, "required", any> | void
+> =
+	ArgsValidator extends Validator<any, any, any>
+		? Infer<ArgsValidator>
+		: ArgsValidator extends PropertyValidators
+			? ObjectType<ArgsValidator>
+			: EmptyObject;
+
+export type ArgsFromZodValidator<ArgsValidator extends ZodFields | zCore.$ZodObject<any> | void> =
+	ArgsValidator extends zCore.$ZodObject<any>
+		? zCore.output<ArgsValidator>
+		: ArgsValidator extends ZodFields
+			? zCore.output<zCore.$ZodObject<ArgsValidator, zCore.$strict>>
+			: EmptyObject;
+
+export type ArgsFromOptionsOptionalValidator<Options extends RouteBuilderOptions<any>> =
+	Options["validator"] extends "zod"
+		? Options["args"] extends ZodFields | zCore.$ZodObject<any> | void
+			? ArgsFromZodValidator<Options["args"]>
+			: EmptyObject
+		: Options["args"] extends PropertyValidators | Validator<any, "required", any> | void
+			? ArgsFromConvexValidator<Options["args"]>
+			: EmptyObject;
+
+export type ArgsToArgsArray<Args extends DefaultFunctionArgs> = Args extends EmptyObject
+	? []
+	: [Args];
+
+// Middleware //
+
+export type MiddlewareBinder<
+	DataModel extends GenericDataModel,
+	InputFactory extends HaywireGenericContainerFactory,
+	ArgsValidator extends PropertyValidators | void,
+	OutputFactory extends HaywireGenericContainerFactory,
+	Config extends Record<string, any> = Record<string, any>
+> = (
+	config: Config,
+	factory: InputFactory,
+	ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
+	...args: ArgsToArgsArray<ArgsFromConvexValidator<ArgsValidator>>
+) => MaybePromise<OutputFactory>;
+
+export type DefaultMiddlewareHandler<
+	DataModel extends GenericDataModel,
+	ArgsValidator extends PropertyValidators | void,
+	Config extends Record<string, any> = Record<string, any>
+> = (
+	config: Config,
+	ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
+	...args: ArgsToArgsArray<ArgsFromConvexValidator<ArgsValidator>>
+) => MaybePromise<void>;
+
+export interface Middleware<
+	DataModel extends GenericDataModel,
+	ArgsValidator extends PropertyValidators | void,
+	InputFactory extends HaywireGenericContainerFactory,
+	OutputFactory extends HaywireGenericContainerFactory,
+	BinderConfig extends Record<string, any> = Record<string, any>,
+	HandlerConfig extends Record<string, any> = Record<string, any>
+> {
+	readonly args?: ArgsValidator;
+	readonly dependencyIds?: readonly GenericHaywireId[];
+	readonly binder?: MiddlewareBinder<
+		DataModel,
+		InputFactory,
+		ArgsValidator,
+		OutputFactory,
+		BinderConfig
+	>;
+	readonly handler?: (config: HandlerConfig, ...args: any) => MaybePromise<void>;
+}
+
+// Middleware Options //
+
+export type MiddlewareBuilderOptions = {
+	args?: PropertyValidators | void;
+};
+
+// Route //
+
+export type DefaultRouteHandler<
+	DataModel extends GenericDataModel,
+	Type extends FunctionType,
+	Options extends RouteBuilderOptions<any>,
+	ReturnValue
+> = (
+	ctx: ContextForFunctionType<Type, DataModel> & { customMetadata: RequestMetadata },
+	...args: ArgsToArgsArray<ArgsFromOptionsOptionalValidator<Options>>
+) => ReturnValue;
+
+// Route Options //
 
 type ConvexArgOptions = {
 	validator?: "convex";
@@ -60,33 +153,6 @@ export type RouteBuilderOptions<ExtraConfig extends Record<string, any>> = {
 	]: ExtraConfig[key];
 } & (ConvexArgOptions | ZodArgOptions);
 
-// Arg arrays //
-
-export type ArgsArrayFromConvexValidator<
-	ArgsValidator extends PropertyValidators | Validator<any, "required", any> | void
-> = [ArgsValidator] extends [Validator<any, any, any>]
-	? [Infer<ArgsValidator>]
-	: [ArgsValidator] extends [PropertyValidators]
-		? [ObjectType<ArgsValidator>]
-		: ArgsArray;
-
-export type ArgsArrayFromZodValidator<
-	ArgsValidator extends ZodFields | zCore.$ZodObject<any> | void
-> = [ArgsValidator] extends [zCore.$ZodObject<any>]
-	? [zCore.output<ArgsValidator>]
-	: [ArgsValidator] extends [ZodFields]
-		? [zCore.output<zCore.$ZodObject<ArgsValidator, zCore.$strict>>]
-		: ArgsArray;
-
-export type ArgsArrayFromOptionsOptionalValidator<Options extends RouteBuilderOptions<any>> =
-	Options["validator"] extends "zod"
-		? Options["args"] extends ZodFields | zCore.$ZodObject<any> | void
-			? ArgsArrayFromZodValidator<Options["args"]>
-			: []
-		: Options["args"] extends PropertyValidators | Validator<any, "required", any> | void
-			? ArgsArrayFromConvexValidator<Options["args"]>
-			: [];
-
 // Dependency Ids //
 
 export type DependencyIdsObject<
@@ -96,30 +162,10 @@ export type DependencyIdsObject<
 > = {
 	runnerId: HaywireId<RunnerService<DataModel>, null, null, false, false, false, false, false>;
 	ctxId: CtxId<ContextForFunctionType<Type, DataModel>>;
-} & (ArgsArrayFromOptionsOptionalValidator<Options> extends [
-	infer ArgsObject extends DefaultFunctionArgs
-]
+} & (ArgsFromOptionsOptionalValidator<Options> extends infer ArgsObject extends DefaultFunctionArgs
 	? {
 			argsId: ArgsId<ArgsObject>;
 		}
 	: {
 			argsId?: undefined;
 		});
-
-// Middleware //
-
-export type Middleware<
-	DataModel extends GenericDataModel,
-	InputFactory extends HaywireGenericContainerFactory,
-	ArgsValidator extends PropertyValidators | void,
-	OutputFactory extends HaywireGenericContainerFactory,
-	MiddlewareConfig extends Record<string, any> = Record<string, any>
-> = {
-	args?: ArgsValidator;
-	handler: (
-		factory: InputFactory,
-		ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
-		args: ArgsArrayToObject<ArgsArrayFromConvexValidator<ArgsValidator>>,
-		config: MiddlewareConfig
-	) => MaybePromise<OutputFactory>;
-};

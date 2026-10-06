@@ -1,6 +1,6 @@
 import { err, ok, Result } from "@l3dev/result";
-import { isConvexResultError } from "@versetools/core/errors";
 import type { RequestEvent } from "@sveltejs/kit";
+import { isConvexResultError } from "@versetools/core/errors";
 import { ConvexHttpClient, ConvexClient, type ConvexClientOptions } from "convex/browser";
 import type {
 	ArgsAndOptions,
@@ -81,15 +81,7 @@ function wrapClient<T extends ConvexClient | ConvexHttpClient, TSecret extends s
 			mutation: Mutation,
 			...[args, options]: ArgsAndOptions<Mutation, HttpMutationOptions>
 		) {
-			return Result.unwrap(
-				await wrapConvexCall(() =>
-					raw.mutation(
-						mutation,
-						{ ...args, ...(secret ? { secret } : {}) } as FunctionArgs<Mutation>,
-						options
-					)
-				)
-			);
+			return Result.unwrap(await wrapConvexCall(() => raw.mutation(mutation, args, options)));
 		},
 		safeAction: async function <Action extends FunctionReference<"action">>(
 			action: Action,

@@ -1,21 +1,35 @@
 import type { FunctionType, FunctionVisibility, GenericDataModel } from "convex/server";
 import type { PropertyValidators } from "convex/values";
+import type { EmptyObject } from "convex-helpers";
 
+import { MiddlewareBuilder } from "./MiddlewareBuilder";
 import { RouteBuilder, type RouteBuilderOptions } from "./RouteBuilder";
-import type { Middleware } from "./types";
+import {
+	unsafeMiddlewarePipeline,
+	unsafeRouterContainerFactory,
+	type middlewareArgsType
+} from "./symbols";
+import type { Middleware, MiddlewareBuilderOptions } from "./types";
 import type { HaywireGenericContainerFactory } from "../../haywire-types";
 
 export class ConvexRouter<
 	DataModel extends GenericDataModel,
 	ContainerFactory extends HaywireGenericContainerFactory = HaywireGenericContainerFactory,
-	RouteConfig extends Record<string, any> = object
+	RouteConfig extends Record<string, any> = object,
+	MiddlewareArgs extends PropertyValidators = {}
 > {
+	declare public readonly [middlewareArgsType]: MiddlewareArgs;
+
+	public readonly [unsafeRouterContainerFactory]: ContainerFactory;
+	public readonly [unsafeMiddlewarePipeline]: Middleware<DataModel, any, any, any, any, any>[];
+
 	private constructor(
-		/** @internal */
-		public readonly _containerFactory: ContainerFactory,
-		/** @internal */
-		public readonly _middlewarePipeline: Middleware<DataModel, any, any, any, any>[]
-	) {}
+		containerFactory: ContainerFactory,
+		middlewarePipeline: Middleware<DataModel, any, any, any, any, any>[]
+	) {
+		this[unsafeRouterContainerFactory] = containerFactory;
+		this[unsafeMiddlewarePipeline] = middlewarePipeline;
+	}
 
 	static fromContainerFactory<
 		DataModel extends GenericDataModel,
@@ -50,41 +64,34 @@ export class ConvexRouter<
 
 	withMiddleware<
 		ArgsValidator extends PropertyValidators | void,
-		OutputFactory extends HaywireGenericContainerFactory,
-		MiddlewareConfig extends Record<string, any> = object
+		OutputContainerFactory extends HaywireGenericContainerFactory,
+		BinderConfig extends Record<string, any> = object,
+		HandlerConfig extends Record<string, any> = object
 	>(
 		middleware: Middleware<
 			DataModel,
-			ContainerFactory,
 			ArgsValidator,
-			OutputFactory,
-			MiddlewareConfig
+			ContainerFactory,
+			OutputContainerFactory,
+			BinderConfig,
+			HandlerConfig
 		>
 	) {
 		return new ConvexRouter<
 			DataModel,
-			OutputFactory,
-			MiddlewareConfig extends Record<string, never> ? RouteConfig : RouteConfig & MiddlewareConfig
-		>(this._containerFactory as unknown as OutputFactory, [
-			...this._middlewarePipeline,
+			OutputContainerFactory,
+			RouteConfig &
+				(BinderConfig extends EmptyObject ? {} : BinderConfig) &
+				(HandlerConfig extends EmptyObject ? {} : HandlerConfig),
+			MiddlewareArgs & (ArgsValidator extends PropertyValidators ? ArgsValidator : {})
+		>(this[unsafeRouterContainerFactory] as unknown as OutputContainerFactory, [
+			...this[unsafeMiddlewarePipeline],
 			middleware
 		]);
 	}
 
-	createMiddleware<
-		ArgsValidator extends PropertyValidators | void,
-		OutputFactory extends HaywireGenericContainerFactory,
-		MiddlewareConfig extends Record<string, any> = object
-	>(
-		middleware: Middleware<
-			DataModel,
-			ContainerFactory,
-			ArgsValidator,
-			OutputFactory,
-			MiddlewareConfig
-		>
-	) {
-		return middleware;
+	createMiddleware<Options extends MiddlewareBuilderOptions>(options: Options) {
+		return new MiddlewareBuilder<DataModel, Options, ContainerFactory>(options);
 	}
 
 	private route<
@@ -94,7 +101,7 @@ export class ConvexRouter<
 	>(functionType: Type, visibility: Visibility, options: Options) {
 		return new RouteBuilder<
 			DataModel,
-			ConvexRouter<DataModel, ContainerFactory, RouteConfig>,
+			ConvexRouter<DataModel, ContainerFactory, RouteConfig, MiddlewareArgs>,
 			Type,
 			Visibility,
 			Options

@@ -138,6 +138,7 @@ async function main() {
 	const generationId = requireSuccess(
 		"locations.beginImport",
 		await db.safeMutation(api.locations.beginImport, {
+			secret: db.secret,
 			snapshotHash: currentSnapshotHash,
 			expectedBatchCount: batches.length
 		})
@@ -148,6 +149,7 @@ async function main() {
 			requireSuccess(
 				`locations.reconcileImportBatch batch ${batchNumber}`,
 				await db.safeMutation(api.locations.reconcileImportBatch, {
+					secret: db.secret,
 					generationId,
 					batchNumber,
 					...batch
@@ -156,16 +158,16 @@ async function main() {
 		}
 
 		await runUntilDone("locations.finalizeImport", () =>
-			db.safeMutation(api.locations.finalizeImport, { generationId })
+			db.safeMutation(api.locations.finalizeImport, { secret: db.secret, generationId })
 		);
 		await runUntilDone("locations.rebuildImportClosures", () =>
-			db.safeMutation(api.locations.rebuildImportClosures, { generationId })
+			db.safeMutation(api.locations.rebuildImportClosures, { secret: db.secret, generationId })
 		);
 	} catch (error) {
 		try {
 			requireSuccess(
 				"locations.abortImport",
-				await db.safeMutation(api.locations.abortImport, { generationId })
+				await db.safeMutation(api.locations.abortImport, { secret: db.secret, generationId })
 			);
 		} catch (abortError) {
 			// A committed batch makes the generation resumable rather than abortable.

@@ -11,11 +11,13 @@ declare module "@versetools/core/routers" {
 	}
 }
 
-export const secretKeyMiddleware = router.createMiddleware({
-	args: {
-		secret: v.string()
-	},
-	handler(factory, ctx, args, { secretRequired = true }: { secretRequired?: boolean }) {
+export const secretKeyMiddleware = router
+	.createMiddleware({
+		args: {
+			secret: v.string()
+		}
+	})
+	.withBinder(({ secretRequired = true }: { secretRequired?: boolean }, factory, ctx, args) => {
 		const valid = args.secret === env.CONVEX_SECRET && !!env.CONVEX_SECRET;
 		if (secretRequired && !valid) {
 			throw new ResultError("INVALID_SECRET", {
@@ -26,5 +28,4 @@ export const secretKeyMiddleware = router.createMiddleware({
 		ctx.customMetadata.validSecret = valid;
 
 		return factory;
-	}
-});
+	});

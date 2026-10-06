@@ -1,24 +1,20 @@
-import {
-	type ArgsArrayToObject,
-	type FunctionVisibility,
-	type GenericDataModel,
-	type FunctionType
-} from "convex/server";
+import { type FunctionVisibility, type GenericDataModel, type FunctionType } from "convex/server";
+import type { ObjectType } from "convex/values";
 import type { Registration } from "convex-helpers/server/customFunctions";
 import { type GenericHaywireId, type IsClass } from "haywire";
 
 import type { ConvexRouter } from "./ConvexRouter";
 import { genericArgsId, genericCtxId } from "./ids";
 import { createRegistration } from "./registration";
+import type { middlewareArgsType } from "./symbols";
 import type {
-	ArgsArrayFromOptionsOptionalValidator,
-	ContextForFunctionType,
+	ArgsFromOptionsOptionalValidator,
+	DefaultRouteHandler,
 	DependencyIdsObject,
 	RouteBuilderOptions
 } from "./types";
 import { genericRunnerServiceId } from "../../config/ids/commands";
 import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
-import type { RequestMetadata } from "../types";
 
 export type { RouteBuilderOptions } from "./types";
 
@@ -45,7 +41,14 @@ export class RouteBuilder<
 			argsId: genericArgsId
 		} as unknown as DependencyIdsObject<DataModel, Type, Options>);
 
-		return new DepsRouteBuilder(
+		return new DepsRouteBuilder<
+			DataModel,
+			Router,
+			Type,
+			Visibility,
+			Options,
+			IdOrClassToHaywireIds<Dependencies>
+		>(
 			this.router,
 			this.functionType,
 			this.visibility,
@@ -55,30 +58,27 @@ export class RouteBuilder<
 	}
 
 	withHandler<ReturnValue>(
-		handler: (
-			ctx: ContextForFunctionType<Type, DataModel> & { customMetadata: RequestMetadata },
-			...args: ArgsArrayFromOptionsOptionalValidator<Options>
-		) => ReturnValue
+		handler: DefaultRouteHandler<DataModel, Type, Options, ReturnValue>
 	): Registration<
 		Type,
 		Visibility,
-		ArgsArrayToObject<ArgsArrayFromOptionsOptionalValidator<Options>>,
+		ArgsFromOptionsOptionalValidator<Options> & ObjectType<Router[typeof middlewareArgsType]>,
 		ReturnValue
 	> {
 		return createRegistration({
+			router: this.router,
 			functionType: this.functionType,
 			visibility: this.visibility,
-			dependencyIds: [],
-			middlewarePipeline: this.router._middlewarePipeline,
+			dependencyIds: [genericCtxId, genericArgsId],
 			handler,
-			options: this.options,
-			containerFactory: this.router._containerFactory
+			options: this.options
 		});
 	}
 }
 
 class DepsRouteBuilder<
 	DataModel extends GenericDataModel,
+	Router extends ConvexRouter<DataModel, any, any>,
 	Type extends FunctionType,
 	Visibility extends FunctionVisibility,
 	Options extends RouteBuilderOptions<any>,
@@ -97,17 +97,16 @@ class DepsRouteBuilder<
 	): Registration<
 		Type,
 		Visibility,
-		ArgsArrayToObject<ArgsArrayFromOptionsOptionalValidator<Options>>,
+		ArgsFromOptionsOptionalValidator<Options> & ObjectType<Router[typeof middlewareArgsType]>,
 		ReturnValue
 	> {
 		return createRegistration({
+			router: this.router,
 			functionType: this.functionType,
 			visibility: this.visibility,
 			dependencyIds: this.dependencyIds,
-			middlewarePipeline: this.router._middlewarePipeline,
 			handler,
-			options: this.options,
-			containerFactory: this.router._containerFactory
+			options: this.options
 		});
 	}
 }
