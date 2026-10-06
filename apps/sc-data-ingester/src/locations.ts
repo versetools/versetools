@@ -203,7 +203,8 @@ function amenityProperties(
 			amenityRecord = dependencies.readDatacoreRecordByGuid(amenityGuid);
 		} catch (error) {
 			throw new Error(
-				`Unable to resolve amenity ${amenityGuid} for ${locationGuid}: ${String(error)}`
+				`Unable to resolve amenity ${amenityGuid} for ${locationGuid}: ${String(error)}`,
+				{ cause: error }
 			);
 		}
 		const amenity = recordValue(amenityRecord);
