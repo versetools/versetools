@@ -39,7 +39,6 @@ import type * as app_commands_locations_UpdateLocationDataMutation from "../app/
 import type * as app_commands_locations_UpdateLocationMutation from "../app/commands/locations/UpdateLocationMutation.js";
 import type * as app_config_aws from "../app/config/aws.js";
 import type * as app_config_env from "../app/config/env.js";
-import type * as app_config_subscriptions from "../app/config/subscriptions.js";
 import type * as app_dataModel from "../app/dataModel.js";
 import type * as app_main from "../app/main.js";
 import type * as app_middleware_secretKeyMiddleware from "../app/middleware/secretKeyMiddleware.js";
@@ -98,7 +97,6 @@ declare const fullApi: ApiFromModules<{
   "app/commands/locations/UpdateLocationMutation": typeof app_commands_locations_UpdateLocationMutation;
   "app/config/aws": typeof app_config_aws;
   "app/config/env": typeof app_config_env;
-  "app/config/subscriptions": typeof app_config_subscriptions;
   "app/dataModel": typeof app_dataModel;
   "app/main": typeof app_main;
   "app/middleware/secretKeyMiddleware": typeof app_middleware_secretKeyMiddleware;

@@ -1,9 +1,7 @@
-import type { Subscription } from "@versetools/core/commands";
-import { subscriptionTag } from "@versetools/core/config/ids/commands";
 import { createCoreModule } from "@versetools/core/config/module";
-import { convexRouter, genericArgsId, genericCtxId } from "@versetools/core/routers";
+import { convexRouter } from "@versetools/core/routers";
 import { rsiModule } from "@versetools/rsi/config/module";
-import { createContainerFactory, createModule, type HaywireIdType } from "haywire";
+import { createModule } from "haywire";
 
 import type { DataModel } from "$convex/_generated/dataModel";
 
@@ -21,20 +19,19 @@ const bundle = appModule
 					receive: "sqs"
 				}
 			},
-			fileStorage: "uploadthing"
+			fileStorage: "uploadthing",
+			runner: {
+				subscriptions: false
+			}
 		})
 	)
 	.mergeModule(envModule)
 	.mergeModule(rsiModule);
 
-export const containerFactory = createContainerFactory(bundle);
+// containerFactory
+// 	.bindInstance(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
+// 	.bindInstance(genericArgsId, {})
+// 	.bindInstance(subscriptionTag, {} as Subscription<any, any>)
+// 	.toContainer();
 
-if (import.meta.env.DEV) {
-	containerFactory
-		.bindInstance(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
-		.bindInstance(genericArgsId, {})
-		.bindInstance(subscriptionTag, {} as Subscription<any, any>)
-		.toContainer();
-}
-
-export const router = convexRouter<DataModel>(containerFactory);
+export const router = convexRouter<DataModel>(bundle);

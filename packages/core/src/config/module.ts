@@ -1,6 +1,10 @@
 import { createModule } from "haywire";
 
-import { runnerServiceBinding, subscriptionRegistryBinding } from "./bindings/commands";
+import {
+	noopSubscriptionRegistryBinding,
+	runnerServiceBinding,
+	subscriptionRegistryBinding
+} from "./bindings/commands";
 import {
 	emailServiceBinding,
 	noOpEmailSenderAdapterBinding,
@@ -16,11 +20,18 @@ export type CoreModuleConfig = {
 		};
 	};
 	fileStorage: "uploadthing";
+	runner?: {
+		subscriptions: boolean;
+	};
 };
 
 export function createCoreModule(config: CoreModuleConfig) {
 	return createModule(runnerServiceBinding)
-		.addBinding(subscriptionRegistryBinding)
+		.addBinding(
+			(config.runner?.subscriptions ?? true)
+				? subscriptionRegistryBinding
+				: noopSubscriptionRegistryBinding
+		)
 		.addBinding(emailServiceBinding)
 		.addBinding(
 			config.email.providers.send === "ses"

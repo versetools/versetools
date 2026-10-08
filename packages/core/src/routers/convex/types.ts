@@ -13,7 +13,11 @@ import type { GenericHaywireId, HaywireId } from "haywire";
 import * as zCore from "zod/v4/core";
 
 import type { ArgsId, CtxId } from "./ids";
-import type { HaywireGenericContainerFactory } from "../../haywire-types";
+import type {
+	HaywireGenericContainerFactory,
+	HaywireGenericModule,
+	HaywireModuleToContainerFactory
+} from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { RunnerService } from "../../services/commands/RunnerService";
 import type { MaybePromise } from "../../utility-types";
@@ -67,47 +71,69 @@ export type ArgsToArgsArray<Args extends DefaultFunctionArgs> = Args extends Emp
 
 // Middleware //
 
-export type MiddlewareBinder<
+export type MiddlewareCtx<
 	DataModel extends GenericDataModel,
-	InputFactory extends HaywireGenericContainerFactory,
+	Config extends Record<string, any> = Record<string, any>
+> = GenericCtx<DataModel> & { middlewareConfig: Config; customMetadata: RequestMetadata };
+
+export type MiddlewareAddBindings<
+	DataModel extends GenericDataModel,
 	ArgsValidator extends PropertyValidators | void,
-	OutputFactory extends HaywireGenericContainerFactory,
+	InputModule extends HaywireGenericModule,
+	ModifiedModule extends HaywireGenericModule,
 	Config extends Record<string, any> = Record<string, any>
 > = (
-	config: Config,
-	factory: InputFactory,
-	ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
+	module: InputModule,
+	ctx: MiddlewareCtx<DataModel, Config>,
 	...args: ArgsToArgsArray<ArgsFromConvexValidator<ArgsValidator>>
-) => MaybePromise<OutputFactory>;
+) => MaybePromise<ModifiedModule>;
+
+export type MiddlewareBindInstances<
+	DataModel extends GenericDataModel,
+	ArgsValidator extends PropertyValidators | void,
+	InputFactory extends HaywireGenericContainerFactory,
+	ModifiedFactory extends HaywireGenericContainerFactory,
+	Config extends Record<string, any> = Record<string, any>
+> = (
+	factory: InputFactory,
+	ctx: MiddlewareCtx<DataModel, Config>,
+	...args: ArgsToArgsArray<ArgsFromConvexValidator<ArgsValidator>>
+) => MaybePromise<ModifiedFactory>;
 
 export type DefaultMiddlewareHandler<
 	DataModel extends GenericDataModel,
 	ArgsValidator extends PropertyValidators | void,
 	Config extends Record<string, any> = Record<string, any>
 > = (
-	config: Config,
-	ctx: GenericCtx<DataModel> & { customMetadata: RequestMetadata },
+	ctx: MiddlewareCtx<DataModel, Config>,
 	...args: ArgsToArgsArray<ArgsFromConvexValidator<ArgsValidator>>
 ) => MaybePromise<void>;
 
 export interface Middleware<
 	DataModel extends GenericDataModel,
 	ArgsValidator extends PropertyValidators | void,
-	InputFactory extends HaywireGenericContainerFactory,
-	OutputFactory extends HaywireGenericContainerFactory,
-	BinderConfig extends Record<string, any> = Record<string, any>,
-	HandlerConfig extends Record<string, any> = Record<string, any>
+	InputModule extends HaywireGenericModule,
+	ModifiedModule extends HaywireGenericModule,
+	ModifiedFactory extends HaywireGenericContainerFactory,
+	Config extends Record<string, any> = Record<string, any>
 > {
 	readonly args?: ArgsValidator;
-	readonly dependencyIds?: readonly GenericHaywireId[];
-	readonly binder?: MiddlewareBinder<
+	readonly addBindings?: MiddlewareAddBindings<
 		DataModel,
-		InputFactory,
 		ArgsValidator,
-		OutputFactory,
-		BinderConfig
+		InputModule,
+		ModifiedModule,
+		Config
 	>;
-	readonly handler?: (config: HandlerConfig, ...args: any) => MaybePromise<void>;
+	readonly bindInstances?: MiddlewareBindInstances<
+		DataModel,
+		ArgsValidator,
+		HaywireModuleToContainerFactory<ModifiedModule>,
+		ModifiedFactory,
+		Config
+	>;
+	readonly dependencyIds?: readonly GenericHaywireId[];
+	readonly handler?: (ctx: MiddlewareCtx<DataModel, Config>, ...args: any[]) => MaybePromise<void>;
 }
 
 // Middleware Options //

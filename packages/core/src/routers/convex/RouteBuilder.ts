@@ -85,7 +85,7 @@ class DepsRouteBuilder<
 	DependencyIds extends readonly [...GenericHaywireId[]]
 > {
 	constructor(
-		private readonly router: ConvexRouter<DataModel>,
+		private readonly router: Router,
 		private readonly functionType: Type,
 		private readonly visibility: Visibility,
 		private readonly options: Options,

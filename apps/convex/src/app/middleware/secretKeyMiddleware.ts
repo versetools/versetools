@@ -17,7 +17,9 @@ export const secretKeyMiddleware = router
 			secret: v.string()
 		}
 	})
-	.withBinder(({ secretRequired = true }: { secretRequired?: boolean }, factory, ctx, args) => {
+	.setConfig<{ secretRequired?: boolean }>()
+	.withAddBindings((module, ctx, args) => {
+		const { secretRequired = true } = ctx.middlewareConfig;
 		const valid = args.secret === env.CONVEX_SECRET && !!env.CONVEX_SECRET;
 		if (secretRequired && !valid) {
 			throw new ResultError("INVALID_SECRET", {
@@ -26,6 +28,5 @@ export const secretKeyMiddleware = router
 		}
 
 		ctx.customMetadata.validSecret = valid;
-
-		return factory;
+		return module;
 	});

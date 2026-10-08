@@ -14,6 +14,10 @@ export const runnerServiceBinding = bind(genericRunnerServiceId)
 	.withProvider((ctx, registry) => new RunnerService(ctx, registry))
 	.scoped(requestScope);
 
+export const noopSubscriptionRegistryBinding = bind(genericSubscriptionRegistryId)
+	.withFactory(() => new SubscriptionRegistry())
+	.scoped(eagerSingletonScope);
+
 export const subscriptionRegistryBinding = bind(genericSubscriptionRegistryId)
 	.withDependencies([subscriptionTag])
 	.withProvider((subscriptions) => new SubscriptionRegistry().register(subscriptions))

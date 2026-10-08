@@ -20,15 +20,16 @@ import { pick } from "convex-helpers";
 import type { Registration } from "convex-helpers/server/customFunctions";
 import { zodOutputToConvex, zodToConvexFields } from "convex-helpers/server/zod4";
 import { addFieldsToValidator } from "convex-helpers/validators";
-import { type Container, type GenericHaywireId } from "haywire";
+import { createContainerFactory, type Container, type GenericHaywireId } from "haywire";
 import * as z from "zod/v4";
 import * as zCore from "zod/v4/core";
 
 import type { ConvexRouter } from "./ConvexRouter";
 import { genericArgsId, genericCtxId } from "./ids";
-import { unsafeMiddlewarePipeline, unsafeRouterContainerFactory } from "./symbols";
+import { unsafeMiddlewarePipeline, unsafeRouterModule } from "./symbols";
 import type { RouteBuilderOptions, ZodFields } from "./types";
 import { ServerConfigurationError } from "../../errors";
+import type { HaywireGenericModule } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { Class } from "../../utility-types";
 import type { RequestMetadata } from "../types";
@@ -45,13 +46,23 @@ type GenericBuilder<
 }) => Registration<Type, Visibility, Args, Output>;
 
 type RegistrationParams = {
-	router: ConvexRouter<any>;
+	router: ConvexRouter<any, any>;
 	functionType: FunctionType;
 	visibility: FunctionVisibility;
 	dependencyIds: readonly GenericHaywireId[];
 	handler: (...args: any) => any;
 	options: RouteBuilderOptions<any>;
 };
+
+function isObjectEmpty(obj: object) {
+	for (const prop in obj) {
+		if (Object.hasOwn(obj, prop)) {
+			return false;
+		}
+	}
+
+	return true;
+}
 
 function resolveDependencies(
 	container: Container<any>,
@@ -161,15 +172,37 @@ export function createRegistration<
 			const ctx = rawCtx as GenericCtx<any> & { customMetadata: RequestMetadata };
 			ctx.customMetadata = {};
 
-			let containerFactory = params.router[unsafeRouterContainerFactory];
-			for (const middleware of middlewarePipeline) {
-				if (!middleware.binder) continue;
+			const middlewareEntries = middlewarePipeline.entries().map(([index, middleware]) => ({
+				index,
+				middleware,
+				args: pick(allArgs, Object.keys(middleware.args ?? {}))
+			}));
 
-				containerFactory = await middleware.binder(
-					extra,
+			let containerModule = params.router[unsafeRouterModule] as HaywireGenericModule;
+			for (const { middleware, args: middlewareArgs } of middlewareEntries) {
+				if (!middleware.addBindings) continue;
+
+				containerModule = await middleware.addBindings(
+					containerModule,
+					{
+						...ctx,
+						middlewareConfig: extra
+					},
+					middlewareArgs
+				);
+			}
+
+			let containerFactory = createContainerFactory(containerModule);
+			for (const { middleware, args: middlewareArgs } of middlewareEntries) {
+				if (!middleware.bindInstances) continue;
+
+				containerFactory = await middleware.bindInstances(
 					containerFactory,
-					ctx,
-					pick(allArgs, Object.keys(middleware.args ?? {}))
+					{
+						...ctx,
+						middlewareConfig: extra
+					},
+					middlewareArgs
 				);
 			}
 
@@ -192,40 +225,50 @@ export function createRegistration<
 				}
 			}
 
-			containerFactory = containerFactory
-				.bindInstance(genericCtxId, ctx)
-				.bindInstance(genericArgsId, parsedArgs);
-
 			let container;
 			try {
-				container = containerFactory.toContainer();
+				container = containerFactory
+					.bindInstance(genericCtxId, ctx)
+					.bindInstance(genericArgsId, parsedArgs)
+					.toContainer();
 			} catch (e) {
 				throw new ServerConfigurationError({
-					message: "Failed to create container",
+					message: "Failed to create Haywire container",
 					cause: `${e}`
 				});
 			}
 
-			const middlewareDependencies = await Promise.all(
-				middlewarePipeline.map((middleware) => {
-					if (!middleware.dependencyIds) return null;
-					return resolveDependencies(container, middleware.dependencyIds);
+			const middlewareWithDeps = await Promise.all(
+				middlewareEntries.map(async (entry) => {
+					const dependencies = !entry.middleware.dependencyIds
+						? null
+						: await resolveDependencies(container, entry.middleware.dependencyIds);
+					return {
+						...entry,
+						dependencies
+					};
 				})
 			);
 
 			const handlerDependencies = await resolveDependencies(container, params.dependencyIds);
 
-			for (let i = 0; i < middlewarePipeline.length; i++) {
-				const middleware = middlewarePipeline[i];
-				const dependencies = middlewareDependencies[i];
-
+			for (const { middleware, dependencies, args: middlewareArgs } of middlewareWithDeps) {
 				if (!middleware.handler) continue;
 
-				if (dependencies) {
-					await middleware.handler(extra, ...dependencies);
-				} else {
-					await middleware.handler(extra, ctx, pick(allArgs, Object.keys(middleware.args ?? {})));
+				const handlerCtx = {
+					...ctx,
+					middlewareConfig: extra
+				};
+
+				const handlerArgs: any[] = [];
+				if (!isObjectEmpty(middlewareArgs)) {
+					handlerArgs.push(middlewareArgs);
 				}
+				if (dependencies) {
+					handlerArgs.push(...dependencies);
+				}
+
+				await middleware.handler(handlerCtx, ...handlerArgs);
 			}
 
 			const ret = await params.handler(...handlerDependencies);

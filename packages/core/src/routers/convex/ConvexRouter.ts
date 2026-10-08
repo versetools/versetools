@@ -4,38 +4,34 @@ import type { EmptyObject } from "convex-helpers";
 
 import { MiddlewareBuilder } from "./MiddlewareBuilder";
 import { RouteBuilder, type RouteBuilderOptions } from "./RouteBuilder";
-import {
-	unsafeMiddlewarePipeline,
-	unsafeRouterContainerFactory,
-	type middlewareArgsType
-} from "./symbols";
+import { unsafeMiddlewarePipeline, unsafeRouterModule, type middlewareArgsType } from "./symbols";
 import type { Middleware, MiddlewareBuilderOptions } from "./types";
-import type { HaywireGenericContainerFactory } from "../../haywire-types";
+import type { HaywireGenericContainerFactory, HaywireGenericModule } from "../../haywire-types";
 
 export class ConvexRouter<
 	DataModel extends GenericDataModel,
-	ContainerFactory extends HaywireGenericContainerFactory = HaywireGenericContainerFactory,
+	Module extends HaywireGenericModule,
 	RouteConfig extends Record<string, any> = object,
 	MiddlewareArgs extends PropertyValidators = {}
 > {
 	declare public readonly [middlewareArgsType]: MiddlewareArgs;
 
-	public readonly [unsafeRouterContainerFactory]: ContainerFactory;
+	public readonly [unsafeRouterModule]: Module;
 	public readonly [unsafeMiddlewarePipeline]: Middleware<DataModel, any, any, any, any, any>[];
 
 	private constructor(
-		containerFactory: ContainerFactory,
+		module: Module,
 		middlewarePipeline: Middleware<DataModel, any, any, any, any, any>[]
 	) {
-		this[unsafeRouterContainerFactory] = containerFactory;
+		this[unsafeRouterModule] = module;
 		this[unsafeMiddlewarePipeline] = middlewarePipeline;
 	}
 
-	static fromContainerFactory<
+	static fromModule<
 		DataModel extends GenericDataModel,
-		ContainerFactory extends HaywireGenericContainerFactory = HaywireGenericContainerFactory
-	>(containerFactory: ContainerFactory) {
-		return new ConvexRouter<DataModel, ContainerFactory>(containerFactory, []);
+		Module extends HaywireGenericModule = HaywireGenericModule
+	>(module: Module) {
+		return new ConvexRouter<DataModel, Module>(module, []);
 	}
 
 	query<Options extends RouteBuilderOptions<RouteConfig>>(options: Options) {
@@ -64,34 +60,33 @@ export class ConvexRouter<
 
 	withMiddleware<
 		ArgsValidator extends PropertyValidators | void,
-		OutputContainerFactory extends HaywireGenericContainerFactory,
-		BinderConfig extends Record<string, any> = object,
-		HandlerConfig extends Record<string, any> = object
+		InputModule extends HaywireGenericModule,
+		ModifiedModule extends HaywireGenericModule,
+		ModifiedFactory extends HaywireGenericContainerFactory,
+		Config extends Record<string, any> = object
 	>(
 		middleware: Middleware<
 			DataModel,
 			ArgsValidator,
-			ContainerFactory,
-			OutputContainerFactory,
-			BinderConfig,
-			HandlerConfig
+			InputModule,
+			ModifiedModule,
+			ModifiedFactory,
+			Config
 		>
 	) {
 		return new ConvexRouter<
 			DataModel,
-			OutputContainerFactory,
-			RouteConfig &
-				(BinderConfig extends EmptyObject ? {} : BinderConfig) &
-				(HandlerConfig extends EmptyObject ? {} : HandlerConfig),
+			ModifiedModule,
+			RouteConfig & (Config extends EmptyObject ? {} : Config),
 			MiddlewareArgs & (ArgsValidator extends PropertyValidators ? ArgsValidator : {})
-		>(this[unsafeRouterContainerFactory] as unknown as OutputContainerFactory, [
+		>(this[unsafeRouterModule] as unknown as ModifiedModule, [
 			...this[unsafeMiddlewarePipeline],
 			middleware
 		]);
 	}
 
 	createMiddleware<Options extends MiddlewareBuilderOptions>(options: Options) {
-		return new MiddlewareBuilder<DataModel, Options, ContainerFactory>(options);
+		return new MiddlewareBuilder<DataModel, Options, Module>(options);
 	}
 
 	private route<
@@ -101,7 +96,7 @@ export class ConvexRouter<
 	>(functionType: Type, visibility: Visibility, options: Options) {
 		return new RouteBuilder<
 			DataModel,
-			ConvexRouter<DataModel, ContainerFactory, RouteConfig, MiddlewareArgs>,
+			ConvexRouter<DataModel, Module, RouteConfig, MiddlewareArgs>,
 			Type,
 			Visibility,
 			Options
@@ -111,7 +106,7 @@ export class ConvexRouter<
 
 export function convexRouter<
 	DataModel extends GenericDataModel,
-	ContainerFactory extends HaywireGenericContainerFactory = HaywireGenericContainerFactory
->(containerFactory: ContainerFactory) {
-	return ConvexRouter.fromContainerFactory<DataModel, ContainerFactory>(containerFactory);
+	Module extends HaywireGenericModule = HaywireGenericModule
+>(module: Module) {
+	return ConvexRouter.fromModule<DataModel, Module>(module);
 }
