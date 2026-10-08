@@ -106,7 +106,7 @@ export class ConvexRouter<
 
 export function convexRouter<
 	DataModel extends GenericDataModel,
-	Module extends HaywireGenericModule = HaywireGenericModule
+	Module extends HaywireGenericModule
 >(module: Module) {
 	return ConvexRouter.fromModule<DataModel, Module>(module);
 }

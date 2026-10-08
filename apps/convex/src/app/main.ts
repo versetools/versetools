@@ -34,4 +34,4 @@ const bundle = appModule
 // 	.bindInstance(subscriptionTag, {} as Subscription<any, any>)
 // 	.toContainer();
 
-export const router = convexRouter<DataModel>(bundle);
+export const router = convexRouter<DataModel, typeof bundle>(bundle);
