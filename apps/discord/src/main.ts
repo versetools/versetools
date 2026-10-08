@@ -17,7 +17,7 @@ const bot = new Bot(
 			activities: [
 				{
 					type: ActivityType.Watching,
-					name: `${config.domain} | ${config.parent.name}`,
+					name: `${config.domain} | ${config.name}`,
 					url: `https://${config.domain}`
 				}
 			]
