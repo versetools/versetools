@@ -28,7 +28,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {
 			await subscription.runBefore(this.runner, ctx, query);
 			if (subscription.once) {
-				this.registry.remove(subscription);
+				this.registry.unregister(subscription);
 			}
 		}
 
@@ -37,7 +37,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		for (const subscription of this.registry.getSubscriptions(type, "after")) {
 			await subscription.runAfter(this.runner, ctx, query, value);
 			if (subscription.once) {
-				this.registry.remove(subscription);
+				this.registry.unregister(subscription);
 			}
 		}
 
@@ -54,7 +54,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {
 			await subscription.runBefore(this.runner, ctx, mutation);
 			if (subscription.once) {
-				this.registry.remove(subscription);
+				this.registry.unregister(subscription);
 			}
 		}
 
@@ -63,7 +63,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		for (const subscription of this.registry.getSubscriptions(type, "after")) {
 			await subscription.runAfter(this.runner, ctx, mutation, value);
 			if (subscription.once) {
-				this.registry.remove(subscription);
+				this.registry.unregister(subscription);
 			}
 		}
 
