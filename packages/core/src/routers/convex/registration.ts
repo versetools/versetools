@@ -172,11 +172,13 @@ export function createRegistration<
 			const ctx = rawCtx as GenericCtx<any> & { customMetadata: RequestMetadata };
 			ctx.customMetadata = {};
 
-			const middlewareEntries = middlewarePipeline.entries().map(([index, middleware]) => ({
-				index,
-				middleware,
-				args: pick(allArgs, Object.keys(middleware.args ?? {}))
-			}));
+			const middlewareEntries = Array.from(middlewarePipeline.entries()).map(
+				([index, middleware]) => ({
+					index,
+					middleware,
+					args: pick(allArgs, Object.keys(middleware.args ?? {}))
+				})
+			);
 
 			let containerModule = params.router[unsafeRouterModule] as HaywireGenericModule;
 			for (const { middleware, args: middlewareArgs } of middlewareEntries) {
