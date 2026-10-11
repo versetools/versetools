@@ -1,6 +1,6 @@
 {
     "name": "@versetools/core",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "type": "module",
     "exports": {
         "./commands": {
@@ -31,6 +31,9 @@
         "./services/*": {
             "types": "./src/services/*.ts",
             "import": "./src/services/*.ts"
+        },
+        "./haywire-types": {
+            "types": "./src/haywire-types.ts"
         },
         "./utility-types": {
             "types": "./src/utility-types.ts"
