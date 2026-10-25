@@ -1,6 +1,10 @@
 name: versetools
 description: Versetools website
+
 runtime:
   name: nodejs
   options:
     packagemanager: pnpm
+
+config:
+  kubernetes:context: asgard
