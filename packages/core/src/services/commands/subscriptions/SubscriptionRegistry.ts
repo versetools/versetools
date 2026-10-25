@@ -1,11 +1,11 @@
 import type { GenericDataModel } from "convex/server";
 
-import { type Subscription, type SubscriptionPhase } from "../../../commands";
-import type { Class, RestOrArray } from "../../../utility-types";
+import { type Command, type Subscription, type SubscriptionPhase } from "../../../commands";
+import type { GenericClass, RestOrArray } from "../../../utility-types";
 
 export class SubscriptionRegistry<DataModel extends GenericDataModel> {
 	private subscriptionsByType = new Map<
-		Class,
+		GenericClass<Command<DataModel>>,
 		Record<SubscriptionPhase, Subscription<DataModel>[]>
 	>();
 
@@ -40,7 +40,7 @@ export class SubscriptionRegistry<DataModel extends GenericDataModel> {
 		return this;
 	}
 
-	getSubscriptions(commandType: Class, phase: SubscriptionPhase) {
+	getSubscriptions(commandType: GenericClass<Command<DataModel>>, phase: SubscriptionPhase) {
 		const subscriptions = this.subscriptionsByType.get(commandType);
 		if (!subscriptions) {
 			return [];

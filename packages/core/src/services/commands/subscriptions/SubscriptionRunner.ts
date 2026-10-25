@@ -8,8 +8,9 @@ import type {
 	QueryCommand,
 	QueryValue
 } from "../../../commands";
+import { getClass } from "../../../helpers";
 import type { GenericQueryableCtx } from "../../../helpers/convex";
-import type { Class, MaybePromise } from "../../../utility-types";
+import type { MaybePromise } from "../../../utility-types";
 import type { RunnerService } from "../RunnerService";
 
 export class SubscriptionRunner<DataModel extends GenericDataModel> {
@@ -23,7 +24,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		query: Query,
 		execute: (ctx: GenericQueryableCtx<DataModel>) => MaybePromise<QueryValue<Query>>
 	): Promise<QueryValue<Query>> {
-		const type = this.getType<typeof QueryCommand>(query);
+		const queryClass = getClass(query);
 
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {
 			await subscription.runBefore(this.runner, ctx, query);
@@ -49,7 +50,7 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		mutation: Mutation,
 		execute: (ctx: GenericMutationCtx<DataModel>) => MaybePromise<MutationValue<Mutation>>
 	): Promise<MutationValue<Mutation>> {
-		const type = this.getType<typeof MutationCommand>(mutation);
+		const mutationClass = getClass(mutation);
 
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {
 			await subscription.runBefore(this.runner, ctx, mutation);
@@ -68,14 +69,5 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 		}
 
 		return value;
-	}
-
-	private getType<T extends Class>(command: Command<DataModel>) {
-		const clazz = command.constructor;
-		if (!clazz) {
-			throw new Error(`Command "${command}" does not have a constructor`);
-		}
-
-		return clazz as T;
 	}
 }

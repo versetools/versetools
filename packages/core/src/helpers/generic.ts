@@ -1,6 +1,8 @@
 import type { Expand } from "convex/server";
 import { asyncMap, type BetterOmit } from "convex-helpers";
 
+import type { GenericClass } from "../utility-types";
+
 export type ReplaceValues<T, Keys extends (keyof T)[], Value> = BetterOmit<T, Keys[number]> & {
 	[K in Keys[number]]: Value | Exclude<T[K], NonNullable<T[K]>>;
 };
@@ -60,4 +62,12 @@ export function diff<Prev extends unknown[], Next extends unknown[], SharedId>(
 		added: next.data.filter((item) => !prevIds.has(nextIdCache.get(item)!)) as Next,
 		removed: prev.data.filter((item) => !nextIds.has(prevIdCache.get(item)!)) as Prev
 	};
+}
+
+export function getClass<T extends object>(instance: T): GenericClass<T> {
+	if (!instance.constructor) {
+		throw new Error("Instance does not have a constructor");
+	}
+
+	return instance.constructor as GenericClass<T>;
 }
