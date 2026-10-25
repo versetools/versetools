@@ -12,6 +12,7 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"stripInternal": true,
+		"noImplicitOverride": true,
 		"noImplicitAny": true,
 		"verbatimModuleSyntax": true,
 		"isolatedModules": true,
