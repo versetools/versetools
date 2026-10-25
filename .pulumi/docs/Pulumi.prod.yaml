@@ -3,5 +3,5 @@ environment:
   - versetools/dns
 
 config:
-  versetools-docs:repositoryName: versetools/versetools-docs
   aws:region: eu-central-1
+  versetools-docs:repositoryName: versetools/versetools-docs
