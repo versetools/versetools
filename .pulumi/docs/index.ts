@@ -1,10 +1,8 @@
-import * as aws from "@pulumi/aws";
+import * as toolkit from "@l3dev-private/pulumi-toolkit";
 import * as cloudflare from "@pulumi/cloudflare";
 import * as buildx from "@pulumi/docker-build";
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
-
-const config = new pulumi.Config();
 
 const domain = "docs.versetools.com";
 const cnameTarget = "aki.asgard.l3.dev";
@@ -17,55 +15,14 @@ const replicas = 1;
 const port = 3000;
 const portName = "docs-http";
 
-function createRepository(name: string) {
-	const repository = new aws.ecr.Repository(name);
-
-	new aws.ecr.LifecyclePolicy(
-		`${name}-lifecycle-policy`,
-		{
-			repository: repository.name,
-			policy: {
-				rules: [
-					{
-						rulePriority: 1,
-						description: "Remove untagged images",
-						selection: {
-							tagStatus: "untagged",
-							countType: "imageCountMoreThan",
-							countNumber: 1
-						},
-						action: {
-							type: "expire"
-						}
-					}
-				]
-			}
-		},
-		{
-			parent: repository
-		}
-	);
-
-	const registry = aws.ecr
-		.getAuthorizationTokenOutput({
-			registryId: repository.registryId
-		})
-		.apply(async (credentials) => {
-			return {
-				address: credentials.proxyEndpoint,
-				username: credentials.userName,
-				password: pulumi.secret(credentials.password)
-			};
-		});
-
-	return { repository, registry };
-}
-
+const config = new pulumi.Config();
 const repositoryName = config.require("repositoryName");
-const repository = createRepository(repositoryName);
+const repository = new toolkit.images.ecr.Repository(repositoryName, {
+	project: `versetools/${appName}`
+});
 
 const image = new buildx.Image(`${appName}-image`, {
-	tags: [pulumi.interpolate`${repository.repository.repositoryUrl}:latest`],
+	tags: [pulumi.interpolate`${repository.repositoryUrl}:latest`],
 	dockerfile: {
 		location: "./Dockerfile"
 	},
@@ -80,12 +37,12 @@ const image = new buildx.Image(`${appName}-image`, {
 	cacheFrom: [
 		{
 			registry: {
-				ref: pulumi.interpolate`${repository.repository.repositoryUrl}:latest`
+				ref: pulumi.interpolate`${repository.repositoryUrl}:latest`
 			}
 		}
 	],
 	push: true,
-	registries: [repository.registry]
+	registries: [repository.registry.buildx]
 });
 
 export const imageRef = image.ref;
