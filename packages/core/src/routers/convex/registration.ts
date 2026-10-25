@@ -31,7 +31,6 @@ import type { RouteBuilderOptions, ZodFields } from "./types";
 import { ServerConfigurationError } from "../../errors";
 import type { HaywireGenericModule } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
-import type { Class } from "../../utility-types";
 import type { RequestMetadata } from "../types";
 
 type GenericBuilder<
@@ -130,7 +129,7 @@ export function createRegistration<
 						zodValidator = zodValidator._zod.def.shape;
 					} else {
 						throw new Error(
-							"Unsupported zod type as args validator: " + (zodValidator as Class).constructor.name
+							"Unsupported zod type as args validator: " + (zodValidator as object).constructor.name
 						);
 					}
 				}
