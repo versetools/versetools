@@ -1,6 +1,6 @@
 ARG NODE_VERSION=24
 
-FROM node:${NODE_VERSION}-bookworm AS base
+FROM node:${NODE_VERSION}-trixie AS base
 
 # PNPM
 ARG PNPM_VERSION=10
@@ -28,7 +28,7 @@ FROM base AS installer
 
 WORKDIR /app
 COPY . .
-    
+
 ENV AWS_DEFAULT_REGION=eu-central-1
 
 RUN --mount=type=secret,id=aws_key_id,env=AWS_ACCESS_KEY_ID \
