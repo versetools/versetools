@@ -1,5 +1,30 @@
+/**
+ * Most generic class possible.
+ * Used by types to help determine if a method is a class constructor.
+ *
+ * Hand-written declaration (rather than declared in `src/`) because TypeScript strips the
+ * parameters of private constructors when emitting declarations. The emitted
+ * `private constructor();` would reject classes whose private constructor takes arguments.
+ */
+export declare abstract class Constructable {
+	private constructor(...args: unknown[]);
+}
+
+/**
+ * Almost the most generic class possible.
+ *
+ * @see {@link https://github.com/microsoft/TypeScript/issues/57412} why this is necessary
+ *
+ */
+export declare abstract class ProtectedConstructable {
+	protected constructor(...args: unknown[]);
+}
+
+export type Class = typeof Constructable | typeof ProtectedConstructable;
+export type GenericClass<T = unknown> = new (...args: any) => T;
+export type DepsClass<T, Deps extends readonly [...unknown[]]> = new (...args: Deps) => T;
+export type InstanceOfClass<T extends Class> = InstanceType<(new () => never) & T>;
 export type WithPrototype = { prototype: Class };
-export type Class = (abstract new (...args: any) => any) & { prototype: any };
 
 export type MaybePromise<T> = T | Promise<T>;
 
