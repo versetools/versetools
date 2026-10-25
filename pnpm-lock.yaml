@@ -261,8 +261,8 @@ importers:
   .pulumi:
     devDependencies:
       '@l3dev-private/pulumi-toolkit':
-        specifier: ^0.8.1
-        version: 0.8.1(@pulumi/aws@7.48.0(typescript@6.0.3))(@pulumi/docker-build@0.0.18(typescript@6.0.3))(@pulumi/docker@5.2.0(typescript@6.0.3))(@pulumi/kubernetes@4.34.2(typescript@6.0.3))(@pulumi/pulumi@3.265.0(typescript@6.0.3))(typescript@6.0.3)
+        specifier: ^0.9.0
+        version: 0.9.0(@pulumi/aws@7.48.0(typescript@6.0.3))(@pulumi/docker-build@0.0.18(typescript@6.0.3))(@pulumi/docker@5.2.0(typescript@6.0.3))(@pulumi/kubernetes@4.34.2(typescript@6.0.3))(@pulumi/pulumi@3.265.0(typescript@6.0.3))(typescript@6.0.3)
       '@pulumi/aws':
         specifier: ^7.32.0
         version: 7.48.0(typescript@6.0.3)
@@ -2337,8 +2337,8 @@ packages:
     peerDependencies:
       '@l3dev/result': '>=0.5.0 <1.0.0'
 
-  '@l3dev-private/pulumi-toolkit@0.8.1':
-    resolution: {integrity: sha512-9qrLkruPunv+81pcrt+5DnqAmKYC/f5JduOkBJc6PEfr4okwFwjZitN3UHtsrJRxrvP+T/k9N8gTibeayi2MnQ==}
+  '@l3dev-private/pulumi-toolkit@0.9.0':
+    resolution: {integrity: sha512-fNVzBUZ0wqGSYbJeSdSFgbmghXzzOEBvKbr38vbFElLmL+ImEoGyFMrHBU9k2QCIlHcjF1IM+xGuK3kulID0HQ==}
     peerDependencies:
       '@pulumi/aws': ^7.32.0
       '@pulumi/docker': ^5.0.0
@@ -9442,7 +9442,7 @@ snapshots:
       '@l3dev/result': 0.6.3
       js-cookie: 3.0.7
 
-  '@l3dev-private/pulumi-toolkit@0.8.1(@pulumi/aws@7.48.0(typescript@6.0.3))(@pulumi/docker-build@0.0.18(typescript@6.0.3))(@pulumi/docker@5.2.0(typescript@6.0.3))(@pulumi/kubernetes@4.34.2(typescript@6.0.3))(@pulumi/pulumi@3.265.0(typescript@6.0.3))(typescript@6.0.3)':
+  '@l3dev-private/pulumi-toolkit@0.9.0(@pulumi/aws@7.48.0(typescript@6.0.3))(@pulumi/docker-build@0.0.18(typescript@6.0.3))(@pulumi/docker@5.2.0(typescript@6.0.3))(@pulumi/kubernetes@4.34.2(typescript@6.0.3))(@pulumi/pulumi@3.265.0(typescript@6.0.3))(typescript@6.0.3)':
     dependencies:
       '@pulumi/aws': 7.48.0(typescript@6.0.3)
       '@pulumi/docker': 5.2.0(typescript@6.0.3)
