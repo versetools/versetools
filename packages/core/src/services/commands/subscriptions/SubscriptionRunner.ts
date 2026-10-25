@@ -1,12 +1,11 @@
 import type { GenericDataModel, GenericMutationCtx } from "convex/server";
 
 import type { SubscriptionRegistry } from "./SubscriptionRegistry";
-import type {
-	Command,
-	MutationCommand,
-	MutationValue,
-	QueryCommand,
-	QueryValue
+import {
+	SubscriptionPhase,
+	type CommandValue,
+	type MutationCommand,
+	type QueryCommand
 } from "../../../commands";
 import { getClass } from "../../../helpers";
 import type { GenericQueryableCtx } from "../../../helpers/convex";
@@ -22,8 +21,8 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	async runQuerySubscriptions<Query extends QueryCommand<DataModel>>(
 		ctx: GenericQueryableCtx<DataModel>,
 		query: Query,
-		execute: (ctx: GenericQueryableCtx<DataModel>) => MaybePromise<QueryValue<Query>>
-	): Promise<QueryValue<Query>> {
+		execute: (ctx: GenericQueryableCtx<DataModel>) => MaybePromise<CommandValue<Query>>
+	): Promise<CommandValue<Query>> {
 		const queryClass = getClass(query);
 
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {
@@ -48,8 +47,8 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	async runMutationSubscriptions<Mutation extends MutationCommand<DataModel>>(
 		ctx: GenericMutationCtx<DataModel>,
 		mutation: Mutation,
-		execute: (ctx: GenericMutationCtx<DataModel>) => MaybePromise<MutationValue<Mutation>>
-	): Promise<MutationValue<Mutation>> {
+		execute: (ctx: GenericMutationCtx<DataModel>) => MaybePromise<CommandValue<Mutation>>
+	): Promise<CommandValue<Mutation>> {
 		const mutationClass = getClass(mutation);
 
 		for (const subscription of this.registry.getSubscriptions(type, "before")) {

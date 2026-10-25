@@ -1,4 +1,4 @@
-import type { QueryCommand, QueryValue } from "@versetools/core/commands";
+import type { CommandValue, QueryCommand } from "@versetools/core/commands";
 import { RunnerService } from "@versetools/core/services/commands/RunnerService";
 import { SubscriptionRegistry } from "@versetools/core/services/commands/subscriptions/SubscriptionRegistry";
 import {
@@ -28,7 +28,7 @@ import { modules } from "./test.setup";
 const runQuery = async <Command extends QueryCommand<DataModel>>(
 	t: TestConvexForDataModel<DataModel>,
 	command: Command
-): Promise<QueryValue<Command>> =>
+): Promise<CommandValue<Command>> =>
 	await t.query(async (ctx) => {
 		const runner = new RunnerService(ctx, new SubscriptionRegistry<DataModel>());
 		return await runner.query(command);

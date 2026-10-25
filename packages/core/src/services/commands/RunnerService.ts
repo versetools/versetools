@@ -3,14 +3,7 @@ import { asyncMap } from "convex-helpers";
 
 import type { SubscriptionRegistry } from "./subscriptions/SubscriptionRegistry";
 import { SubscriptionRunner } from "./subscriptions/SubscriptionRunner";
-import type {
-	ActionCommand,
-	ActionValue,
-	MutationCommand,
-	MutationValue,
-	QueryCommand,
-	QueryValue
-} from "../../commands";
+import type { ActionCommand, CommandValue, MutationCommand, QueryCommand } from "../../commands";
 import { assert } from "../../errors";
 import {
 	isAction,
@@ -29,7 +22,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		this.subscriptions = new SubscriptionRunner(this, subscriptionRegistry);
 	}
 
-	async query<Query extends QueryCommand<DataModel>>(query: Query): Promise<QueryValue<Query>> {
+	async query<Query extends QueryCommand<DataModel>>(query: Query): Promise<CommandValue<Query>> {
 		assert(isQuery(this.ctx), "Invalid context for query, expected a queryable context");
 
 		console.debug(query);
@@ -43,7 +36,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	async mapQuery<T, Query extends QueryCommand<DataModel>>(
 		arr: T[],
 		callback: (value: T, index: number) => Query
-	): Promise<QueryValue<Query>[]> {
+	): Promise<CommandValue<Query>[]> {
 		const queries = arr.map(callback);
 		return await asyncMap(queries, (query) => this.query(query));
 	}
@@ -52,10 +45,10 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		const entries = await asyncMap(
 			Object.entries(queries),
 			async ([key, query]) =>
-				[key, await this.query(query)] as [keyof Queries, QueryValue<Queries[keyof Queries]>]
+				[key, await this.query(query)] as [keyof Queries, CommandValue<Queries[keyof Queries]>]
 		);
 		return Object.fromEntries(entries) as {
-			[key in keyof Queries]: QueryValue<Queries[key]>;
+			[key in keyof Queries]: CommandValue<Queries[key]>;
 		};
 	}
 
@@ -65,7 +58,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 			"query",
 			"internal" | "public",
 			any,
-			QueryValue<Query>
+			CommandValue<Query>
 		>
 	>({
 		query,
@@ -76,7 +69,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		func: QueryFunctionReference;
 	} & (keyof QueryFunctionReference["_args"] extends never
 		? { args?: undefined }
-		: { args: QueryFunctionReference["_args"] })): Promise<QueryValue<Query>> {
+		: { args: QueryFunctionReference["_args"] })): Promise<CommandValue<Query>> {
 		if (isQuery(this.ctx)) {
 			return this.query(query);
 		}
@@ -86,7 +79,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 
 	async mutation<Mutation extends MutationCommand<DataModel>>(
 		mutation: Mutation
-	): Promise<MutationValue<Mutation>> {
+	): Promise<CommandValue<Mutation>> {
 		assert(isMutation(this.ctx), "Invalid context for mutation, expected a mutation context");
 
 		console.debug(mutation);
@@ -100,7 +93,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
 		arr: T[],
 		callback: (value: T, index: number) => Mutation
-	): Promise<MutationValue<Mutation>[]> {
+	): Promise<CommandValue<Mutation>[]> {
 		const mutations = arr.map(callback);
 		return await asyncMap(mutations, (mutation) => this.mutation(mutation));
 	}
@@ -111,7 +104,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 			"mutation",
 			"internal" | "public",
 			any,
-			MutationValue<Mutation>
+			CommandValue<Mutation>
 		>
 	>({
 		mutation,
@@ -122,7 +115,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		func: MutationFunctionReference;
 	} & (keyof MutationFunctionReference["_args"] extends never
 		? { args?: undefined }
-		: { args: MutationFunctionReference["_args"] })): Promise<MutationValue<Mutation>> {
+		: { args: MutationFunctionReference["_args"] })): Promise<CommandValue<Mutation>> {
 		if (isMutation(this.ctx)) {
 			return this.mutation(mutation);
 		}
@@ -137,7 +130,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 
 	async action<Action extends ActionCommand<DataModel>>(
 		action: Action
-	): Promise<ActionValue<Action>> {
+	): Promise<CommandValue<Action>> {
 		assert(isAction(this.ctx), "Invalid context for action, expected an action context");
 
 		console.debug(action);

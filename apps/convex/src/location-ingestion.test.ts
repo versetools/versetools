@@ -1,9 +1,4 @@
-import type {
-	MutationCommand,
-	MutationValue,
-	QueryCommand,
-	QueryValue
-} from "@versetools/core/commands";
+import type { CommandValue, MutationCommand, QueryCommand } from "@versetools/core/commands";
 import { RunnerService } from "@versetools/core/services/commands/RunnerService";
 import { SubscriptionRegistry } from "@versetools/core/services/commands/subscriptions/SubscriptionRegistry";
 import {
@@ -70,7 +65,7 @@ const locationInput = (cigGuid: string, name: string, parentCigGuid: string | nu
 const runMutation = async <Command extends MutationCommand<DataModel>>(
 	t: TestConvex,
 	command: Command
-): Promise<MutationValue<Command>> =>
+): Promise<CommandValue<Command>> =>
 	await t.mutation(async (ctx) => {
 		const runner = new RunnerService(ctx, new SubscriptionRegistry<DataModel>());
 		return await runner.mutation(command);
@@ -79,7 +74,7 @@ const runMutation = async <Command extends MutationCommand<DataModel>>(
 const runQuery = async <Command extends QueryCommand<DataModel>>(
 	t: TestConvex,
 	command: Command
-): Promise<QueryValue<Command>> =>
+): Promise<CommandValue<Command>> =>
 	await t.query(async (ctx) => {
 		const runner = new RunnerService(ctx, new SubscriptionRegistry<DataModel>());
 		return await runner.query(command);
