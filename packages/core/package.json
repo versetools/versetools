@@ -1,6 +1,6 @@
 {
     "name": "@versetools/core",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "type": "module",
     "exports": {
         "./commands": {
@@ -44,6 +44,7 @@
         "!src/**/*.test.*"
     ],
     "scripts": {
+        "prepublish": "pnpm check",
         "check": "tsc --noEmit",
         "format": "prettier --write .",
         "lint": "eslint . && prettier --check .",

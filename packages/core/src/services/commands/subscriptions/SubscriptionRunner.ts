@@ -25,8 +25,11 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	): Promise<CommandValue<Query>> {
 		const queryClass = getClass(query);
 
-		for (const subscription of this.registry.getSubscriptions(type, "before")) {
-			await subscription.runBefore(this.runner, ctx, query);
+		for (const subscription of this.registry.getSubscriptions(
+			queryClass,
+			SubscriptionPhase.Before
+		)) {
+			await subscription.runBefore(ctx, this.runner, query);
 			if (subscription.once) {
 				this.registry.unregister(subscription);
 			}
@@ -34,8 +37,11 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 
 		const value = await execute(ctx);
 
-		for (const subscription of this.registry.getSubscriptions(type, "after")) {
-			await subscription.runAfter(this.runner, ctx, query, value);
+		for (const subscription of this.registry.getSubscriptions(
+			queryClass,
+			SubscriptionPhase.After
+		)) {
+			await subscription.runAfter(ctx, this.runner, query, value);
 			if (subscription.once) {
 				this.registry.unregister(subscription);
 			}
@@ -51,8 +57,11 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 	): Promise<CommandValue<Mutation>> {
 		const mutationClass = getClass(mutation);
 
-		for (const subscription of this.registry.getSubscriptions(type, "before")) {
-			await subscription.runBefore(this.runner, ctx, mutation);
+		for (const subscription of this.registry.getSubscriptions(
+			mutationClass,
+			SubscriptionPhase.Before
+		)) {
+			await subscription.runBefore(ctx, this.runner, mutation);
 			if (subscription.once) {
 				this.registry.unregister(subscription);
 			}
@@ -60,8 +69,11 @@ export class SubscriptionRunner<DataModel extends GenericDataModel> {
 
 		const value = await execute(ctx);
 
-		for (const subscription of this.registry.getSubscriptions(type, "after")) {
-			await subscription.runAfter(this.runner, ctx, mutation, value);
+		for (const subscription of this.registry.getSubscriptions(
+			mutationClass,
+			SubscriptionPhase.After
+		)) {
+			await subscription.runAfter(ctx, this.runner, mutation, value);
 			if (subscription.once) {
 				this.registry.unregister(subscription);
 			}
