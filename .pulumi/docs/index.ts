@@ -5,7 +5,7 @@ import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 
 const domain = "docs.versetools.com";
-const cnameTarget = "aki.asgard.l3.dev";
+const cnameTarget = "lb.asgard.l3.dev";
 
 const namespaceName = "versetools-docs";
 

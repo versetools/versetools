@@ -7,7 +7,7 @@ const namespaceName = `versetools${pulumi.getStack() === "prod" ? "" : `-${pulum
 
 const domain = "versetools.com";
 const stackDomain = `${pulumi.getStack() === "prod" ? "" : `${pulumi.getStack()}.`}${domain}`;
-const cnameTarget = "aki.asgard.l3.dev";
+const cnameTarget = "lb.asgard.l3.dev";
 
 const appName = "versetools";
 const replicas = 1;
