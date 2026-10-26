@@ -18,8 +18,8 @@
     "devDependencies": {
         "@hcaptcha/types": "^1.1.0",
         "@hcaptcha/vanilla-hcaptcha": "^1.1.4",
-        "@l3dev-private/consent": "^0.3.1",
-        "@l3dev-private/consent-svelte": "^0.6.2",
+        "@l3dev-private/consent": "^0.3.2",
+        "@l3dev-private/consent-svelte": "^0.6.3",
         "@lucide/svelte": "^0.554.0",
         "@melt-ui/svelte": "catalog:",
         "@rodrigodagostino/svelte-sortable-list": "^2.1.9",

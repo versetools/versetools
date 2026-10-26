@@ -48,8 +48,8 @@
         "vite": "catalog:vite"
     },
     "peerDependencies": {
-        "@l3dev-private/consent": "^0.3.1",
-        "@l3dev-private/consent-svelte": ">=0.6.2 <1.0.0",
+        "@l3dev-private/consent": "^0.3.2",
+        "@l3dev-private/consent-svelte": ">=0.6.3 <1.0.0",
         "@sveltejs/kit": "catalog:",
         "@versetools/ui": "workspace:^",
         "svelte": "^5.0.0",
