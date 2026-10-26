@@ -32,7 +32,6 @@
         "concurrently": "^9.2.1",
         "convex": "catalog:",
         "convex-helpers": "catalog:",
-        "discord-api-types": "catalog:discord",
         "dotenv": "^17.2.3",
         "eslint": "catalog:eslint",
         "eslint-config-prettier": "catalog:eslint",
@@ -51,7 +50,7 @@
         "typescript": "catalog:",
         "typescript-eslint": "catalog:eslint",
         "vite": "catalog:vite",
-        "zod": "^4.1.12"
+        "zod": "^4.6.6"
     },
     "packageManager": "pnpm@10.33.2"
 }
