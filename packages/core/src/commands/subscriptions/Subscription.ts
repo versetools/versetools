@@ -35,12 +35,10 @@ export type SubscriptionCtx<
 	CommandType extends GenericClass<Command<DataModel>>,
 	Phase extends SubscriptionPhase
 > = CommandTypeToCtx<DataModel, CommandType> & {
-	subscription: {
-		command: InstanceType<CommandType>;
-	} & (Phase extends SubscriptionPhase.Before
-		? { result?: undefined }
-		: { result: CommandValue<InstanceType<CommandType>> });
-};
+	command: InstanceType<CommandType>;
+} & (Phase extends SubscriptionPhase.Before
+		? { commandReturnValue?: undefined }
+		: { commandReturnValue: CommandValue<InstanceType<CommandType>> });
 
 type SubscriptionListener<
 	DataModel extends GenericDataModel,
@@ -105,12 +103,10 @@ export class Subscription<
 	) {
 		if (this.phase !== SubscriptionPhase.Before) return;
 
-		const subscriptionCtx: SubscriptionCtx<DataModel, CommandType, SubscriptionPhase.Before> = {
-			...(ctx as CommandTypeToCtx<DataModel, CommandType>),
-			subscription: {
-				command
-			}
-		};
+		const subscriptionCtx = {
+			...ctx,
+			command
+		} as SubscriptionCtx<DataModel, CommandType, SubscriptionPhase.Before>;
 
 		return this.listener(subscriptionCtx, runner, ...this.dependencies);
 	}
@@ -120,17 +116,15 @@ export class Subscription<
 		ctx: GenericCtx<DataModel>,
 		runner: RunnerService<DataModel>,
 		command: InstanceType<CommandType>,
-		result: any
+		returnValue: any
 	) {
 		if (this.phase !== SubscriptionPhase.After) return;
 
-		const subscriptionCtx: SubscriptionCtx<DataModel, CommandType, SubscriptionPhase.After> = {
-			...(ctx as CommandTypeToCtx<DataModel, CommandType>),
-			subscription: {
-				command,
-				result
-			}
-		};
+		const subscriptionCtx = {
+			...ctx,
+			command,
+			commandReturnValue: returnValue
+		} as SubscriptionCtx<DataModel, CommandType, SubscriptionPhase.After>;
 
 		return this.listener(subscriptionCtx, runner, ...this.dependencies);
 	}
