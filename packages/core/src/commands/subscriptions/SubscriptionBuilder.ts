@@ -5,11 +5,11 @@ import {
 	PreparedSubscription,
 	SubscriptionPhase,
 	type SubscriptionCtx,
+	type SubscriptionListener,
 	type SubscriptionOptions
 } from "./Subscription";
 import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
-import type { RunnerService } from "../../services/commands/RunnerService";
-import type { GenericClass, MaybePromise } from "../../utility-types";
+import type { GenericClass } from "../../utility-types";
 import type { Command } from "../Command";
 import { MutationCommand } from "../MutationCommand";
 import { QueryCommand } from "../QueryCommand";
@@ -56,11 +56,11 @@ export class SubscriptionBuilder<
 	public withCommandProvider(
 		provider: (ctx: SubscriptionCtx<DataModel, CommandType, Phase>) => Command<DataModel>
 	) {
-		return new PreparedSubscription<DataModel, CommandType, readonly [], Phase>(
+		return new PreparedSubscription<CommandType, readonly [], Phase>(
 			this.commandType,
-			[],
+			[] as const,
 			async (ctx, runner) => {
-				const command = provider(ctx as SubscriptionCtx<DataModel, CommandType, Phase>);
+				const command = provider(ctx);
 				if (command instanceof QueryCommand) {
 					await runner.query(command);
 				} else if (command instanceof MutationCommand) {
@@ -74,12 +74,7 @@ export class SubscriptionBuilder<
 		);
 	}
 
-	public withListener(
-		listener: (
-			ctx: SubscriptionCtx<DataModel, CommandType, Phase>,
-			runner: RunnerService<DataModel>
-		) => MaybePromise<void>
-	) {
+	public withListener(listener: SubscriptionListener<DataModel, CommandType, readonly [], Phase>) {
 		return new PreparedSubscription(this.commandType, [] as const, listener, {
 			once: this.once,
 			phase: this.phase
@@ -105,7 +100,7 @@ class DepsSubscriptionBuilder<
 			...deps: HaywireDependencyIdTypes<DependencyIds>
 		) => Command<DataModel>
 	) {
-		return new PreparedSubscription<DataModel, CommandType, DependencyIds, Phase>(
+		return new PreparedSubscription<CommandType, DependencyIds, Phase>(
 			this.commandType,
 			this.dependencyIds,
 			async (ctx, runner, ...deps) => {
@@ -121,11 +116,7 @@ class DepsSubscriptionBuilder<
 	}
 
 	public withListener(
-		listener: (
-			ctx: SubscriptionCtx<DataModel, CommandType, Phase>,
-			runner: RunnerService<DataModel>,
-			...deps: HaywireDependencyIdTypes<DependencyIds>
-		) => MaybePromise<void>
+		listener: SubscriptionListener<DataModel, CommandType, DependencyIds, Phase>
 	) {
 		return new PreparedSubscription(this.commandType, this.dependencyIds, listener, this.options);
 	}

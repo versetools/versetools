@@ -32,17 +32,18 @@ type CommandTypeToCtx<
 
 export type SubscriptionCtx<
 	DataModel extends GenericDataModel,
-	CommandType extends GenericClass<Command<DataModel>>,
+	CommandType extends GenericClass<Command<any>>,
 	Phase extends SubscriptionPhase
 > = CommandTypeToCtx<DataModel, CommandType> & {
 	command: InstanceType<CommandType>;
-} & (Phase extends SubscriptionPhase.Before
-		? { commandReturnValue?: undefined }
-		: { commandReturnValue: CommandValue<InstanceType<CommandType>> });
+	commandReturnValue: Phase extends SubscriptionPhase.Before
+		? undefined
+		: CommandValue<InstanceType<CommandType>>;
+};
 
-type SubscriptionListener<
+export type SubscriptionListener<
 	DataModel extends GenericDataModel,
-	CommandType extends GenericClass<Command<DataModel>>,
+	CommandType extends GenericClass<Command<any>>,
 	DependencyIds extends readonly [...GenericHaywireId[]],
 	Phase extends SubscriptionPhase
 > = (
@@ -52,26 +53,25 @@ type SubscriptionListener<
 ) => MaybePromise<void>;
 
 export class PreparedSubscription<
-	DataModel extends GenericDataModel,
-	CommandType extends GenericClass<Command<DataModel>> = GenericClass<Command<DataModel>>,
+	CommandType extends GenericClass<Command<any>> = GenericClass<Command<any>>,
 	DependencyIds extends readonly [...GenericHaywireId[]] = [],
 	Phase extends SubscriptionPhase = SubscriptionPhase.After
 > {
 	constructor(
 		readonly commandType: CommandType,
 		readonly dependencyIds: DependencyIds,
-		private readonly listener: SubscriptionListener<DataModel, CommandType, DependencyIds, Phase>,
+		private readonly listener: SubscriptionListener<any, CommandType, DependencyIds, Phase>,
 		private readonly options?: SubscriptionOptions
 	) {}
 
-	public toBinding() {
+	public toBinding<DataModel extends GenericDataModel>() {
 		return bind(subscriptionTag)
-			.withDependencies(this.dependencyIds)
+			.withDependencies<DependencyIds>(this.dependencyIds)
 			.withProvider((...deps) => {
 				return new Subscription<DataModel, CommandType>(
 					this.commandType,
 					deps,
-					this.listener as SubscriptionListener<DataModel, CommandType, any, SubscriptionPhase>,
+					this.listener as any,
 					this.options
 				);
 			});
@@ -105,7 +105,8 @@ export class Subscription<
 
 		const subscriptionCtx = {
 			...ctx,
-			command
+			command,
+			commandReturnValue: undefined
 		} as SubscriptionCtx<DataModel, CommandType, SubscriptionPhase.Before>;
 
 		return this.listener(subscriptionCtx, runner, ...this.dependencies);

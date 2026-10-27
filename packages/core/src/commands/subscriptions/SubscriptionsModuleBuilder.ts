@@ -22,12 +22,12 @@ export class SubscriptionsModuleBuilder<
 		commandType: CommandType,
 		build: (
 			subscriptionBuilder: SubscriptionBuilder<DataModel, CommandType>
-		) => PreparedSubscription<DataModel, CommandType, DependencyIds>
+		) => PreparedSubscription<CommandType, DependencyIds>
 	) {
 		const builder = new SubscriptionBuilder<DataModel, CommandType>(commandType);
 		const prepared = build(builder);
 
-		const binding = prepared.toBinding();
+		const binding = prepared.toBinding<DataModel>();
 		return new SubscriptionsModuleBuilder<DataModel, [...Bindings, typeof binding]>([
 			...this.bindings,
 			binding
