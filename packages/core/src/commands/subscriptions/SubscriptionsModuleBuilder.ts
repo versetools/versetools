@@ -22,7 +22,7 @@ export class SubscriptionsModuleBuilder<
 		commandType: CommandType,
 		build: (
 			subscriptionBuilder: SubscriptionBuilder<DataModel, CommandType>
-		) => PreparedSubscription<CommandType, DependencyIds>
+		) => PreparedSubscription<CommandType, DependencyIds, any>
 	) {
 		const builder = new SubscriptionBuilder<DataModel, CommandType>(commandType);
 		const prepared = build(builder);
