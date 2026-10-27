@@ -28,9 +28,9 @@ export class SubscriptionsModuleBuilder<
 		const prepared = build(builder);
 
 		const binding = prepared.toBinding();
-		return new SubscriptionsModuleBuilder([...this.bindings, binding] as [
-			...Bindings,
-			typeof binding
+		return new SubscriptionsModuleBuilder<DataModel, [...Bindings, typeof binding]>([
+			...this.bindings,
+			binding
 		]);
 	}
 
