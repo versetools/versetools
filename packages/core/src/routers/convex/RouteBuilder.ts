@@ -11,7 +11,8 @@ import type {
 	ArgsFromOptionsOptionalValidator,
 	DefaultRouteHandler,
 	DependencyIdsObject,
-	RouteBuilderOptions
+	RouteBuilderOptions,
+	RunnerRouteHandler
 } from "./types";
 import { genericRunnerServiceId } from "../../config/ids/commands";
 import type { HaywireDependencyIdTypes, IdOrClassToHaywireIds } from "../../haywire-types";
@@ -70,6 +71,24 @@ export class RouteBuilder<
 			functionType: this.functionType,
 			visibility: this.visibility,
 			dependencyIds: [genericCtxId, genericArgsId],
+			handler,
+			options: this.options
+		});
+	}
+
+	withRunnerHandler<ReturnValue>(
+		handler: RunnerRouteHandler<DataModel, Options, ReturnValue>
+	): Registration<
+		Type,
+		Visibility,
+		ArgsFromOptionsOptionalValidator<Options> & ObjectType<Router[typeof middlewareArgsType]>,
+		ReturnValue
+	> {
+		return createRegistration({
+			router: this.router,
+			functionType: this.functionType,
+			visibility: this.visibility,
+			dependencyIds: [genericRunnerServiceId, genericArgsId],
 			handler,
 			options: this.options
 		});

@@ -154,6 +154,15 @@ export type DefaultRouteHandler<
 	...args: ArgsToArgsArray<ArgsFromOptionsOptionalValidator<Options>>
 ) => ReturnValue;
 
+export type RunnerRouteHandler<
+	DataModel extends GenericDataModel,
+	Options extends RouteBuilderOptions<any>,
+	ReturnValue
+> = (
+	runner: RunnerService<DataModel>,
+	...args: ArgsToArgsArray<ArgsFromOptionsOptionalValidator<Options>>
+) => ReturnValue;
+
 // Route Options //
 
 type ConvexArgOptions = {
