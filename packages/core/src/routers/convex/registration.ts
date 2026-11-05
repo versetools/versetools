@@ -37,7 +37,7 @@ import { containerSupplierId } from "../../config/bindings/haywire";
 import { ServerConfigurationError } from "../../errors";
 import type { HaywireGenericModule } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
-import type { RequestMetadata } from "../types";
+import type { RequestCustomMetadata } from "../types";
 
 type GenericBuilder<
 	Type extends FunctionType,
@@ -174,7 +174,7 @@ export function createRegistration<
 		args: fullArgsValidator,
 		returns: returnsValidator,
 		handler: async (rawCtx: GenericCtx<any>, allArgs: any) => {
-			const ctx = rawCtx as GenericCtx<any> & { customMetadata: RequestMetadata };
+			const ctx = rawCtx as GenericCtx<any> & { customMetadata: RequestCustomMetadata };
 			ctx.customMetadata = {};
 
 			const middlewareEntries = Array.from(middlewarePipeline.entries()).map(

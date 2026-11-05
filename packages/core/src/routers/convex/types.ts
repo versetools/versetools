@@ -21,7 +21,7 @@ import type {
 import type { GenericCtx } from "../../helpers";
 import type { RunnerService } from "../../services/commands/RunnerService";
 import type { MaybePromise } from "../../utility-types";
-import type { RequestMetadata } from "../types";
+import type { RequestCustomMetadata } from "../types";
 
 // Function types //
 
@@ -74,7 +74,7 @@ export type ArgsToArgsArray<Args extends DefaultFunctionArgs> = Args extends Emp
 export type MiddlewareCtx<
 	DataModel extends GenericDataModel,
 	Config extends Record<string, any> = Record<string, any>
-> = GenericCtx<DataModel> & { middlewareConfig: Config; customMetadata: RequestMetadata };
+> = GenericCtx<DataModel> & { middlewareConfig: Config; customMetadata: RequestCustomMetadata };
 
 export type MiddlewareAddBindings<
 	DataModel extends GenericDataModel,
@@ -150,7 +150,7 @@ export type DefaultRouteHandler<
 	Options extends RouteBuilderOptions<any>,
 	ReturnValue
 > = (
-	ctx: ContextForFunctionType<Type, DataModel> & { customMetadata: RequestMetadata },
+	ctx: ContextForFunctionType<Type, DataModel> & { customMetadata: RequestCustomMetadata },
 	...args: ArgsToArgsArray<ArgsFromOptionsOptionalValidator<Options>>
 ) => ReturnValue;
 

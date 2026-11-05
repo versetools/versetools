@@ -1,1 +1,1 @@
-export interface RequestMetadata {}
+export interface RequestCustomMetadata {}

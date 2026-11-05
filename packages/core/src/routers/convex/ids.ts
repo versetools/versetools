@@ -2,10 +2,10 @@ import type { DefaultFunctionArgs } from "convex/server";
 import { identifier, type HaywireId } from "haywire";
 
 import type { GenericCtx } from "../../helpers";
-import type { RequestMetadata } from "../types";
+import type { RequestCustomMetadata } from "../types";
 
 export type CtxId<Ctx extends GenericCtx<any>> = HaywireId<
-	Ctx & { customMetadata: RequestMetadata },
+	Ctx & { customMetadata: RequestCustomMetadata },
 	null,
 	null,
 	false,

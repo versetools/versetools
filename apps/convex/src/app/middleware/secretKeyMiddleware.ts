@@ -6,7 +6,7 @@ import { env } from "$convex/_generated/server";
 import { router } from "../main";
 
 declare module "@versetools/core/routers" {
-	interface RequestMetadata {
+	interface RequestCustomMetadata {
 		validSecret?: boolean;
 	}
 }
