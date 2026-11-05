@@ -26,5 +26,7 @@ export type ArgsId<ArgsObject extends DefaultFunctionArgs = DefaultFunctionArgs>
 	false
 >;
 
-export const genericCtxId = identifier<GenericCtx<any>>().named("convex-ctx");
+export const genericCtxId = identifier<
+	GenericCtx<any> & { customMetadata: RequestCustomMetadata }
+>().named("convex-ctx");
 export const genericArgsId = identifier<object>().named("convex-args");
