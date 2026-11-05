@@ -19,18 +19,25 @@ import {
 	isRunMutationCtx,
 	type GenericCtx
 } from "../../helpers/convex";
+import type { RequestCustomMetadata } from "../../routers";
 
 export class RunnerService<DataModel extends GenericDataModel> {
 	private readonly subscriptions: SubscriptionRunner<DataModel>;
 	constructor(
 		private readonly container: Container<any>,
-		private readonly ctx: GenericCtx<DataModel>,
+		private readonly ctx: GenericCtx<DataModel> & { customMetadata: RequestCustomMetadata },
 		subscriptionRegistry: SubscriptionRegistry<DataModel>
 	) {
 		this.subscriptions = new SubscriptionRunner(this, subscriptionRegistry);
 	}
 
-	async query<Query extends QueryCommand<DataModel>>(query: Query): Promise<CommandValue<Query>> {
+	public getContext() {
+		return this.ctx;
+	}
+
+	public async query<Query extends QueryCommand<DataModel>>(
+		query: Query
+	): Promise<CommandValue<Query>> {
 		assert(isQuery(this.ctx), "Invalid context for query, expected a queryable context");
 
 		console.debug(query);
@@ -40,7 +47,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		});
 	}
 
-	async mapQuery<T, Query extends QueryCommand<DataModel>>(
+	public async mapQuery<T, Query extends QueryCommand<DataModel>>(
 		arr: T[],
 		callback: (value: T, index: number) => Query
 	): Promise<CommandValue<Query>[]> {
@@ -48,7 +55,9 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return await asyncMap(queries, (query) => this.query(query));
 	}
 
-	async objectQuery<Queries extends { [key: string]: QueryCommand<DataModel> }>(queries: Queries) {
+	public async objectQuery<Queries extends { [key: string]: QueryCommand<DataModel> }>(
+		queries: Queries
+	) {
 		const entries = await asyncMap(
 			Object.entries(queries),
 			async ([key, query]) =>
@@ -59,7 +68,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		};
 	}
 
-	async dynamicQuery<
+	public async dynamicQuery<
 		Query extends QueryCommand<DataModel>,
 		QueryFunctionReference extends FunctionReference<
 			"query",
@@ -84,7 +93,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return this.ctx.runQuery(func, args);
 	}
 
-	async mutation<Mutation extends MutationCommand<DataModel>>(
+	public async mutation<Mutation extends MutationCommand<DataModel>>(
 		mutation: Mutation
 	): Promise<CommandValue<Mutation>> {
 		assert(isMutation(this.ctx), "Invalid context for mutation, expected a mutation context");
@@ -96,7 +105,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		});
 	}
 
-	async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
+	public async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
 		arr: T[],
 		callback: (value: T, index: number) => Mutation
 	): Promise<CommandValue<Mutation>[]> {
@@ -104,7 +113,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return await asyncMap(mutations, (mutation) => this.mutation(mutation));
 	}
 
-	async dynamicMutation<
+	public async dynamicMutation<
 		Mutation extends MutationCommand<DataModel>,
 		MutationFunctionReference extends FunctionReference<
 			"mutation",
@@ -134,7 +143,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return this.ctx.runMutation(func, args);
 	}
 
-	async action<Action extends ActionCommand<DataModel>>(
+	public async action<Action extends ActionCommand<DataModel>>(
 		action: Action
 	): Promise<CommandValue<Action>> {
 		assert(isAction(this.ctx), "Invalid context for action, expected an action context");
