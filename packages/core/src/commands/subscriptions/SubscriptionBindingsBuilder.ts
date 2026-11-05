@@ -1,15 +1,15 @@
 import type { GenericDataModel } from "convex/server";
-import { createModule, type Binding, type GenericHaywireId, type OutputHaywireId } from "haywire";
+import { type Binding, type GenericHaywireId, type Module, type OutputHaywireId } from "haywire";
 
 import { type Command, type PreparedSubscription } from "..";
 import { SubscriptionBuilder } from "./SubscriptionBuilder";
 import { subscriptionTag } from "../../config/ids/commands";
-import type { HaywireModuleFromBindings } from "../../haywire-types";
+import type { HaywireAddBindingsToModule } from "../../haywire-types";
 import type { GenericClass } from "../../utility-types";
 
 type GenericSubscriptionBinding = Binding<OutputHaywireId<typeof subscriptionTag>, any, false>;
 
-export class SubscriptionsModuleBuilder<
+export class SubscriptionBindingsBuilder<
 	DataModel extends GenericDataModel,
 	Bindings extends [...GenericSubscriptionBinding[]] = []
 > {
@@ -28,26 +28,27 @@ export class SubscriptionsModuleBuilder<
 		const prepared = build(builder);
 
 		const binding = prepared.toBinding<DataModel>();
-		return new SubscriptionsModuleBuilder<DataModel, [...Bindings, typeof binding]>([
+		return new SubscriptionBindingsBuilder<DataModel, [...Bindings, typeof binding]>([
 			...this.bindings,
 			binding
 		]);
 	}
 
-	public toModule() {
+	public addToModule<T extends Module<any, any, any, any>>(
+		module: T
+	): HaywireAddBindingsToModule<T, Bindings> {
 		if (!this.bindings.length) {
 			throw new Error("Failed to create module: no subscriptions.");
 		}
 
-		return this.bindings
-			.slice(1)
-			.reduce(
-				(module, binding) => module.addBinding(binding),
-				createModule(this.bindings[0])
-			) as HaywireModuleFromBindings<Bindings>;
+		for (const binding of this.bindings) {
+			module = module.addBinding(binding) as any;
+		}
+
+		return module as any;
 	}
 }
 
-export function createSubscriptionsModuleBuilder<DataModel extends GenericDataModel>() {
-	return new SubscriptionsModuleBuilder<DataModel>([]);
+export function createSubscriptionBindingsBuilder<DataModel extends GenericDataModel>() {
+	return new SubscriptionBindingsBuilder<DataModel>([]);
 }

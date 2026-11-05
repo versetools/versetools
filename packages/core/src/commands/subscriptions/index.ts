@@ -1,3 +1,3 @@
 export * from "./Subscription";
+export * from "./SubscriptionBindingsBuilder";
 export * from "./SubscriptionBuilder";
-export * from "./SubscriptionsModuleBuilder";
