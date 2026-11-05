@@ -1,6 +1,5 @@
 import type {
 	ClassToConstructable,
-	CombineListOutputs,
 	ContainerFactory,
 	createModule,
 	GenericBinding,
@@ -21,7 +20,7 @@ export type HaywireCombineModules<
 		? B extends Module<infer BOutputs, infer BListOutputs, infer BDependencies, infer BAsync>
 			? Module<
 					AOutputs | BOutputs,
-					CombineListOutputs<AListOutputs, BListOutputs>,
+					AListOutputs | BListOutputs,
 					ADependencies | BDependencies,
 					AAsync extends true ? true : BAsync extends true ? true : AAsync
 				>
