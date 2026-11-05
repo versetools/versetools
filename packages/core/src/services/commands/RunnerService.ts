@@ -1,9 +1,16 @@
 import type { FunctionReference, GenericDataModel } from "convex/server";
 import { asyncMap } from "convex-helpers";
+import type { Container } from "haywire";
 
 import type { SubscriptionRegistry } from "./subscriptions/SubscriptionRegistry";
 import { SubscriptionRunner } from "./subscriptions/SubscriptionRunner";
-import type { ActionCommand, CommandValue, MutationCommand, QueryCommand } from "../../commands";
+import type {
+	ActionCommand,
+	Command,
+	CommandValue,
+	MutationCommand,
+	QueryCommand
+} from "../../commands";
 import { assert } from "../../errors";
 import {
 	isAction,
@@ -16,6 +23,7 @@ import {
 export class RunnerService<DataModel extends GenericDataModel> {
 	private readonly subscriptions: SubscriptionRunner<DataModel>;
 	constructor(
+		private readonly container: Container<any>,
 		private readonly ctx: GenericCtx<DataModel>,
 		subscriptionRegistry: SubscriptionRegistry<DataModel>
 	) {
@@ -28,8 +36,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		console.debug(query);
 
 		return this.subscriptions.runQuerySubscriptions(this.ctx, query, (ctx) => {
-			query.runner = this;
-			return query.execute(ctx);
+			return this.prepareCommand(query).execute(ctx);
 		});
 	}
 
@@ -85,8 +92,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		console.debug(mutation);
 
 		return this.subscriptions.runMutationSubscriptions(this.ctx, mutation, (ctx) => {
-			mutation.runner = this;
-			return mutation.execute(ctx);
+			return this.prepareCommand(mutation).execute(ctx);
 		});
 	}
 
@@ -135,7 +141,12 @@ export class RunnerService<DataModel extends GenericDataModel> {
 
 		console.debug(action);
 
-		action.runner = this;
-		return await action.execute(this.ctx);
+		return await this.prepareCommand(action).execute(this.ctx);
+	}
+
+	private prepareCommand(command: Command<DataModel>) {
+		command.runner = this;
+		command.container = this.container;
+		return command;
 	}
 }

@@ -20,7 +20,12 @@ import { pick } from "convex-helpers";
 import type { Registration } from "convex-helpers/server/customFunctions";
 import { zodOutputToConvex, zodToConvexFields } from "convex-helpers/server/zod4";
 import { addFieldsToValidator } from "convex-helpers/validators";
-import { createContainerFactory, type Container, type GenericHaywireId } from "haywire";
+import {
+	createContainerFactory,
+	type Container,
+	type GenericHaywireId,
+	type SyncContainer
+} from "haywire";
 import * as z from "zod/v4";
 import * as zCore from "zod/v4/core";
 
@@ -28,6 +33,7 @@ import type { ConvexRouter } from "./ConvexRouter";
 import { genericArgsId, genericCtxId } from "./ids";
 import { unsafeMiddlewarePipeline, unsafeRouterModule } from "./symbols";
 import type { RouteBuilderOptions, ZodFields } from "./types";
+import { containerSupplierId } from "../../config/bindings/haywire";
 import { ServerConfigurationError } from "../../errors";
 import type { HaywireGenericModule } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
@@ -226,11 +232,12 @@ export function createRegistration<
 				}
 			}
 
-			let container;
+			let container: Container<any> | SyncContainer<any>;
 			try {
 				container = containerFactory
 					.bindInstance(genericCtxId, ctx)
 					.bindInstance(genericArgsId, parsedArgs)
+					.bindInstance(containerSupplierId, () => container)
 					.toContainer();
 			} catch (e) {
 				throw new ServerConfigurationError({

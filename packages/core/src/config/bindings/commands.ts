@@ -1,5 +1,6 @@
 import { bind, requestScope, eagerSingletonScope } from "haywire";
 
+import { containerSupplierId } from "./haywire";
 import { genericCtxId } from "../../routers";
 import { RunnerService } from "../../services/commands/RunnerService";
 import { SubscriptionRegistry } from "../../services/commands/subscriptions/SubscriptionRegistry";
@@ -10,8 +11,10 @@ import {
 } from "../ids/commands";
 
 export const runnerServiceBinding = bind(genericRunnerServiceId)
-	.withDependencies([genericCtxId, genericSubscriptionRegistryId])
-	.withProvider((ctx, registry) => new RunnerService(ctx, registry))
+	.withDependencies([containerSupplierId, genericCtxId, genericSubscriptionRegistryId])
+	.withProvider(
+		(containerSupplier, ctx, registry) => new RunnerService(containerSupplier(), ctx, registry)
+	)
 	.scoped(requestScope);
 
 export const noopSubscriptionRegistryBinding = bind(genericSubscriptionRegistryId)
