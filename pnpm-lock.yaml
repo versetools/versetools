@@ -35,8 +35,8 @@ catalogs:
       specifier: ^0.14.0
       version: 0.14.0
     haywire:
-      specifier: ^2.0.4
-      version: 2.0.4
+      specifier: ^2.0.6
+      version: 2.0.6
     svelte:
       specifier: ^5.57.0
       version: 5.57.0
@@ -222,7 +222,7 @@ importers:
         version: 16.5.0
       haywire:
         specifier: 'catalog:'
-        version: 2.0.4
+        version: 2.0.6
       prettier:
         specifier: catalog:prettier
         version: 3.9.9
@@ -621,7 +621,7 @@ importers:
     dependencies:
       haywire:
         specifier: 'catalog:'
-        version: 2.0.4
+        version: 2.0.6
     devDependencies:
       '@aws-sdk/client-sesv2':
         specifier: catalog:aws-sdk
@@ -5412,8 +5412,8 @@ packages:
   hastscript@9.0.1:
     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
 
-  haywire@2.0.4:
-    resolution: {integrity: sha512-zL670qxM/+tkYbg0nL9LavmquDpahL+UhV+zs5NYZ9bcJK5vFqYNTkzZJExAA6KKlfbgCyshEr75rvU/xguZGQ==}
+  haywire@2.0.6:
+    resolution: {integrity: sha512-cXFuOciEa6UCNhBLMHScSo63Dmh/nAMQOMIdERVmfSa96hEzv4+EDFVWwiHZJWbkgbZ94lAQUC+4ocLujWcbkA==}
     engines: {node: '>=24'}
 
   hookified@1.15.1:
@@ -12626,7 +12626,7 @@ snapshots:
       property-information: 7.1.0
       space-separated-tokens: 2.0.2
 
-  haywire@2.0.4:
+  haywire@2.0.6:
     dependencies:
       p-defer: 4.0.1
 
