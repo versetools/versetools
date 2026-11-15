@@ -74,7 +74,8 @@ export class MiddlewareBuilder<
 			IdOrClassToHaywireIds<Dependencies>,
 			InputModule,
 			InputModule,
-			HaywireModuleToContainerFactory<InputModule>
+			HaywireModuleToContainerFactory<InputModule>,
+			Config
 		>(this.options, dependencyIds as IdOrClassToHaywireIds<Dependencies>);
 	}
 
