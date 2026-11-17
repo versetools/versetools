@@ -38,6 +38,7 @@ import type * as app_commands_locations_RootLocationsQuery from "../app/commands
 import type * as app_commands_locations_UpdateLocationDataMutation from "../app/commands/locations/UpdateLocationDataMutation.js";
 import type * as app_commands_locations_UpdateLocationMutation from "../app/commands/locations/UpdateLocationMutation.js";
 import type * as app_config_aws from "../app/config/aws.js";
+import type * as app_config_cache from "../app/config/cache.js";
 import type * as app_config_env from "../app/config/env.js";
 import type * as app_dataModel from "../app/dataModel.js";
 import type * as app_main from "../app/main.js";
@@ -46,7 +47,6 @@ import type * as app_schema_cache_actionCache from "../app/schema/cache/actionCa
 import type * as app_schema_files_files from "../app/schema/files/files.js";
 import type * as app_schema_index from "../app/schema/index.js";
 import type * as app_schema_locations from "../app/schema/locations.js";
-import type * as app_services_cache_ActionCache from "../app/services/cache/ActionCache.js";
 import type * as app_transformers_LocationTransformer from "../app/transformers/LocationTransformer.js";
 import type * as app_utils_Slugifier from "../app/utils/Slugifier.js";
 import type * as components_posthog from "../components/posthog.js";
@@ -56,7 +56,7 @@ import type * as files_storage from "../files/storage.js";
 import type * as files_workflow_deleteFiles from "../files/workflow/deleteFiles.js";
 import type * as http from "../http.js";
 import type * as locations from "../locations.js";
-import type * as server_cache_actions from "../server/cache/actions.js";
+import type * as server_cache from "../server/cache.js";
 import type * as server_fileStorage from "../server/fileStorage.js";
 
 import type {
@@ -96,6 +96,7 @@ declare const fullApi: ApiFromModules<{
   "app/commands/locations/UpdateLocationDataMutation": typeof app_commands_locations_UpdateLocationDataMutation;
   "app/commands/locations/UpdateLocationMutation": typeof app_commands_locations_UpdateLocationMutation;
   "app/config/aws": typeof app_config_aws;
+  "app/config/cache": typeof app_config_cache;
   "app/config/env": typeof app_config_env;
   "app/dataModel": typeof app_dataModel;
   "app/main": typeof app_main;
@@ -104,7 +105,6 @@ declare const fullApi: ApiFromModules<{
   "app/schema/files/files": typeof app_schema_files_files;
   "app/schema/index": typeof app_schema_index;
   "app/schema/locations": typeof app_schema_locations;
-  "app/services/cache/ActionCache": typeof app_services_cache_ActionCache;
   "app/transformers/LocationTransformer": typeof app_transformers_LocationTransformer;
   "app/utils/Slugifier": typeof app_utils_Slugifier;
   "components/posthog": typeof components_posthog;
@@ -114,7 +114,7 @@ declare const fullApi: ApiFromModules<{
   "files/workflow/deleteFiles": typeof files_workflow_deleteFiles;
   http: typeof http;
   locations: typeof locations;
-  "server/cache/actions": typeof server_cache_actions;
+  "server/cache": typeof server_cache;
   "server/fileStorage": typeof server_fileStorage;
 }>;
 

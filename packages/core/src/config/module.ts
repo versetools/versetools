@@ -1,5 +1,6 @@
 import { createModule } from "haywire";
 
+import { actionCacheServiceBinding } from "./bindings/cache";
 import {
 	noopSubscriptionRegistryBinding,
 	runnerServiceBinding,
@@ -43,5 +44,6 @@ export function createCoreModule(config: CoreModuleConfig) {
 			config.fileStorage === "uploadthing"
 				? uploadthingFileStorageAdapterBinding
 				: uploadthingFileStorageAdapterBinding
-		);
+		)
+		.addBinding(actionCacheServiceBinding);
 }

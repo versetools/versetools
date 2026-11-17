@@ -6,6 +6,7 @@ import { createModule } from "haywire";
 import type { DataModel } from "$convex/_generated/dataModel";
 
 import { sesClientBinding } from "./config/aws";
+import { actionCacheApiBinding } from "./config/cache";
 import { envModule } from "./config/env";
 
 const appModule = createModule(sesClientBinding);
@@ -26,12 +27,7 @@ const bundle = appModule
 		})
 	)
 	.mergeModule(envModule)
-	.mergeModule(rsiModule);
-
-// containerFactory
-// 	.bindInstance(genericCtxId, {} as HaywireIdType<typeof genericCtxId>)
-// 	.bindInstance(genericArgsId, {})
-// 	.bindInstance(subscriptionTag, {} as Subscription<any, any>)
-// 	.toContainer();
+	.mergeModule(rsiModule)
+	.addBinding(actionCacheApiBinding);
 
 export const router = convexRouter<DataModel, typeof bundle>(bundle);

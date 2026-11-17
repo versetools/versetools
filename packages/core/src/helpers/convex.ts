@@ -13,12 +13,40 @@ import type {
 	GenericSchema,
 	GenericTableInfo,
 	OptionalRestArgs,
+	RegisteredAction,
+	RegisteredMutation,
+	RegisteredQuery,
 	TableNamesInDataModel
 } from "convex/server";
 import { v, type GenericId, type GenericValidator, type Value, type VLiteral } from "convex/values";
 import { asyncMap } from "convex-helpers";
 
 import type { NonUnion, UnionToIntersection } from "../utility-types";
+
+export type MakeFunctionReference<
+	T extends
+		| RegisteredQuery<any, any, any>
+		| RegisteredMutation<any, any, any>
+		| RegisteredAction<any, any, any>
+> =
+	T extends RegisteredQuery<infer Visibility, infer Args, infer Returns>
+		? FunctionReference<"query", Visibility, Args, Returns>
+		: T extends RegisteredMutation<infer Visibility, infer Args, infer Returns>
+			? FunctionReference<"mutation", Visibility, Args, Returns>
+			: T extends RegisteredAction<infer Visibility, infer Args, infer Returns>
+				? FunctionReference<"action", Visibility, Args, Returns>
+				: never;
+
+export type RegisteredFunctionsAsReferences<
+	T extends Record<
+		string,
+		| RegisteredQuery<any, any, any>
+		| RegisteredMutation<any, any, any>
+		| RegisteredAction<any, any, any>
+	>
+> = {
+	[name in keyof T]: MakeFunctionReference<T[name]>;
+};
 
 export type GenericQueryableCtx<DataModel extends GenericDataModel> =
 	GenericQueryCtx<DataModel> | GenericMutationCtx<DataModel>;
