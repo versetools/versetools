@@ -20,7 +20,7 @@
     "devDependencies": {
         "@sveltejs/kit": "catalog:",
         "@versetools/core": "workspace:*",
-        "convex-svelte": "catalog:"
+        "convex-svelte": "catalog:convex"
     },
     "packageManager": "pnpm@10.33.2"
 }

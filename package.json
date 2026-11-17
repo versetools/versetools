@@ -22,7 +22,6 @@
     },
     "devDependencies": {
         "@convex-dev/eslint-plugin": "catalog:eslint",
-        "@convex-dev/workflow": "^0.3.3",
         "@eslint/js": "catalog:eslint",
         "@internationalized/date": "^3.10.1",
         "@l3dev/mixins": "^0.2.5",
@@ -30,8 +29,8 @@
         "@types/node": "^24.12.0",
         "@typescript/native-preview": "catalog:",
         "concurrently": "^9.2.1",
-        "convex": "catalog:",
-        "convex-helpers": "catalog:",
+        "convex": "catalog:convex",
+        "convex-helpers": "catalog:convex",
         "dotenv": "^17.2.3",
         "eslint": "catalog:eslint",
         "eslint-config-prettier": "catalog:eslint",

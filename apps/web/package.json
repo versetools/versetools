@@ -37,7 +37,7 @@
         "@versetools/types": "workspace:*",
         "@versetools/ui": "workspace:*",
         "@versetools/ui-consent": "workspace:*",
-        "convex-svelte": "catalog:",
+        "convex-svelte": "catalog:convex",
         "effect": "catalog:",
         "formsnap": "^2.0.1",
         "melt": "^0.42.0",

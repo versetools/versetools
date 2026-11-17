@@ -4,9 +4,6 @@ packages:
   - packages/*
 
 catalog:
-  convex: ^1.45.0
-  convex-helpers: ^0.1.124
-  convex-svelte: ^0.14.0
   effect: ^3.18.1
   haywire: ^2.0.6
   "@melt-ui/svelte": ^0.86.6
@@ -27,10 +24,18 @@ catalogs:
   aws-sdk:
     "@aws-sdk/client-sesv2": 3.1141.0
     "@aws-sdk/client-sqs": 3.1141.0
+  convex:
+    convex: ^1.50.0
+    convex-helpers: ^0.1.135
+    convex-test: ^0.0.71
+    convex-svelte: ^0.15.1
+    "@convex-dev/rate-limiter": ^0.4.3
+    "@convex-dev/workflow": ^0.4.10
+    "@posthog/convex": ^2.1.9
   discord:
     "discord.js": ^14.27.0
   eslint:
-    "@convex-dev/eslint-plugin": ^5.0.0
+    "@convex-dev/eslint-plugin": ^5.0.1
     "@eslint/js": ^10.0.1
     eslint: ^10.11.0
     eslint-config-prettier: ^10.1.8

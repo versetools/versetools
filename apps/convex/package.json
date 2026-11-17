@@ -15,9 +15,10 @@
     "devDependencies": {
         "@aws-sdk/client-sesv2": "catalog:aws-sdk",
         "@aws-sdk/client-sqs": "catalog:aws-sdk",
-        "@convex-dev/rate-limiter": "^0.3.2",
+        "@convex-dev/rate-limiter": "catalog:convex",
+        "@convex-dev/workflow": "catalog:convex",
         "@edge-runtime/vm": "^5.0.0",
-        "@posthog/convex": "^2.1.4",
+        "@posthog/convex": "catalog:convex",
         "@types/whatwg-mimetype": "^5.0.0",
         "@versetools/config": "workspace:*",
         "@versetools/convex-client": "workspace:*",
@@ -25,8 +26,8 @@
         "@versetools/rsi": "workspace:*",
         "@versetools/types": "workspace:*",
         "buffer": "^6.0.3",
-        "convex": "catalog:",
-        "convex-test": "^0.0.58",
+        "convex": "catalog:convex",
+        "convex-test": "catalog:convex",
         "vitest": "catalog:",
         "whatwg-mimetype": "^5.0.0",
         "yaml": "^2.8.1"
