@@ -12,10 +12,7 @@ import type {
 export type HaywireGenericModule = Module<any, any, any, any>;
 export type HaywireGenericContainerFactory = ContainerFactory<any, any, any, any>;
 
-export type HaywireCombineModules<
-	A extends Module<any, any, any, any>,
-	B extends Module<any, any, any, any>
-> =
+export type HaywireCombineModules<A extends HaywireGenericModule, B extends HaywireGenericModule> =
 	A extends Module<infer AOutputs, infer AListOutputs, infer ADependencies, infer AAsync>
 		? B extends Module<infer BOutputs, infer BListOutputs, infer BDependencies, infer BAsync>
 			? Module<
@@ -28,7 +25,7 @@ export type HaywireCombineModules<
 		: never;
 
 export type HaywireAddBindingsToModule<
-	T extends Module<any, any, any, any>,
+	T extends HaywireGenericModule,
 	Bindings extends [...GenericBinding[]]
 > = Bindings extends [infer B extends GenericBinding]
 	? HaywireCombineModules<T, ReturnType<typeof createModule<B>>>
@@ -47,6 +44,11 @@ export type HaywireModuleFromBindings<Bindings extends [...GenericBinding[]]> = 
 export type HaywireModuleToContainerFactory<T extends HaywireGenericModule> = ReturnType<
 	T["toContainerFactory"]
 >;
+
+export type HaywireModuleToContainer<T extends HaywireGenericModule> = ReturnType<T["toContainer"]>;
+
+export type HaywireContainerFactoryToContainer<T extends HaywireGenericContainerFactory> =
+	ReturnType<T["toContainer"]>;
 
 export type IdOrClassToHaywireIds<Dependencies extends readonly (GenericHaywireId | IsClass)[]> = {
 	[Index in keyof Dependencies]: Dependencies[Index] extends IsClass

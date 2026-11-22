@@ -20,21 +20,14 @@ import { pick } from "convex-helpers";
 import type { Registration } from "convex-helpers/server/customFunctions";
 import { zodOutputToConvex, zodToConvexFields } from "convex-helpers/server/zod4";
 import { addFieldsToValidator } from "convex-helpers/validators";
-import {
-	createContainerFactory,
-	type Container,
-	type GenericHaywireId,
-	type SyncContainer
-} from "haywire";
+import { createContainerFactory, type GenericHaywireId } from "haywire";
 import * as z from "zod/v4";
 import * as zCore from "zod/v4/core";
 
+import { buildContainer, resolveDependencies } from "./container";
 import type { ConvexRouter } from "./ConvexRouter";
-import { genericArgsId, genericCtxId } from "./ids";
 import { unsafeMiddlewarePipeline, unsafeRouterModule } from "./symbols";
 import type { RouteBuilderOptions, ZodFields } from "./types";
-import { containerSupplierId } from "../../config/bindings/haywire";
-import { ServerConfigurationError } from "../../errors";
 import type { HaywireGenericModule } from "../../haywire-types";
 import type { GenericCtx } from "../../helpers";
 import type { RequestCustomMetadata } from "../types";
@@ -67,24 +60,6 @@ function isObjectEmpty(obj: object) {
 	}
 
 	return true;
-}
-
-function resolveDependencies(
-	container: Container<any>,
-	dependencyIds: readonly GenericHaywireId[]
-) {
-	return Promise.all(
-		dependencyIds.map(async (id) => {
-			try {
-				return await container.getAsync(id);
-			} catch (e) {
-				throw new ServerConfigurationError({
-					message: `Failed to resolve route dependency with id: ${id.toString()}`,
-					cause: `${e}`
-				});
-			}
-		})
-	);
 }
 
 export function createRegistration<
@@ -232,19 +207,10 @@ export function createRegistration<
 				}
 			}
 
-			let container: Container<any> | SyncContainer<any>;
-			try {
-				container = containerFactory
-					.bindInstance(genericCtxId, ctx)
-					.bindInstance(genericArgsId, parsedArgs)
-					.bindInstance(containerSupplierId, () => container)
-					.toContainer();
-			} catch (e) {
-				throw new ServerConfigurationError({
-					message: "Failed to create Haywire container",
-					cause: `${e}`
-				});
-			}
+			const container = buildContainer(containerFactory, {
+				ctx,
+				args: parsedArgs
+			});
 
 			const middlewareWithDeps = await Promise.all(
 				middlewareEntries.map(async (entry) => {
