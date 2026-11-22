@@ -5,7 +5,7 @@ packages:
 
 catalog:
   effect: ^3.18.1
-  haywire: ^2.0.6
+  haywire: ^2.0.9
   "@melt-ui/svelte": ^0.86.6
   "@sveltejs/adapter-node": ^5.3.1
   "@sveltejs/kit": ^2.70.3
