@@ -66,7 +66,7 @@ export type ActionCacheFunctionReferences = {
 			name: string;
 			args: any;
 		},
-		null
+		boolean
 	>;
 	removeAll: FunctionReference<
 		"mutation",
@@ -183,8 +183,8 @@ export class ActionCache<Action extends FunctionReference<"action", FunctionVisi
 				returns: v.null()
 			})
 			.withDependencies(({ argsId }) => [argsId, ActionCacheService])
-			.withHandler(async (args, cache): Promise<void> => {
-				await cache.remove(args);
+			.withHandler(async (args, cache): Promise<boolean> => {
+				return await cache.remove(args);
 			});
 
 		const removeAll = router
@@ -311,7 +311,7 @@ export class ActionCache<Action extends FunctionReference<"action", FunctionVisi
 	 * @returns - The cache value
 	 */
 	async get(
-		ctx: GenericActionCtx<any>,
+		service: ActionCacheService,
 		args: FunctionArgs<Action>,
 		opts?: {
 			/**
@@ -326,7 +326,7 @@ export class ActionCache<Action extends FunctionReference<"action", FunctionVisi
 	): Promise<FunctionReturnType<Action> | null> {
 		const ttl = opts?.ttl ?? this.config.ttl ?? null;
 
-		const result: ActionCacheResult<Action> = await ctx.runQuery(this.functionReferences.get, {
+		const result: ActionCacheResult<Action> = await service.get({
 			name: this.name,
 			args,
 			ttl,
@@ -340,10 +340,10 @@ export class ActionCache<Action extends FunctionReference<"action", FunctionVisi
 	 * Removes the cache value for the given arguments.
 	 * @param ctx - The Convex mutation context.
 	 * @param args - The arguments to the action the generates the cache values.
-	 * @returns
+	 * @returns - Whether the cache value was removed
 	 */
-	async remove(ctx: GenericActionCtx<any>, args: FunctionArgs<Action>) {
-		return await ctx.runMutation(this.functionReferences.remove, {
+	async remove(service: ActionCacheService, args: FunctionArgs<Action>) {
+		return await service.remove({
 			name: this.name,
 			args
 		});
@@ -354,8 +354,8 @@ export class ActionCache<Action extends FunctionReference<"action", FunctionVisi
 	 * @param ctx - The Convex mutation context.
 	 * @param opts - Optionally override the default batch size.
 	 */
-	async clear(ctx: GenericActionCtx<any>, opts?: { batchSize?: number }) {
-		return await ctx.runMutation(this.functionReferences.removeAll, {
+	async clear(service: ActionCacheService, opts?: { batchSize?: number }) {
+		await service.removeAll({
 			name: this.name,
 			batchSize: opts?.batchSize
 		});

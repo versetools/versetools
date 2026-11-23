@@ -7,7 +7,7 @@ import type {
 	ActionCacheResult
 } from "./ActionCache";
 import { assert } from "../../errors";
-import { isAction, isMutation, isQuery, type GenericCtx } from "../../helpers";
+import { isAction, isMutation, type GenericCtx } from "../../helpers";
 
 export class ActionCacheService {
 	constructor(
@@ -27,7 +27,9 @@ export class ActionCacheService {
 		ttl: number | null;
 		allowStale?: boolean;
 	}): Promise<ActionCacheResult<any>> {
-		assert(isQuery(this.ctx), "Expected a query context");
+		if (isAction(this.ctx)) {
+			return await this.ctx.runQuery(this.functionReferences.get, args);
+		}
 
 		const match = await this.lookup(this.ctx, args);
 		if (!match) {
@@ -69,6 +71,10 @@ export class ActionCacheService {
 		cacheHit: boolean;
 		deletedExpiredEntry: boolean;
 	}> {
+		if (isAction(this.ctx)) {
+			return await this.ctx.runMutation(this.functionReferences.put, args);
+		}
+
 		assert(isMutation(this.ctx), "Expected a mutation context");
 
 		const match = await this.lookup(this.ctx, args);
@@ -101,12 +107,19 @@ export class ActionCacheService {
 
 	/** @internal */
 	async remove(args: { name: string; args: unknown }) {
+		if (isAction(this.ctx)) {
+			return await this.ctx.runMutation(this.functionReferences.remove, args);
+		}
+
 		assert(isMutation(this.ctx), "Expected a mutation context");
 
 		const match = await this.lookup(this.ctx, args);
-		if (match) {
-			await this.del(this.ctx, match);
+		if (!match) {
+			return false;
 		}
+
+		await this.del(this.ctx, match);
+		return true;
 	}
 
 	/**
@@ -117,11 +130,11 @@ export class ActionCacheService {
 	 * @returns
 	 */
 	async removeAll(opts: { name?: string; before?: number; batchSize?: number }) {
-		assert(isMutation(this.ctx) || isAction(this.ctx), "Expected an action or mutation context");
-
 		if (isAction(this.ctx)) {
 			return this.ctx.runMutation(this.functionReferences.removeAll, opts);
 		}
+
+		assert(isMutation(this.ctx), "Expected a mutation context");
 
 		const batchSize = opts.batchSize ?? 100;
 		const query = opts.name
@@ -144,6 +157,10 @@ export class ActionCacheService {
 	}
 
 	async purge(opts: { expiresAt?: number }) {
+		if (isAction(this.ctx)) {
+			return this.ctx.runMutation(this.functionReferences.purge, opts);
+		}
+
 		assert(isMutation(this.ctx), "Expected a mutation context");
 
 		const expiresAt = opts.expiresAt ?? Date.now();
