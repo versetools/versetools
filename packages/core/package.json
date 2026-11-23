@@ -53,12 +53,14 @@
     "peerDependencies": {
         "haywire": "catalog:"
     },
-    "devDependencies": {
+    "dependencies": {
         "@aws-sdk/client-sesv2": "catalog:aws-sdk",
         "@aws-sdk/client-sqs": "catalog:aws-sdk",
-        "@types/whatwg-mimetype": "^5.0.0",
         "whatwg-mimetype": "^5.0.0",
         "yaml": "^2.8.1"
+    },
+    "devDependencies": {
+        "@types/whatwg-mimetype": "^5.0.0"
     },
     "packageManager": "pnpm@10.33.2"
 }
