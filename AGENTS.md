@@ -64,7 +64,7 @@ private package resolution fails, and report authentication failures without exp
 - `packages/convex-client`: publishable shared Convex HTTP/WebSocket clients and Svelte helpers.
 - `packages/types`: shared domain types, Zod schemas, and matching Convex validators.
 - `packages/rsi`: RSI launcher requests and authentication services.
-- `packages/observability`: request/tracing context and Axiom logging transport.
+- `packages/observability`: LogLayer logger with terminal loggers, plugins and transports.
 - `packages/ui`: publishable reusable Svelte component library.
 - `packages/ui-consent`: publishable consent UI built on `packages/ui`.
 
@@ -147,7 +147,7 @@ Follow `.prettierrc` and `eslint.config.js`; do not hand-format around them.
   to browser code.
 - Keep environment examples and runtime validation synchronized when adding or renaming variables.
 - Do not expose `CONVEX_SECRET`, UploadThing credentials, AWS credentials, Discord credentials,
-  Axiom tokens, encryption keys, or Pulumi secrets in logs or responses.
+  encryption keys, or Pulumi secrets in logs or responses.
 - Infrastructure changes can affect live AWS, Kubernetes, and Cloudflare resources. Do not run
   deployment or destructive Pulumi commands without explicit user authorization.
 
