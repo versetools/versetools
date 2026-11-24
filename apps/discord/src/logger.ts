@@ -1,27 +1,14 @@
-import { axiomTransport } from "@versetools/observability/transports";
-import type { Bot } from "discordthing";
-import { Logger } from "tslog";
+import { createLogger } from "@versetools/observability";
+import { tslog } from "@versetools/observability/loggers/tslog";
 
 export const prod = process.env.NODE_ENV === "production";
 
-export const logger = new Logger(
-	{
-		name: "main",
+export const logger = createLogger({
+	base: tslog({
+		name: "bot",
 		type: !prod ? "pretty" : "json",
-		prettyLogTemplate: !prod ? "[{{name}}] {{logLevelName}} " : undefined
-	},
-	{}
-);
-
-export function addLoggerTransports(bot: Bot) {
-	if (!prod) {
-		return;
-	}
-
-	logger.attachTransport(
-		axiomTransport({
-			token: process.env.AXIOM_TOKEN!,
-			dataset: process.env.AXIOM_DATASET!
-		})
-	);
-}
+		pretty: {
+			template: !prod ? "[{{name}}] {{logLevelName}} " : undefined
+		}
+	})
+});

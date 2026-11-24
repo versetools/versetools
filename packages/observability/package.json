@@ -1,6 +1,6 @@
 {
     "name": "@versetools/observability",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "type": "module",
     "author": "l3dotdev",
     "license": "UNLICENSED",
@@ -11,9 +11,17 @@
             "types": "./build/index.d.ts",
             "import": "./build/index.js"
         },
-        "./transports": {
-            "types": "./build/transports/index.d.ts",
-            "import": "./build/transports/index.js"
+        "./loggers/*": {
+            "types": "./build/loggers/*.d.ts",
+            "import": "./build/loggers/*.js"
+        },
+        "./plugins/*": {
+            "types": "./build/plugins/*.d.ts",
+            "import": "./build/plugins/*.js"
+        },
+        "./transports/*": {
+            "types": "./build/transports/*.d.ts",
+            "import": "./build/transports/*.js"
         }
     },
     "files": [
@@ -29,11 +37,14 @@
         "prepublishOnly": "pnpm package"
     },
     "dependencies": {
-        "@axiomhq/js": "^1.4.0"
+        "@loglayer/plugin": "^3.3.0",
+        "@loglayer/transport-tslog": "^4.3.0",
+        "serialize-error": "^13.1.0"
     },
-    "devDependencies": {
-        "@opentelemetry/api": "^1.9.0",
-        "tslog": "catalog:"
+    "peerDependencies": {
+        "@sveltejs/kit": "^2.0.0 || ^3.0.0",
+        "loglayer": "^9.0.0",
+        "tslog": "^5.5.0"
     },
     "packageManager": "pnpm@10.33.2"
 }

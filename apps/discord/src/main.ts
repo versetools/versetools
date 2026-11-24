@@ -4,7 +4,8 @@ import config from "@versetools/config";
 import { ActivityType } from "discord.js";
 import { Bot } from "discordthing";
 
-import { logger, addLoggerTransports } from "./logger";
+import { logger } from "./logger";
+
 const bot = new Bot(
 	{
 		name: "Versetools",
@@ -24,8 +25,6 @@ const bot = new Bot(
 		}
 	}
 );
-
-addLoggerTransports(bot);
 
 async function main() {
 	await bot.start(process.env.DISCORD_TOKEN!);
