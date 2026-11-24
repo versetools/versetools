@@ -560,17 +560,11 @@ export function extractLocations(
 				paths.add(canonicalizeSocpakPath(path));
 				externalFreightElevatorPaths.set(childParentCigGuid, paths);
 			}
-			if (path && socpakFilter(path))
-				visitSocpak(path, childParentCigGuid, false, starMapReference !== undefined);
+			if (path && socpakFilter(path)) visitSocpak(path, childParentCigGuid);
 		}
 	}
 
-	function visitSocpak(
-		path: string,
-		parentCigGuid: string | null,
-		root: boolean,
-		locationBearing: boolean
-	) {
+	function visitSocpak(path: string, parentCigGuid: string | null) {
 		const key = canonicalizeSocpakPath(path);
 		if (activeSocpaks.has(key)) throw new Error(`Recursive SOCpak reference includes ${path}`);
 		activeSocpaks.add(key);
@@ -579,7 +573,8 @@ export function extractLocations(
 			try {
 				container = dependencies.readSocpak(path) as ObjectContainer;
 			} catch (error) {
-				if (root || locationBearing || !isMissingSocpakError(error)) throw error;
+				if (!isMissingSocpakError(error)) throw error;
+
 				missingSocpakCount++;
 				sample(
 					missingSocpakSamples,
@@ -611,7 +606,7 @@ export function extractLocations(
 		if (!Array.isArray(paths) || !paths.length || paths.some((path) => typeof path !== "string")) {
 			throw new Error(`Solar system ${system.cigGuid} has no root object container`);
 		}
-		for (const rootPath of paths as string[]) visitSocpak(rootPath, system.cigGuid, true, true);
+		for (const rootPath of paths as string[]) visitSocpak(rootPath, system.cigGuid);
 	}
 
 	for (const [ownerGuid, paths] of externalFreightElevatorPaths) {
