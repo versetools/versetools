@@ -68,9 +68,6 @@ catalogs:
     tailwindcss:
       specifier: ^4.3.0
       version: 4.3.0
-    tslog:
-      specifier: ^4.10.2
-      version: 4.10.2
     typescript:
       specifier: ~6.0.3
       version: 6.0.3
@@ -191,6 +188,9 @@ importers:
       '@l3dev/result':
         specifier: ^0.6.3
         version: 0.6.3
+      '@loglayer/plugin-opentelemetry':
+        specifier: ^3.3.0
+        version: 3.3.0
       '@types/node':
         specifier: ^24.12.0
         version: 24.12.0
@@ -245,9 +245,6 @@ importers:
       syncpack:
         specifier: 14.2.0
         version: 14.2.0
-      tslog:
-        specifier: 'catalog:'
-        version: 4.10.2
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -347,9 +344,6 @@ importers:
 
   apps/discord:
     dependencies:
-      '@axiomhq/js':
-        specifier: ^1.4.0
-        version: 1.5.0
       discord.js:
         specifier: catalog:discord
         version: 14.27.0
@@ -616,54 +610,73 @@ importers:
         specifier: ^7.7.4
         version: 7.7.4(tailwindcss@4.3.0)
 
+  packages/api:
+    dependencies:
+      '@versetools/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      prettier:
+        specifier: catalog:prettier
+        version: 3.9.9
+
   packages/config: {}
 
   packages/convex-client:
-    devDependencies:
-      '@sveltejs/kit':
-        specifier: 'catalog:'
-        version: 2.70.3(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.0(@typescript-eslint/types@8.70.1))(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(svelte@5.57.0(@typescript-eslint/types@8.70.1))(typescript@6.0.3)(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0))
+    dependencies:
       '@versetools/core':
         specifier: workspace:*
         version: link:../core
       convex-svelte:
         specifier: catalog:convex
         version: 0.15.1(@sveltejs/kit@2.70.3(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.0(@typescript-eslint/types@8.70.1))(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(svelte@5.57.0(@typescript-eslint/types@8.70.1))(typescript@6.0.3)(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(convex@1.50.0)(svelte@5.57.0(@typescript-eslint/types@8.70.1))
+    devDependencies:
+      '@sveltejs/kit':
+        specifier: 'catalog:'
+        version: 2.70.3(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.0(@typescript-eslint/types@8.70.1))(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(svelte@5.57.0(@typescript-eslint/types@8.70.1))(typescript@6.0.3)(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0))
 
   packages/core:
     dependencies:
-      haywire:
-        specifier: 'catalog:'
-        version: 2.0.9
-    devDependencies:
       '@aws-sdk/client-sesv2':
         specifier: catalog:aws-sdk
         version: 3.1141.0
       '@aws-sdk/client-sqs':
         specifier: catalog:aws-sdk
         version: 3.1141.0
-      '@types/whatwg-mimetype':
-        specifier: ^5.0.0
-        version: 5.0.0
+      haywire:
+        specifier: 'catalog:'
+        version: 2.0.9
       whatwg-mimetype:
         specifier: ^5.0.0
         version: 5.0.0
       yaml:
         specifier: ^2.8.1
         version: 2.9.0
+    devDependencies:
+      '@types/whatwg-mimetype':
+        specifier: ^5.0.0
+        version: 5.0.0
 
   packages/observability:
     dependencies:
-      '@axiomhq/js':
-        specifier: ^1.4.0
-        version: 1.5.0
-    devDependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.1
+      '@loglayer/plugin':
+        specifier: ^3.3.0
+        version: 3.3.0
+      '@loglayer/transport-tslog':
+        specifier: ^4.3.0
+        version: 4.3.0(tslog@5.5.0)
+      '@sveltejs/kit':
+        specifier: ^2.0.0 || ^3.0.0
+        version: 2.70.3(@opentelemetry/api@1.9.1)(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.57.0(@typescript-eslint/types@8.70.1))(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0)))(svelte@5.57.0(@typescript-eslint/types@8.70.1))(typescript@6.0.3)(vite@7.3.7(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.9.0))
+      loglayer:
+        specifier: ^9.0.0
+        version: 9.4.0
+      serialize-error:
+        specifier: ^13.1.0
+        version: 13.1.0
       tslog:
-        specifier: 'catalog:'
-        version: 4.10.2
+        specifier: ^5.5.0
+        version: 5.5.0
 
   packages/rsi:
     devDependencies:
@@ -672,7 +685,7 @@ importers:
         version: link:../core
 
   packages/types:
-    devDependencies:
+    dependencies:
       '@versetools/core':
         specifier: workspace:*
         version: link:../core
@@ -923,10 +936,6 @@ packages:
   '@aws/lambda-invoke-store@0.3.0':
     resolution: {integrity: sha512-sl4Bm6yiMNYrZKkqqDFWN0UfnWhlS8ivKxrYl+6t0gCLrqr8y3B2IqZZbFRkfaVVp7C/baApyh71P+LeE1A2sQ==}
     engines: {node: '>=18.0.0'}
-
-  '@axiomhq/js@1.5.0':
-    resolution: {integrity: sha512-7SkfgnrKpjRs86h4TIcoZQ1TltKG0+WcQtMkBa5N3iSuGT5+aIpnbLFrRfbfhwhxzysQkF01qNW4fNUtePqjDg==}
-    engines: {node: '>=20'}
 
   '@babel/code-frame@7.29.0':
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
@@ -2362,6 +2371,36 @@ packages:
     resolution: {integrity: sha512-XGSsWDweP80Fks16lwkAUIr54ICyBs6PsI4mpfTLQaWgEJRtY9xEV+PeyDpJ+sJEGZxqINlpmAwe/6tS1pP8Ng==}
     engines: {node: '>=10.3.0'}
 
+  '@loglayer/context-manager@2.3.0':
+    resolution: {integrity: sha512-bStCSDKUk88ZHTloOR+eE+Jfnfcs+jfI2hNSrcchorwi2UHS8AYHWMm9o2Ov3tSQ4v64je9JDeTVLgoeL+JHvw==}
+    engines: {node: '>=18'}
+
+  '@loglayer/log-level-manager@2.3.0':
+    resolution: {integrity: sha512-tkiKKa5yBnWqCLUWFZraNAotaHxGlb8yqTUpYS1o5Qv3XeTPoNkI87oDwI8V8m63yvKLPrXsZtNas2pIiFldCQ==}
+    engines: {node: '>=18'}
+
+  '@loglayer/plugin-opentelemetry@3.3.0':
+    resolution: {integrity: sha512-n8yxtiC+zwaG3qSwK733KTkfUtaW4waG1Soc+oY5trofZF1I5fGM1K5XtPvHBuZDLQw01XDMsrKco3Ck7S/hPA==}
+    engines: {node: '>=18'}
+
+  '@loglayer/plugin@3.3.0':
+    resolution: {integrity: sha512-qSEgukxOXrQsUPPUbcrOBGymowBfobTK+vC3+eDRx1dEqlhCl1YxTn8zIJjQKV+nZJyCRTzgPTvEfvceFO+QnQ==}
+    engines: {node: '>=18'}
+
+  '@loglayer/shared@4.4.0':
+    resolution: {integrity: sha512-9C6zpO9RXjfjddR+Bbk+h5NiLDL2wNlno5jLplzhw+Jaj2gO2Dv53rxrgdRmBP5/DgSHNCZu6FdOq8ankSYdGA==}
+    engines: {node: '>=18'}
+
+  '@loglayer/transport-tslog@4.3.0':
+    resolution: {integrity: sha512-3YLEkViSfxqwwyxSza88dzdq/BB493is7+93KXfP/t/0A6/o+5qBcc64rHYCILqGHGU9pipShHQ1lLULcDm3+w==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      tslog: '*'
+
+  '@loglayer/transport@3.3.0':
+    resolution: {integrity: sha512-fFh4XaX24FiyZtpzOjBP2PScA3sQk1rfka287FsYXkGMm2/n74BOVj6/D/oLaiI+cJMy7fv3dtyy5sUtNil5UQ==}
+    engines: {node: '>=18'}
+
   '@lucide/svelte@0.554.0':
     resolution: {integrity: sha512-CM6wLEH8uk3WBpC42t8R0hF7SlQrsYEL6qGuXdB99xKZwKglpWmX5XgYu7FIYOCBYOyC1rm4dNhIe6uF9pOXqw==}
     peerDependencies:
@@ -2895,6 +2934,10 @@ packages:
 
   '@opentelemetry/api-logs@0.220.0':
     resolution: {integrity: sha512-CmVa4ImJ+ynfrPMNaAXHET6Bhb44SwzmfyVJFq9ni2jgXJR/l7C6gfVFddNmHP+ZOkP9cf4f9DBe68qVLTHc9w==}
+    engines: {node: '>=8.0.0'}
+
+  '@opentelemetry/api@1.9.0':
+    resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api@1.9.1':
@@ -5227,9 +5270,6 @@ packages:
       picomatch:
         optional: true
 
-  fetch-retry@6.0.0:
-    resolution: {integrity: sha512-BUFj1aMubgib37I3v4q78fYo63Po7t4HUPTpQ6/QE6yK6cIQrP+W43FYToeTEyg5m2Y7eFUtijUuAv/PDlWuag==}
-
   fflate@0.4.8:
     resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
 
@@ -5934,6 +5974,10 @@ packages:
   lodash@4.17.23:
     resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
+  loglayer@9.4.0:
+    resolution: {integrity: sha512-abAZY0TkGw1LOA8n0yGJbRi9R0upRWymYBZItWfiktXMTHqdgCpHukONoX/Byfbt1RfRdw/GjT/PwrztePYOcw==}
+    engines: {node: '>=18'}
+
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
@@ -6253,6 +6297,10 @@ packages:
 
   node-releases@2.0.36:
     resolution: {integrity: sha512-TdC8FSgHz8Mwtw9g5L4gR/Sh9XhSP/0DEkQxfEFXOpiul5IiHgHan2VhYYb6agDSfp4KuvltmGApc8HMgUrIkA==}
+
+  non-error@0.1.0:
+    resolution: {integrity: sha512-TMB1uHiGsHRGv1uYclfhivcnf0/PdFp2pNqRxXjncaAsjYMoisaQJI+SSZCqRq+VliwRTC8tsMQfmrWjDMhkPQ==}
+    engines: {node: '>=20'}
 
   nopt@9.0.0:
     resolution: {integrity: sha512-Zhq3a+yFKrYwSBluL4H9XP3m3y5uvQkB/09CwDruCiRmR/UJYnn9W4R48ry0uGC70aeTPKLynBtscP9efFFcPw==}
@@ -6808,6 +6856,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  serialize-error@13.1.0:
+    resolution: {integrity: sha512-FT1EL2Pz7lAWA48I6Qb1qHEvGT9ZGz2pb1sYZ9Dhu2t+RmHN6O12WMu7HzFcqFRQaUWEl3Q+++EYBTrZpCoykQ==}
+    engines: {node: '>=20'}
+
   serialize-javascript@7.0.5:
     resolution: {integrity: sha512-F4LcB0UqUl1zErq+1nYEEzSHJnIwb3AF2XWB94b+afhrekOUijwooAYqFyRbjYkm2PAKBabx6oYv/xDxNi8IBw==}
     engines: {node: '>=20.0.0'}
@@ -7132,6 +7184,10 @@ packages:
   tabbable@6.4.0:
     resolution: {integrity: sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==}
 
+  tagged-tag@1.0.0:
+    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
+    engines: {node: '>=20'}
+
   tailwind-merge@3.7.0:
     resolution: {integrity: sha512-XPPUyAc+cvspz3lHTcR/QgPfW2A0lv/xQNIjX3HGhLR+Nq2lHaLq5MtTesHn8GUr3W3DguT2KT5x3NVgRtYwmA==}
 
@@ -7240,6 +7296,11 @@ packages:
     resolution: {integrity: sha512-XuELoRpMR+sq8fuWwX7P0bcj+PRNiicOKDEb3fGNURhxWVyykCi9BNq7c4uVz7h7P0sj8qgBsr5SWS6yBClq3g==}
     engines: {node: '>=16'}
 
+  tslog@5.5.0:
+    resolution: {integrity: sha512-GgdyKPwUtVMKDSHFtZJg3taWUHyL8pV262AfVlak00gE4qwpCpTEZT1tQ/ZS/FQsiTWqjvAD/viTt1vDmNhQ4A==}
+    engines: {node: '>=22'}
+    hasBin: true
+
   tsx@4.23.15:
     resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
@@ -7271,6 +7332,10 @@ packages:
   type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
+
+  type-fest@5.10.0:
+    resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
+    engines: {node: '>=20'}
 
   type-level-regexp@0.1.17:
     resolution: {integrity: sha512-wTk4DH3cxwk196uGLK/E9pE45aLfeKJacKmcEgEOA/q5dnPGNxXt0cfYdFxb57L+sEpf1oJH4Dnx/pnRcku9jg==}
@@ -8002,10 +8067,6 @@ snapshots:
       tslib: 2.8.1
 
   '@aws/lambda-invoke-store@0.3.0': {}
-
-  '@axiomhq/js@1.5.0':
-    dependencies:
-      fetch-retry: 6.0.0
 
   '@babel/code-frame@7.29.0':
     dependencies:
@@ -9439,6 +9500,35 @@ snapshots:
 
   '@logdna/tail-file@2.2.0': {}
 
+  '@loglayer/context-manager@2.3.0':
+    dependencies:
+      '@loglayer/shared': 4.4.0
+
+  '@loglayer/log-level-manager@2.3.0':
+    dependencies:
+      '@loglayer/shared': 4.4.0
+
+  '@loglayer/plugin-opentelemetry@3.3.0':
+    dependencies:
+      '@loglayer/plugin': 3.3.0
+      '@loglayer/shared': 4.4.0
+      '@opentelemetry/api': 1.9.0
+
+  '@loglayer/plugin@3.3.0':
+    dependencies:
+      '@loglayer/shared': 4.4.0
+
+  '@loglayer/shared@4.4.0': {}
+
+  '@loglayer/transport-tslog@4.3.0(tslog@5.5.0)':
+    dependencies:
+      '@loglayer/transport': 3.3.0
+      tslog: 5.5.0
+
+  '@loglayer/transport@3.3.0':
+    dependencies:
+      '@loglayer/shared': 4.4.0
+
   '@lucide/svelte@0.554.0(svelte@5.57.0(@typescript-eslint/types@8.70.1))':
     dependencies:
       svelte: 5.57.0(@typescript-eslint/types@8.70.1)
@@ -9951,6 +10041,8 @@ snapshots:
   '@opentelemetry/api-logs@0.220.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
+
+  '@opentelemetry/api@1.9.0': {}
 
   '@opentelemetry/api@1.9.1': {}
 
@@ -12441,8 +12533,6 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.7
 
-  fetch-retry@6.0.0: {}
-
   fflate@0.4.8: {}
 
   file-entry-cache@11.1.5:
@@ -13126,6 +13216,14 @@ snapshots:
 
   lodash@4.17.23: {}
 
+  loglayer@9.4.0:
+    dependencies:
+      '@loglayer/context-manager': 2.3.0
+      '@loglayer/log-level-manager': 2.3.0
+      '@loglayer/plugin': 3.3.0
+      '@loglayer/shared': 4.4.0
+      '@loglayer/transport': 3.3.0
+
   long@5.3.2: {}
 
   longest-streak@3.1.0: {}
@@ -13676,6 +13774,8 @@ snapshots:
       which: 6.0.1
 
   node-releases@2.0.36: {}
+
+  non-error@0.1.0: {}
 
   nopt@9.0.0:
     dependencies:
@@ -14313,6 +14413,11 @@ snapshots:
 
   semver@7.8.5: {}
 
+  serialize-error@13.1.0:
+    dependencies:
+      non-error: 0.1.0
+      type-fest: 5.10.0
+
   serialize-javascript@7.0.5: {}
 
   set-cookie-parser@3.1.0: {}
@@ -14753,6 +14858,8 @@ snapshots:
 
   tabbable@6.4.0: {}
 
+  tagged-tag@1.0.0: {}
+
   tailwind-merge@3.7.0: {}
 
   tailwind-variants@3.3.1(tailwind-merge@3.7.0)(tailwindcss@4.3.0):
@@ -14846,6 +14953,8 @@ snapshots:
 
   tslog@4.10.2: {}
 
+  tslog@5.5.0: {}
+
   tsx@4.23.15:
     dependencies:
       esbuild: 0.28.2
@@ -14880,6 +14989,10 @@ snapshots:
 
   type-fest@2.19.0:
     optional: true
+
+  type-fest@5.10.0:
+    dependencies:
+      tagged-tag: 1.0.0
 
   type-level-regexp@0.1.17: {}
 
