@@ -41,7 +41,7 @@ _This summary provides key points from our Privacy Policy, but you can find out 
 
 ### Personal information you disclose to us
 
-***In Short:*** *We collect personal information that you provide to us.*
+_**In Short:**_ _We collect personal information that you provide to us._
 
 We collect personal information that you voluntarily provide to us when you register on the Services, express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services, or otherwise when you contact us.
 
@@ -63,11 +63,11 @@ All personal information that you provide to us must be true, complete, and accu
 
 ### Information automatically collected
 
-***In Short:*** *Some information — such as your Internet Protocol (IP) address and/or browser and device characteristics — is collected automatically when you visit our Services.*
+_**In Short:**_ _Some information — such as your Internet Protocol (IP) address and/or browser and device characteristics — is collected automatically when you visit our Services._
 
 We automatically collect certain information when you visit, use, or navigate the Services. This information does not reveal your specific identity (like your name or contact information) but may include device and usage information, such as your IP address, browser and device characteristics, operating system, language preferences, referring URLs, device name, country, location, information about how and when you use our Services, and other technical information. This information is primarily needed to maintain the security and operation of our Services, and for our internal analytics and reporting purposes.
 
-Like many businesses, we also collect information through cookies and similar technologies. You can find out more about this in our [Cookie Policy](./privacy/cookies).
+Like many businesses, we also collect information through cookies and similar technologies. You can find out more about this in our [Cookie Policy](../privacy/cookies).
 
 The information we collect includes:
 
@@ -77,7 +77,7 @@ The information we collect includes:
 
 ## 2. How do we process your information?
 
-***In Short:*** *We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent.*
+_**In Short:**_ _We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent._
 
 **We process your personal information for a variety of reasons, depending on how you interact with our Services, including:**
 
@@ -131,7 +131,7 @@ In some exceptional cases, we may be legally permitted under applicable law to p
 
 ## 4. When and with whom do we share your personal information?
 
-***In Short:*** *We may share information in specific situations described in this section and/or with the following third parties.*
+_**In Short:**_ _We may share information in specific situations described in this section and/or with the following third parties._
 
 We may need to share your personal information in the following situations:
 
@@ -140,7 +140,7 @@ We may need to share your personal information in the following situations:
 
 ## 5. Do we use cookies and other tracking technologies?
 
-***In Short:*** *We may use cookies and other tracking technologies to collect and store your information.*
+_**In Short:**_ _We may use cookies and other tracking technologies to collect and store your information._
 
 We may use cookies and similar tracking technologies (like web beacons and pixels) to gather information when you interact with our Services. Some online tracking technologies help us maintain the security of our Services and your account, prevent crashes, fix bugs, save your preferences, and assist with basic site functions.
 
@@ -148,11 +148,11 @@ We also permit third parties and service providers to use online tracking techno
 
 To the extent these online tracking technologies are deemed to be a 'sale'/'sharing' (which includes targeted advertising, as defined under the applicable laws) under applicable US state laws, you can opt out of these online tracking technologies by submitting a request as described below under section '[Do United States residents have specific privacy rights?](#10-do-united-states-residents-have-specific-privacy-rights)'
 
-Specific information about how we use such technologies and how you can refuse certain cookies is set out in our [Cookie Policy](./privacy/cookies).
+Specific information about how we use such technologies and how you can refuse certain cookies is set out in our [Cookie Policy](../privacy/cookies).
 
 ## 6. How do we handle your social logins?
 
-***In Short:*** *If you choose to register or log in to our Services using a social media account, we may have access to certain information about you.*
+_**In Short:**_ _If you choose to register or log in to our Services using a social media account, we may have access to certain information about you._
 
 Our Services offer you the ability to register and log in using your third-party social media account details (like your Google or Discord logins). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile information we receive may vary depending on the social media provider concerned, but will often include your name, email address, and profile picture, as well as other information you choose to make public on such a social media platform.
 
@@ -160,7 +160,7 @@ We will use the information we receive only for the purposes that are described 
 
 ## 7. How long do we keep your information?
 
-***In Short:*** *We keep your information for as long as necessary to fulfil the purposes outlined in this Privacy Policy unless otherwise required by law.*
+_**In Short:**_ _We keep your information for as long as necessary to fulfil the purposes outlined in this Privacy Policy unless otherwise required by law._
 
 We will only keep your personal information for as long as it is necessary for the purposes set out in this Privacy Policy, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements). No purpose in this notice will require us keeping your personal information for longer than the period of time in which users have an account with us.
 
@@ -168,13 +168,13 @@ When we have no ongoing legitimate business need to process your personal inform
 
 ## 8. How do we keep your information safe?
 
-***In Short:*** *We aim to protect your personal information through a system of organisational and technical security measures.*
+_**In Short:**_ _We aim to protect your personal information through a system of organisational and technical security measures._
 
 We have implemented appropriate and reasonable technical and organisational security measures designed to protect the security of any personal information we process. However, despite our safeguards and efforts to secure your information, no electronic transmission over the Internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorised third parties will not be able to defeat our security and improperly collect, access, steal, or modify your information. Although we will do our best to protect your personal information, transmission of personal information to and from our Services is at your own risk. You should only access the Services within a secure environment.
 
 ## 9. What are your privacy rights?
 
-***In Short:*** *Depending on your state of residence in the US or in some regions, such as the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have rights that allow you greater access to and control over your personal information. You may review, change, or terminate your account at any time, depending on your country, province, or state of residence.*
+_**In Short:**_ _Depending on your state of residence in the US or in some regions, such as the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have rights that allow you greater access to and control over your personal information. You may review, change, or terminate your account at any time, depending on your country, province, or state of residence._
 
 In some regions (like the EEA, UK, Switzerland, and Canada), you have certain rights under applicable data protection laws. These may include the right (i) to request access and obtain a copy of your personal information, (ii) to request rectification or erasure; (iii) to restrict the processing of your personal information; (iv) if applicable, to data portability; and (v) not to be subject to automated decision-making. In certain circumstances, you may also have the right to object to the processing of your personal information. You can make such a request by contacting us via the details provided in the section '[How can you review, update, or delete the data we collect from you?](#14-how-can-you-review-update-or-delete-the-data-we-collect-from-you)' below.
 
@@ -200,15 +200,15 @@ If you would at any time like to review or change the information in your accoun
 
 Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.
 
-**Cookies and similar technologies:** Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our Services. For further information, please see our [Cookie Policy](./privacy/cookies).
+**Cookies and similar technologies:** Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our Services. For further information, please see our [Cookie Policy](../privacy/cookies).
 
 If you have questions or comments about your privacy rights, you may contact us using the details in the section '[How can you contact us about this notice?](#13-how-can-you-contact-us-about-this-notice)' below.
 
 ## 10. Do United States residents have specific privacy rights?
 
-***In Short:*** *If you are a resident of the US, you may have the right to request access to and receive details about the personal information we maintain about you and how we have processed it, correct inaccuracies, get a copy of, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. More information is provided below.*
+_**In Short:**_ _If you are a resident of the US, you may have the right to request access to and receive details about the personal information we maintain about you and how we have processed it, correct inaccuracies, get a copy of, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. More information is provided below._
 
-If you are a California resident, please [click here to see our California Notice at Collection](./privacy/regulations/ccpa), which includes additional disclosures as required by California law.
+If you are a California resident, please [click here to see our California Notice at Collection](../privacy/regulations/ccpa), which includes additional disclosures as required by California law.
 
 ### Categories of Personal Information We Collect
 

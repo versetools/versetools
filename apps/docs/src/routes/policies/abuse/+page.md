@@ -24,4 +24,4 @@ Accounts found to be in violation of any of the above are subject to cancellatio
 
 ## How to report abuse
 
-Violations can be reported by emailing [{config.emails.reports}](mailto:{config.emails.reports}) and should include detailed information about the account, the content or behavior you are reporting, and how you found it, including URLs or screenshots. If you need a secure file transfer, let us know and we will send you a link. We will not disclose your identity to anyone associated with the reported account. For copyright cases, please see instructions on [how to notify us about infringement claims](./copyright).
+Violations can be reported by emailing [{config.emails.reports}](mailto:{config.emails.reports}) and should include detailed information about the account, the content or behavior you are reporting, and how you found it, including URLs or screenshots. If you need a secure file transfer, let us know and we will send you a link. We will not disclose your identity to anyone associated with the reported account. For copyright cases, please see instructions on [how to notify us about infringement claims](../copyright).

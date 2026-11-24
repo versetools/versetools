@@ -1,12 +1,12 @@
 <script lang="ts">
 	import themeOptions from "virtual:sveltepress/theme";
 
-	import { page } from "$app/state";
-
 	import Next from "./icons/Next.svelte";
 	import Prev from "./icons/Prev.svelte";
 	import { pages } from "./layout";
 	import { getPathFromBase, isLinkActive } from "./utils";
+
+	import { page } from "$app/state";
 
 	const routeId = page.route.id;
 

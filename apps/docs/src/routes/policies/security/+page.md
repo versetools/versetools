@@ -31,4 +31,4 @@ Contact us at [{config.emails.security}](mailto:{config.emails.security}) to lea
 
 ## Have a concern? Need to report an incident?
 
-Have you noticed abuse, misuse, an exploit, or experienced an incident with your account? Please visit our [security response page](./security/response) for details on how to securely submit a report.
+Have you noticed abuse, misuse, an exploit, or experienced an incident with your account? Please visit our [security response page](../security/response) for details on how to securely submit a report.

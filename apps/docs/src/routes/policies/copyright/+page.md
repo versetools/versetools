@@ -9,7 +9,7 @@ description: How we handle copyright infringement claims
 
 ## Notification of Copyright Infringement Claims
 
-Making original work is hard! As described in our [Use Restrictions policy](./abuse), you can’t use {config.name} products\* to make or disseminate work that uses the intellectual property of others beyond the bounds of [fair use](https://www.gov.uk/guidance/exceptions-to-copyright).
+Making original work is hard! As described in our [Use Restrictions policy](../abuse), you can’t use {config.name} products\* to make or disseminate work that uses the intellectual property of others beyond the bounds of [fair use](https://www.gov.uk/guidance/exceptions-to-copyright).
 
 Are you a copyright owner? Under the [UK Copyright, Designs and Patents Act 1988 (“CDPA”)](https://www.legislation.gov.uk/ukpga/1988/48/contents), you have the right to notify us ({config.company.name} trading as {config.name}) if you believe that an account user of any product we built and maintain has infringed on your work(s) as copyright owner. To be effective, the notice of claimed infringement must be written. Please include the following information:
 

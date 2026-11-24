@@ -25,7 +25,6 @@
 		inline = true,
 		active = false,
 		highlight = true,
-		withBase = true,
 		target,
 		pre,
 		labelRenderer,
@@ -33,11 +32,10 @@
 	}: LinkProps = $props();
 
 	let isExternal = $derived(/^https?|mailto:/.test(to));
-	let toWithBase = $derived(isExternal ? to : getPathFromBase(to));
 </script>
 
 <a
-	href={withBase ? toWithBase : to}
+	href={isExternal ? to : getPathFromBase(to)}
 	class="link"
 	class:no-inline={!inline}
 	class:active
