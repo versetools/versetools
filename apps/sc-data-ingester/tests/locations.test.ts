@@ -165,8 +165,7 @@ describe("location type normalization", () => {
 		["Outpost_InvalidQT", LocationType.Outpost],
 		["QuantumTracePoint", LocationType.QuantumTracePoint],
 		["S42_Moon", LocationType.Moon],
-		["S42_Planet", LocationType.Planet],
-		["YouAreHere", LocationType.YouAreHere]
+		["S42_Planet", LocationType.Planet]
 	])("maps live source type %s", (sourceType, expected) => {
 		expect(normalizeLocationType(sourceType)).toBe(expected);
 	});

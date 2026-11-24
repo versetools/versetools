@@ -15,8 +15,7 @@ export enum LocationType {
 	NavPoint = "nav_point",
 	PointOfInterest = "point_of_interest",
 	Manmade = "manmade",
-	QuantumTracePoint = "quantum_trace_point",
-	YouAreHere = "you_are_here"
+	QuantumTracePoint = "quantum_trace_point"
 }
 
 export const LocationTypeSchema = z.enum(LocationType);
@@ -37,8 +36,7 @@ export const LocationTypeNames = {
 	nav_point: "Navigation Point",
 	point_of_interest: "Point of Interest",
 	manmade: "Manmade",
-	quantum_trace_point: "Quantum Trace Point",
-	you_are_here: "You Are Here"
+	quantum_trace_point: "Quantum Trace Point"
 } satisfies Record<LocationType, string>;
 
 export const LocationTypeOptions = (Object.keys(LocationTypeNames) as LocationType[]).map(

@@ -137,8 +137,7 @@ export function normalizeLocationType(sourceTypeName: string): LocationType {
 		Outpost_InvalidQT: LocationType.Outpost,
 		QuantumTracePoint: LocationType.QuantumTracePoint,
 		S42_Moon: LocationType.Moon,
-		S42_Planet: LocationType.Planet,
-		YouAreHere: LocationType.YouAreHere
+		S42_Planet: LocationType.Planet
 	};
 	const type = types[sourceTypeName];
 	if (!type) throw new Error(`Unsupported location type '${sourceTypeName}'`);
