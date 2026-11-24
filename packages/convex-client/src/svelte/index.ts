@@ -1,3 +1,3 @@
-export * from "./use-action-query.svelte";
-export * from "./use-convex.svelte";
-export * from "./use-query-action-pair.svelte";
+export * from "./use-action-query.svelte.ts";
+export * from "./use-convex.svelte.ts";
+export * from "./use-query-action-pair.svelte.ts";
