@@ -7,9 +7,13 @@ import {
 	FindLocationsByPropertySchema,
 	FinalizeLocationImportSchema,
 	ReconcileLocationImportBatchSchema,
-	UpdateLocationSchema
+	UpdateLocationSchema,
+	vLocationResponse,
+	createPageSchema,
+	LocationResponseSchema
 } from "@versetools/types";
 import { v } from "convex/values";
+import * as z from "zod/v4";
 
 import { AbortLocationImportMutation } from "$convex/app/commands/locations/AbortLocationImportMutation";
 import { ActiveLocationClosureRebuildQuery } from "$convex/app/commands/locations/ActiveLocationClosureRebuildQuery";
@@ -26,17 +30,26 @@ import { router } from "$convex/app/main";
 import { secretKeyMiddleware } from "$convex/app/middleware/secretKeyMiddleware";
 
 export const list = router
-	.query({ args: { rootIds: v.optional(v.array(v.id("locations"))) } })
+	.query({
+		args: { rootIds: v.optional(v.array(v.id("locations"))) },
+		returns: v.array(vLocationResponse)
+	})
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => await runner.query(new LocationsListQuery(args.rootIds)));
 
 export const isRebuilding = router
-	.query({})
+	.query({
+		returns: v.boolean()
+	})
 	.withDependencies(({ runnerId }) => [runnerId])
 	.withHandler(async (runner) => !!(await runner.query(new ActiveLocationClosureRebuildQuery())));
 
 export const findByProperty = router
-	.query({ validator: "zod", args: FindLocationsByPropertySchema })
+	.query({
+		validator: "zod",
+		args: FindLocationsByPropertySchema,
+		returns: createPageSchema(z.array(LocationResponseSchema))
+	})
 	.withDependencies(({ runnerId, argsId }) => [runnerId, argsId])
 	.withHandler(async (runner, args) => await runner.query(new LocationsByPropertyQuery(args)));
 
