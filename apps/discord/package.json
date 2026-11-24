@@ -12,7 +12,6 @@
 		"start": "node build"
 	},
 	"dependencies": {
-		"@axiomhq/js": "^1.4.0",
 		"discord.js": "catalog:discord",
 		"discordthing": "^0.2.3"
 	},

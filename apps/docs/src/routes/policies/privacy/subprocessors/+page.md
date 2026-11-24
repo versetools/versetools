@@ -7,7 +7,7 @@ description: Versetools uses some third-party subprocessors for purposes of our 
     import config from "@versetools/config";
 </script>
 
-_Last updated: May 28th, 2026_
+_Last updated: Nov 24th, 2026_
 
 We use third party subprocessors, such as cloud computing providers and payment processors, to run {config.name} Services. We establish GDPR-compliant data processing agreements with each subprocessor, extending [GDPR safeguards](.) everywhere personal data is processed.
 
@@ -22,7 +22,6 @@ These subprocessors are all located in the United States:
 - [hCaptcha](https://hcaptcha.com/privacy). Anti-bot protection.
 - [Posthog](https://posthog.com/docs/privacy/gdpr-compliance). Analytics, logs and user tracking.
 - [Uploadthing](https://uploadthing.com/info/privacy-policy). File storage services.
-- [Axiom](https://axiom.co/docs/legal/privacy). Data processing services.
 
 These subprocessors are located in the EU:
 
