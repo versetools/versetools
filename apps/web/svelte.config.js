@@ -7,6 +7,11 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [vitePreprocess()],
 	extensions: [".svelte"],
+	compilerOptions: {
+		warningFilter(warning) {
+			return warning.code !== "state_referenced_locally";
+		}
+	},
 
 	kit: {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.

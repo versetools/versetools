@@ -7,6 +7,11 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 const config = {
 	extensions: [".svelte", ".md"],
 	preprocess: [vitePreprocess()],
+	compilerOptions: {
+		warningFilter(warning) {
+			return warning.code !== "state_referenced_locally";
+		}
+	},
 	kit: {
 		adapter: adapter({
 			pages: "build",
