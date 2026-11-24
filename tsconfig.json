@@ -11,6 +11,8 @@
 		{ "path": "./apps/web/tsconfig.json" },
 
 		// Packages
+		{ "path": "./packages/api/tsconfig.json" },
+		{ "path": "./packages/api/tsconfig.node.json" },
 		{ "path": "./packages/config/tsconfig.json" },
 		{ "path": "./packages/convex-client/tsconfig.json" },
 		{ "path": "./packages/core/tsconfig.json" },

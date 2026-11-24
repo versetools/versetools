@@ -1,0 +1,11 @@
+{
+	"extends": "../tsconfig.convex.json",
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "build",
+		"noEmit": false,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true
+	},
+	"include": ["./src/**/*.ts"]
+}

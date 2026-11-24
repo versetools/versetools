@@ -1,0 +1,32 @@
+{
+    "name": "@versetools/api",
+    "version": "0.1.0",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "import": "./src/index.ts",
+            "default": "./src/index.ts"
+        }
+    },
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "build": "rm -rf build && tsc -p tsconfig.json",
+        "check": "tsc --noEmit",
+        "format": "prettier --write .",
+        "generate": "tsx --no-warnings generator/index.ts",
+        "lint": "eslint . && prettier --check .",
+        "lint-fix": "eslint . --fix && prettier --check --write .",
+        "package": "pnpm build",
+        "prepublishOnly": "pnpm package"
+    },
+    "dependencies": {
+        "@versetools/types": "workspace:*"
+    },
+    "devDependencies": {
+        "prettier": "catalog:prettier"
+    },
+    "packageManager": "pnpm@10.33.2"
+}
