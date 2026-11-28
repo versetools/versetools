@@ -1,6 +1,6 @@
 {
     "name": "@versetools/core",
-    "version": "0.16.1",
+    "version": "0.17.0",
     "type": "module",
     "exports": {
         "./commands": {
@@ -37,6 +37,9 @@
         },
         "./utility-types": {
             "types": "./src/utility-types.ts"
+        },
+        "./validation-types": {
+            "types": "./src/validation-types.ts"
         }
     },
     "files": [

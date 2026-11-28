@@ -20,6 +20,26 @@ import {
 	type GenericCtx
 } from "../../helpers/convex";
 import type { RequestCustomMetadata } from "../../routers";
+import type { Invalid, ValidationFailure } from "../../validation-types";
+
+type ValidateRequiredDataModelForCommand<
+	T extends Command<any>,
+	DataModel extends GenericDataModel
+> =
+	T extends Command<infer RequiredDataModel>
+		? DataModel extends RequiredDataModel
+			? [never]
+			: [ValidationFailure<"DataModel does not satisfy requirements for command">]
+		: [ValidationFailure<"Not a command">];
+
+type ValidateRequiredDataModelForCommandsObject<
+	T extends Record<string, Command<any>>,
+	DataModel extends GenericDataModel
+> = [
+	...{
+		[key in keyof T]: ValidateRequiredDataModelForCommand<T[key], DataModel>;
+	}[keyof T]
+];
 
 export class RunnerService<DataModel extends GenericDataModel> {
 	private readonly subscriptions: SubscriptionRunner<DataModel>;
@@ -35,8 +55,8 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return this.ctx;
 	}
 
-	public async query<Query extends QueryCommand<DataModel>>(
-		query: Query
+	public async query<Query extends QueryCommand<any>>(
+		query: Invalid<ValidateRequiredDataModelForCommand<Query, DataModel>> & Query
 	): Promise<CommandValue<Query>> {
 		assert(isQuery(this.ctx), "Invalid context for query, expected a queryable context");
 
@@ -47,16 +67,19 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		});
 	}
 
-	public async mapQuery<T, Query extends QueryCommand<DataModel>>(
+	public async mapQuery<T, Query extends QueryCommand<any>>(
 		arr: T[],
-		callback: (value: T, index: number) => Query
+		callback: (
+			value: T,
+			index: number
+		) => Invalid<ValidateRequiredDataModelForCommand<NoInfer<Query>, DataModel>> & Query
 	): Promise<CommandValue<Query>[]> {
 		const queries = arr.map(callback);
 		return await asyncMap(queries, (query) => this.query(query));
 	}
 
-	public async objectQuery<Queries extends { [key: string]: QueryCommand<DataModel> }>(
-		queries: Queries
+	public async objectQuery<Queries extends { [key: string]: QueryCommand<any> }>(
+		queries: Invalid<ValidateRequiredDataModelForCommandsObject<Queries, DataModel>> & Queries
 	) {
 		const entries = await asyncMap(
 			Object.entries(queries),
@@ -69,7 +92,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 	}
 
 	public async dynamicQuery<
-		Query extends QueryCommand<DataModel>,
+		Query extends QueryCommand<any>,
 		QueryFunctionReference extends FunctionReference<
 			"query",
 			"internal" | "public",
@@ -81,7 +104,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		func,
 		args
 	}: {
-		query: Query;
+		query: Invalid<ValidateRequiredDataModelForCommand<Query, DataModel>> & Query;
 		func: QueryFunctionReference;
 	} & (keyof QueryFunctionReference["_args"] extends never
 		? { args?: undefined }
@@ -93,8 +116,8 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return this.ctx.runQuery(func, args);
 	}
 
-	public async mutation<Mutation extends MutationCommand<DataModel>>(
-		mutation: Mutation
+	public async mutation<Mutation extends MutationCommand<any>>(
+		mutation: Invalid<ValidateRequiredDataModelForCommand<Mutation, DataModel>> & Mutation
 	): Promise<CommandValue<Mutation>> {
 		assert(isMutation(this.ctx), "Invalid context for mutation, expected a mutation context");
 
@@ -105,16 +128,19 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		});
 	}
 
-	public async mapMutation<T, Mutation extends MutationCommand<DataModel>>(
+	public async mapMutation<T, Mutation extends MutationCommand<any>>(
 		arr: T[],
-		callback: (value: T, index: number) => Mutation
+		callback: (
+			value: T,
+			index: number
+		) => Invalid<ValidateRequiredDataModelForCommand<NoInfer<Mutation>, DataModel>> & Mutation
 	): Promise<CommandValue<Mutation>[]> {
 		const mutations = arr.map(callback);
 		return await asyncMap(mutations, (mutation) => this.mutation(mutation));
 	}
 
 	public async dynamicMutation<
-		Mutation extends MutationCommand<DataModel>,
+		Mutation extends MutationCommand<any>,
 		MutationFunctionReference extends FunctionReference<
 			"mutation",
 			"internal" | "public",
@@ -126,7 +152,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		func,
 		args
 	}: {
-		mutation: Mutation;
+		mutation: Invalid<ValidateRequiredDataModelForCommand<Mutation, DataModel>> & Mutation;
 		func: MutationFunctionReference;
 	} & (keyof MutationFunctionReference["_args"] extends never
 		? { args?: undefined }
@@ -143,8 +169,8 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return this.ctx.runMutation(func, args);
 	}
 
-	public async action<Action extends ActionCommand<DataModel>>(
-		action: Action
+	public async action<Action extends ActionCommand<any>>(
+		action: Invalid<ValidateRequiredDataModelForCommand<Action, DataModel>> & Action
 	): Promise<CommandValue<Action>> {
 		assert(isAction(this.ctx), "Invalid context for action, expected an action context");
 
@@ -153,7 +179,7 @@ export class RunnerService<DataModel extends GenericDataModel> {
 		return await this.prepareCommand(action).execute(this.ctx);
 	}
 
-	private prepareCommand(command: Command<DataModel>) {
+	private prepareCommand(command: Command<any>) {
 		command.runner = this;
 		command.container = this.container;
 		return command;
