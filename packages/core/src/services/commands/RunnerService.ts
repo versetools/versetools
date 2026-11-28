@@ -25,8 +25,9 @@ import type { Invalid, ValidationFailure } from "../../validation-types";
 type ValidateRequiredDataModelForCommand<
 	T extends Command<any>,
 	DataModel extends GenericDataModel
-> =
-	T extends Command<infer RequiredDataModel>
+> = 0 extends 1 & DataModel
+	? [never]
+	: T extends Command<infer RequiredDataModel>
 		? DataModel extends RequiredDataModel
 			? [never]
 			: [ValidationFailure<"DataModel does not satisfy requirements for command">]
