@@ -6,6 +6,7 @@ import { createModule } from "haywire";
 import type { DataModel } from "$convex/_generated/dataModel";
 
 import { sesClientBinding } from "./config/aws";
+import { batchingApiBinding } from "./config/batching";
 import { actionCacheApiBinding } from "./config/cache";
 import { envModule } from "./config/env";
 
@@ -28,6 +29,7 @@ const bundle = appModule
 	)
 	.mergeModule(envModule)
 	.mergeModule(rsiModule)
-	.addBinding(actionCacheApiBinding);
+	.addBinding(actionCacheApiBinding)
+	.addBinding(batchingApiBinding);
 
 export const router = convexRouter<DataModel, typeof bundle>(bundle);

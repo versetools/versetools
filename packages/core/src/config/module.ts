@@ -1,5 +1,6 @@
 import { createModule } from "haywire";
 
+import { batchingServiceBinding } from "./bindings/batching";
 import { actionCacheServiceBinding } from "./bindings/cache";
 import {
 	noopSubscriptionRegistryBinding,
@@ -45,5 +46,6 @@ export function createCoreModule(config: CoreModuleConfig) {
 				? uploadthingFileStorageAdapterBinding
 				: uploadthingFileStorageAdapterBinding
 		)
-		.addBinding(actionCacheServiceBinding);
+		.addBinding(actionCacheServiceBinding)
+		.addBinding(batchingServiceBinding);
 }

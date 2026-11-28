@@ -38,6 +38,7 @@ import type * as app_commands_locations_RootLocationsQuery from "../app/commands
 import type * as app_commands_locations_UpdateLocationDataMutation from "../app/commands/locations/UpdateLocationDataMutation.js";
 import type * as app_commands_locations_UpdateLocationMutation from "../app/commands/locations/UpdateLocationMutation.js";
 import type * as app_config_aws from "../app/config/aws.js";
+import type * as app_config_batching from "../app/config/batching.js";
 import type * as app_config_cache from "../app/config/cache.js";
 import type * as app_config_env from "../app/config/env.js";
 import type * as app_dataModel from "../app/dataModel.js";
@@ -56,6 +57,7 @@ import type * as files_storage from "../files/storage.js";
 import type * as files_workflow_deleteFiles from "../files/workflow/deleteFiles.js";
 import type * as http from "../http.js";
 import type * as locations from "../locations.js";
+import type * as server_batching from "../server/batching.js";
 import type * as server_cache from "../server/cache.js";
 import type * as server_fileStorage from "../server/fileStorage.js";
 
@@ -96,6 +98,7 @@ declare const fullApi: ApiFromModules<{
   "app/commands/locations/UpdateLocationDataMutation": typeof app_commands_locations_UpdateLocationDataMutation;
   "app/commands/locations/UpdateLocationMutation": typeof app_commands_locations_UpdateLocationMutation;
   "app/config/aws": typeof app_config_aws;
+  "app/config/batching": typeof app_config_batching;
   "app/config/cache": typeof app_config_cache;
   "app/config/env": typeof app_config_env;
   "app/dataModel": typeof app_dataModel;
@@ -114,6 +117,7 @@ declare const fullApi: ApiFromModules<{
   "files/workflow/deleteFiles": typeof files_workflow_deleteFiles;
   http: typeof http;
   locations: typeof locations;
+  "server/batching": typeof server_batching;
   "server/cache": typeof server_cache;
   "server/fileStorage": typeof server_fileStorage;
 }>;

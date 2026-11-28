@@ -1,6 +1,6 @@
 {
     "name": "@versetools/core",
-    "version": "0.15.3",
+    "version": "0.16.0",
     "type": "module",
     "exports": {
         "./commands": {
