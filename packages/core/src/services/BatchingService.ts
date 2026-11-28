@@ -7,7 +7,7 @@ import {
 	isSchedulerCtx,
 	vAnyId,
 	vDocReference,
-	type DocReference,
+	type GenericDocReference,
 	type GenericCtx
 } from "../helpers";
 import type { ConvexRouter } from "../routers";
@@ -19,7 +19,7 @@ export type BatchingFunctionReferences = {
 		"mutation",
 		"internal",
 		{
-			refs: DocReference<any>[];
+			refs: GenericDocReference<any>[];
 		},
 		null
 	>;
@@ -88,7 +88,7 @@ export class BatchingService {
 		private readonly functionReferences: BatchingFunctionReferences
 	) {}
 
-	public batchDeleteRefs(refs: DocReference<any>[]) {
+	public batchDeleteRefs(refs: GenericDocReference<any>[]) {
 		assert(isSchedulerCtx(this.ctx), "Expected context with scheduler");
 
 		return this.ctx.scheduler.runAfter(0, this.functionReferences.batchDeleteRefs, {

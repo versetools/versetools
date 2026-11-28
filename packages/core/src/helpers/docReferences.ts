@@ -4,7 +4,7 @@ import * as z from "zod/v4";
 export const AnyIdSchema = z.string().trim().brand<GenericId<any>>();
 export const vAnyId = v.string() as VString<GenericId<any>>;
 
-export type DocReference<TableName extends string> = {
+export type GenericDocReference<TableName extends string> = {
 	_id: GenericId<TableName>;
 	_tableName: TableName;
 };
@@ -20,8 +20,8 @@ export const vDocReference = v.object({
 });
 
 export function isDocReferenceType<TableName extends string>(
-	ref: DocReference<any>,
+	ref: GenericDocReference<any>,
 	tableName: TableName
-): ref is DocReference<TableName> {
+): ref is GenericDocReference<TableName> {
 	return ref._tableName === tableName;
 }
