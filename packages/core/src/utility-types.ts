@@ -41,7 +41,7 @@ export type DeepPartial<T> = {
 		| WeakSet<any>
 		| WeakMap<any, any>
 		| ReadonlyArray<any>
-		| ReadonlySetLike<any>
+		| ReadonlySet<any>
 		| ReadonlyMap<any, any>
 		? T[key]
 		: T[key] extends object
