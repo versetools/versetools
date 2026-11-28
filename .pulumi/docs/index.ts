@@ -17,7 +17,7 @@ const portName = "docs-http";
 
 const config = new pulumi.Config();
 const repositoryName = config.require("repositoryName");
-const repository = new toolkit.images.ecr.Repository(repositoryName, {
+const repository = new toolkit.images.ecr.PrivateRepository(repositoryName, {
 	project: `versetools/${appName}`
 });
 
