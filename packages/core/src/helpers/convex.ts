@@ -16,6 +16,7 @@ import type {
 	RegisteredAction,
 	RegisteredMutation,
 	RegisteredQuery,
+	Scheduler,
 	TableNamesInDataModel
 } from "convex/server";
 import { v, type GenericId, type GenericValidator, type Value, type VLiteral } from "convex/values";
@@ -96,6 +97,12 @@ export function isRunMutationCtx<DataModel extends GenericDataModel>(
 	ctx: GenericCtx<DataModel>
 ): ctx is GenericMutationCtx<DataModel> | GenericActionCtx<DataModel> {
 	return "runMutation" in ctx;
+}
+
+export function isSchedulerCtx<DataModel extends GenericDataModel>(
+	ctx: GenericCtx<DataModel>
+): ctx is Extract<GenericCtx<DataModel>, { scheduler: Scheduler }> {
+	return "scheduler" in ctx;
 }
 
 // Queries //
