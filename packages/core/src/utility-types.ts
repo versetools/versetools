@@ -30,6 +30,25 @@ export type MaybePromise<T> = T | Promise<T>;
 
 export type RestOrArray<T> = T[] | [T[]];
 
+export type DeepPartial<T> = {
+	[key in keyof T]?: T[key] extends
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+		| Function
+		| PromiseLike<any>
+		| ArrayLike<any>
+		| Set<any>
+		| Map<any, any>
+		| WeakSet<any>
+		| WeakMap<any, any>
+		| ReadonlyArray<any>
+		| ReadonlySetLike<any>
+		| ReadonlyMap<any, any>
+		? T[key]
+		: T[key] extends object
+			? DeepPartial<T[key]>
+			: T[key];
+};
+
 /**
  * This prevents TypeScript from inferring a type as a union.
  */
