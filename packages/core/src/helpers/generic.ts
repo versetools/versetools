@@ -19,6 +19,14 @@ export function replaceValues<T extends Record<string, any>, Keys extends (keyof
 	) as Expand<ReplaceValues<T, Keys, Value>>;
 }
 
+export async function asyncFlatMap<T, U>(
+	arr: T[],
+	asyncTransform: (item: T, index: number) => Promise<U | ReadonlyArray<U>>
+): Promise<U[]> {
+	const results = await asyncMap(arr, asyncTransform);
+	return results.flat() as U[];
+}
+
 export async function asyncFilter<T>(
 	arr: T[],
 	predicate: (item: T, index: number) => Promise<boolean>
